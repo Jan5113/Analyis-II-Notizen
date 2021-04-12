@@ -1,0 +1,39 @@
+\chapter*{Documentation}
+
+\paragraph{Was ist die Documentation?}
+Die Documentation soll einzelne Verwendungshinweise für die im Dokument verwendeten Packages bieten. Sie hat keinen Anspruch auf Vollständigkeit und wird im finalen Dokument nicht mehr sichtbar sein. 
+
+\section*{Environments}
+\begin{remark}[zu den Klammern in \LaTeX] Es ist einbissl blöd, ich weiss... Weil wir aber zwei verschiedene Packages verwenden, müssen Titel und Referenzen anders deklariert werden:
+
+Für die ''farbigen'' Environments Definition (def), Lemma (lem), Satz (satz), Tipp (tipp) brauchts:
+
+\begin{verbatim}
+\begin{definition}{My Def}{mydef_kuerzel}
+    <stuff...>
+\end{definition}
+\end{verbatim}
+
+Die erste \{\}-Klammer definiert den angezeigten Titel, die zweite das Kürzel für die Referenz. Man kann sie auch leer lassen, jedoch darf man sie nicht weglassen. Referenzieren geht mit \verb|\ref{def:mydef_kuerzel}|. Das \verb|def:| bezieht sich auf die jeweilige Abkürzung des Environments abgetrennt mit einem :. (Das musst du nicht in die Definition des Kürzels schreiben!)
+
+Für die normalen Envs. proof (prf), example (ex), remark (rem), exercise brauchts: 
+
+\begin{verbatim}
+\begin{example}[Example Title] \label{ex_myexample}
+    <stuff...>
+\end{example}
+\end{verbatim}
+
+Der Titel gehört in eine \textit{eckige Klammer}, die Referenz wird mit \verb|\label{}| deklariert. Hierbei sind die Kürzel mit der Abkürzung der Envs nur Konventionen. Referenzieren geht ganz normal mit \verb|\ref{ex_myexample}|. Einzige Tücke: Falls du keinen Titel willst, dann mach kein \verb|[]| hin oder man muss einen Abstand \verb|[ ]| dazwischensetzen, ansonsten spackt's.
+\end{remark}
+
+\subsection*{Log}
+Vollständig dokumentierte Vorlesungen:
+\begin{itemize}[label=--]
+    \item (19.2.21) alle VL bis 5.10.
+    \item todo: (28 VL)
+    \item (10.12.20) VL 10.12.
+    \item (14.12.20) VL 14.12. bis ''Reparametrisierung''
+    \item[] (Ende HS2020)
+\end{itemize}
+

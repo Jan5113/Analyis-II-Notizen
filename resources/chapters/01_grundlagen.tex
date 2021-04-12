@@ -1,0 +1,1005 @@
+\chapter{Mathematische Grundlagen}
+
+Bevor wir zu den grossen Aussagen der Mathematik kommen können, müssen wir uns leider den aller grundlegendsten Grundlagen der Mathematik widmen. Nämlich mit der Frage, was denn überhaupt eine Aussage wahr oder falsch macht. Was macht $0=1$ zu einer falschen und $e^{i\pi} + 1 = 0$ zu einer wahren Aussage? Mit dieser Frage haben sich Mathematiker (erst) im 19. Jahrhundert beschäftigt und haben ein System an Regeln eingeführt, in welchem man für jede gut formulierte mathematische Aussage entscheiden kann, ob diese wahr oder falsch ist.
+
+\section{Axiome, Sätze, Lemmata  und Korollare}
+Die Richtigkeit einer Aussage ist vom Kontext abhängig. So ist z.B. die Aussage ''$x^2 = 2$ hat eine Lösung'' falsch, wenn man nur die rationalen Zahlen betrachtet, aber sie ist richtig, wenn man die reellen Zahlen betrachtet.
+
+Damit der Kontext klar ist, beginnt man mit der Definition von \textbf{Axiomen}, welche ein logisches Grundgerüst bilden. Axiome sind per Definition wahr und können in dem Sinne nicht bewiesen werden. So besagt zum Beispiel das erste \textit{Peano-Axiom}, dass $1$ eine natürliche Zahl ist\footnote{Im Rahmen dieser Vorlesung werden wir $1$ als die kleinste natürliche Zahl betrachten. Je nach dem wird auch $0$ als kleinste natürliche Zahl definiert.}. Mit diesem Gerüst aus Axiomen kann man nun durch logische Umformungen eine Aussage beweisen oder widerlegen.\footnote{Man könnte sich fragen, was denn der komplette Satz an Axiomen ist; wann man ''alle'' Axiome hat. Jedoch besagt die \textit{Gödel-Unvollständigkeit}, dass es gar nicht möglich ist, einen solchen vollständigen Satz an Axiomen zu bestimmen. Don't quote me on that though...} 
+
+Zu den heute akzeptierten Fundamenten der Mathematik gehören unter anderen die Axiome der:
+\begin{itemize}
+    \item Prädikatenlogik erster Stufe
+    \item \textsc{Zermelo-Fraenkel} Mengenlehre (darunter das Auswahlaxiom, siehe Abschnitt \ref{cha_praedlogic})
+    \item \textsc{Peano}-Axiome der natürlichen Zahlen
+\end{itemize}
+
+Damit man bei einer Beweisführung nicht immer von null beginnen muss, gibt es \textbf{Sätze}, \textbf{Lemmata} und \textbf{Korollare} (Hilfssätze), welche aus den Axiomen hergeleitet worden sind und somit ebenfalls wahre Aussagen im Rahmen der Axiome sind.
+
+\section{Aussagenlogik}\label{cha_logic}
+Nehmen wir nun an, dass die Axiome gegeben sind. In diesem Fall kann eine Aussage nur wahr ($w$) oder falsch ($f$) sein. Da interessantere Aussagen meist mehrere kleinere Aussagen verknüpft, wurden die \textbf{logischen Operatoren/Zeichen} oder \textbf{Junktoren} eingeführt, mit welchen man die Verknüpfungen formalisieren kann. Die wichtigsten Operatoren sind: Negation ($\neg$), Und ($\land$), Oder ($\lor$), ''impliziert'' ($\implies$) und ''ist äquivalent zu/genau dann, wenn'' ($\iff$). Da die Aussagen $A$ und $B$ zusammen nur vier verschiedene Werte annehmen können, kann man die Funktionswerte (also die Ergebnisse) der jeweiligen Operatoren eindeutig als Wertetabelle wie folgt darstellen/definieren:
+
+\begin{definition}{logische Operatoren/Junktoren}{}
+\centering
+    \begin{tabular}{cc||c|c|c|c|c}
+    $A$ & $B$ & $\neg A$ & $A \land B$ & $A \lor B$ & $A \implies B$ & $A \iff B$ \\
+    \hline
+    $f$ & $f$ & $w$  & $f$    & $f$   & $t$ & $t$   \\
+    $f$ & $w$ & $w$  & $f$    & $w$   & $t$ & $f$   \\
+    $w$ & $f$ & $f$  & $f$    & $w$   & $f$ & $f$   \\
+    $w$ & $w$ & $f$  & $w$    & $w$   & $t$ & $t$  
+    \end{tabular}
+\end{definition}
+
+Durch Vergleichen der Wertetabellen kann man z.B. sehen, dass $(A \land B) \lor (\neg A \land \neg B)$ genau dasselbe ist wie $A \iff B$. Man nennt zwei logische Aussagen daher äquivalent zueinander, wenn deren Wertetabellen gleich sind. Falls man wollte, könnte man die logische Äquivalenz von soeben ausdrücken als:
+$$((A \land B) \lor (\neg A \land \neg B)) \equiv\footnote{In der Vorlesung wurde auf die Einführung des Äquivalenzzeichens $\equiv$ verzichtet, stattdessen wurde ''$\iff$'' verwendet. Der Unterschied liegt darin, dass ''$\iff$'' zwei Aussagen zu einer weiteren Aussage verknüpft (welche streng genommen auch wieder einen Wahrheitswert \textit{wahr} oder \textit{falsch} annehmen kann), während ''$\equiv$'' die Äquivalenz zwischen zwei Aussagen zeigt. Mach dir nicht zu viele Gedanken darüber und lese $A \equiv B$ einfach als ''$A$ macht dieselbe Aussage wie $B$''} (A \iff B)$$
+\begin{remark}[ ]
+Eine Spezialität von ''$\implies$'' ist, dass aus einer falschen Aussage $A$ alles folgen kann und $A \implies B$ trotzdem wahr ist. In Worten ausgedrückt, kann man aus einer falschen Behauptung alles folgern (z.B. $\pi = 3.2 \implies$ ''Quadratur des Kreises ist möglich'').
+\end{remark}
+
+\begin{example}[ ] Sei $a$ eine beliebige natürliche Zahl, dann gilt:
+$$6 \mid a \implies 3 \mid a$$
+In Worten: Wenn $a$ durch $6$ teilbar ist, ist diese auch durch $3$ teilbar. Beachte, dass die Rückrichtung im Allgemeinen nicht gilt (z.B. wenn $a = 9$ ist). Für das braucht es eine weitere Einschränkung, nämlich:
+$$6 \mid a \iff (3 \mid a \land 2 \mid a)$$
+sprich, $a$ ist durch $6$ teilbar genau dann, wenn $a$ durch $2$ und $3$ teilbar ist. (Beachte hier den Gebrauch von ''genau dann, wenn''!)
+\end{example}
+
+\begin{lemma}{Logische Äquivalenzen}{}
+\begin{align*}
+        A \implies B &\equiv \neg A \lor B  &  A \implies B &\equiv \neg B \implies \neg A\\
+        \neg(A \land B) &\equiv \neg A \lor \neg B & \neg(A \lor B) &\equiv \neg A \land \neg B\\
+        A \land (B \lor C) &\equiv (A \land B) \lor (A \land C) & A \lor (B \land C) &\equiv (A \lor B) \land (A \lor C)
+\end{align*}
+\end{lemma}
+Die Äquivalenzen der zweiten Zeile sind die \textsc{De Morgan}'schen Gesetze. Man kann es sich wie die Distributivität des Minus-Zeichen vorstellen. Der Begriff wurde in der Vorlesung nicht eingeführt, jedoch werden wir sie in den folgenden paar Abschnitte noch einige Male antreffen, weswegen wir es trotzdem kurz erwähnt haben wollen.
+
+\section{Prädikatenlogik}\label{cha_praedlogic}
+Wie man im vorherigen Beispiel erkennt hat, will man in der Mathematik Aussagen machen können, welche sich auf alle  Elemente einer Menge\footnote{Eine Menge ist eine Kollektion an (paarweise verschiedenen) Elementen, z.B. reelle, rationale Zahlen, Vektoren oder andere Objekte} beziehen können. Konkret wollen wir mit \textbf{Quantoren} Aussagen machen können wie 
+\begin{definition}{Quantoren}{}
+    \begin{itemize}
+    \item \textbf{Allquantor} $\forall$: ''Für alle/beliebige Elemente gilt...''
+    \item \textbf{Existenzquantor} $\exists$: ''Es gibt mindestens ein Element, für welches gilt...''
+    \item \textbf{Quantor der eindeutigen Existenz} $\exists!$: ''Es gibt ein eindeutiges Element, für welches gilt...''
+\end{itemize}
+\end{definition}
+
+Um mit Elementen aus einer Menge hantieren zu können, möchten wir zuerst noch $\in$ (''ist Element von/in'') einführen, womit man ein beliebiges Element aus einer Menge auswählen kann\footnote{Dies folgt aus dem Auswahlaxiom der Zermelo-Fraenkel Mengenlehre: Es besagt, dass aus jeder (nicht leeren) Menge ein beliebiges Element ausgewählt werden kann.}.
+
+Somit sind $\forall$, $\exists$ und $\exists!$ angewendet auf eine Aussage $A$ und Menge $X = \{x_1, ..., x_n\}$ äquivalent zu:
+
+\begin{center}
+    \begin{tabular}{lclcl}
+        $\forall x \in X : A(x)$ &$\equiv$ &$ (\forall x)(x \in X \implies A(x))$ &$\equiv$ &$ A(x_1) \land ... \land A(x_n)$\\
+        $\exists x \in X : A(x)$ &$\equiv$ &$ (\exists x)(x \in X \land A(x))$ &$\equiv$ &$ A(x_1) \lor ... \lor A(x_n)$\\
+        $\exists! x \in X : A(x)$&$\equiv$ &$ (\exists! x)(x \in X \land A(x)) $&$\equiv$ &$ A(x_1) \oplus ... \oplus A(x_n)$
+    \end{tabular}
+\end{center}
+
+
+Dabei wird die in der ersten Spalte verwendete Abkürzung für den Ausdruck der zweiten Spalte verwendet. $A(x_i)$ bezeichnet den Wahrheitswert der Aussage  $A$ für den jeweiligen Wert $x_i$ und $\oplus$ das \textbf{exklusive Oder}: $A \oplus B \equiv (A \lor B) \land (\neg A \lor \neg B)$
+
+In Worte gefasst ist $\forall x \in X : A(x)$ nur dann wahr, wenn $A$ für alle Elemente aus $X$ wahr ist, $\exists x \in X : A(x)$ dann, wenn $A$ mindestens für ein Element aus $X$ zutrifft und $\exists! x \in X : A(x)$ dann, wenn es genau für ein einziges Element aus $X$ wahr ist.
+
+Mit den Quantoren hat man nun ein sehr mächtiges Werkzeug, um eindeutig Aussagen über viele Elemente machen zu können. So lässt sich das obige Beispiel ganz kompakt schreiben als:
+
+\begin{example}[Fortsetzung]
+$$\forall a \in \N: 6 \mid a \implies 3 \mid a$$
+Es liest sich als ''Für jede Zahl in der Menge der natürlichen Zahlen, impliziert die Teilbarkeit durch 6 die Teilbarkeit durch 3.''
+\end{example}
+
+Etwas interessanter ist die folgende, bis heute nicht bewiesene Aussage:
+
+\begin{example}[Goldbach-Vermutung]\label{ex_goldbach}
+$$\forall g \in \N : (2 \mid g \land g > 2) \implies \exists p,q \in \N: (\text{$p$ prim}) \land (\text{$q$ prim})\land (p + q = g)$$
+Oder in Worten: ''Jede gerade Zahl grösser als 2 lässt sich als Summe zweier Primzahlen schreiben.'' $\exists p,q \in \N$ ist dabei eine Abkürzung für $\exists p \in \N,\ \exists q \in \N$.
+\end{example}
+
+Einige Dinge, welche noch wichtig zu wissen sind über Quantoren: 
+
+\subsection{Reihenfolge der Quantoren}
+Zwar kommutieren\footnote{lassen sich vertauschen} Allquantoren untereinander und Existenzquantoren untereinander, jedoch hat eine Vertauschung von Existenz- und Allquantoren hat einen wesentlichen Einfluss auf eine Aussage. Auch nur schon sprachlich merkt man, dass ''\textit{Es gibt ein ..., sodass für alle ...}'' viel einschränkender ist als ''\textit{Für alle ... gibt es jeweils ein ...}''. So wäre die Aussage aus Beispiel \ref{ex_goldbach} mit vertauschten Quantoren eine ganz andere: 
+$$\exists p,q \in \N: \forall g \in \N : (2 \mid g \land g > 2) \implies (\text{$p$ prim}) \land (\text{$q$ prim})\land (p + q = g)$$
+also ''Es gibt zwei Primzahlen, welche jede gerade Zahl grösser als 2 als Summe haben''. Diese Aussage ist offensichtlich falsch, da schnell ein Gegenbeispiel gefunden werden kann.
+
+Man merkt sich daher besten, dass die durch die Quantoren definierten Elemente im ''Gültigkeitsbereich'' danach ''fixiert'' sind resp. nicht mehr geändert werden können. 
+
+\subsection{Allquantor mit leeren Mengen}
+Für eine leere Menge $X$ gilt für jedes Element $x$, dass $x\in X$ falsch ist. Da für die Definition des Allquantors die Implikation $\implies$ verwendet wurde, folgt aus der Bemerkung im Abschnitt \ref{cha_logic}, dass $\forall x \in X : A(x)$ wahr ist unabhängig von der Wahl von $A$.
+
+\begin{lemma}{\textsc{De Morgan} mit Quantoren}{}
+\begin{align*}
+        \neg(\forall x \in X : A(x) &\equiv \exists x \in X : \neg A(x)\\
+        \neg(\exists x \in X : A(x) &\equiv \forall x \in X : \neg A(x)
+\end{align*}
+\end{lemma}
+
+
+\section{Beweismethoden}
+Aus den soeben besprochenen Themen lassen sich bereits einige Beweismethoden ableiten. Das Ziel eines Beweises ist es, aus den ''Spielregeln'', welche durch die Axiome der jeweiligen Theorie gegebenen sind, weitere, tiefgründigere Aussagen zu erarbeiten. Einige Methoden basieren auf Theorie, welche wir später behandeln, dies ist entsprechend mit Referenzen gekennzeichnet.
+
+\subsection{direkter Beweis}
+Bei der direkten Beweismethode gibt es auf diesen abstrakten Level nicht viel zu erwähnen: Wir wollen lediglich zeigen, dass $A \implies B$. Hierfür verwenden wir direkt die von den Axiomen vorgegebenen Rechenregeln und zeigen, dass aus $A$ direkt $B$ folgt. Da ein direkter Beweis je nach Fragestellung sehr schwierig sein kann, findet man in den nächsten Abschnitten einige Alternativen, welche ebenfalls zu einem rigorosen Beweis einer Aussage führen können.
+
+\subsection{Beweis einer Äquivalenz}
+Wir treffen diese Art von Beweisen sehr häufig an, denn sobald man in Formulierung der Fragestellung auf den Wortlaut ''$A$ \textit{genau dann, wenn} $B$'' trifft, müssen wir die Gleichheit der Aussagen $A$ und $B$ zeigen, also:
+$$A \iff B$$
+In diesem Fall können wir die Äquivalenz zwischen den Aussagen
+$$A \iff B \equiv (A \implies B) \land (B \implies A)$$ 
+verwenden, welche soviel bedeutet wie beide Richtungen separat zu zeigen. Man könnte auch die Gleichheit direkt zeigen, jedoch ist dies meist schwieriger und fehleranfälliger. Ein ausführliches Beispiel hierfür ist der erste Teil vom Beweis \ref{prf_inverse_of_fcn}.
+
+Dieser Ansatz lässt sich z.B. auch für die Gleichheit von Mengen (siehe Kapitel \ref{cha_settheory}) anwenden: Wenn wir $A = B$ zeigen wollen, dann können wir auch beide Inklusionen separat zeigen: $A \subseteq B \land B \subseteq A \equiv A = B$. 
+
+\subsection{Kontraposition}
+Für die Kontraposition verwenden wir die Äquivalenz der Aussagen
+$$A \implies B \equiv \neg B \implies \neg A$$
+und zeigen, dass $\neg B \implies \neg A$ gilt, welches je nach Fragestellung einfacher sein kann als $A \implies B$ direkt zu zeigen. Am besten zeigen wir das anhand eines kleinen Beispiels:
+\begin{example}[Kontraposition]\label{ex_counterpos}
+    Sei $A$ die Aussage, dass $x^2$ gerade ist und $B$, dass $x$ gerade ist, dann bedeutet $A \implies B$, dass ein gerades Quadrat nur durch Quadrieren einer geraden Zahl erhalten werden kann. Die Kontraposition davon ist $\neg B \implies \neg A$, also dass eine ungerade Zahl hoch 2 eine ungerade Zahl ergibt. Da $x$ ungerade ist, ist auch $x^2$ ungerade. Daraus folgt aus der logischen Äquivalenz direkt die Behauptung $A \implies B$.
+\end{example}
+
+\subsection{Widerspruch}
+Nicht zu verwechseln mit der Kontraposition nehmen wir beim Widerspruchsbeweis $A$ und $\neg B$ an, welches zu einem Widerspruch geführt werden soll. Man kann durch Vergleichen der Wertetabllen schnell sehen, dass $A \implies B$ äquivalent ist zu $A \land \neg B \implies \bot$\footnote{$\bot$ bedeutet ''immer falsch'', also ein Widerspruch. $\top$ wäre das Symbol für ''immer richtig'', also eine Tautologie.}. Zur Veranschaulichung findet man in Beispiel \ref{ex_sqrt2_irrational} ein klassisches Beispiel für einen Widerspruchsbeweis.
+
+\subsection{vollständige Induktion} \label{cha_induction}
+Falls man eine Aussage über die Menge der natürlichen Zahlen zu zeigen hat, dann kann man sich das letzte \textit{Peano-Axiom} der natürlichen Zahlen (siehe Kapitel \ref{cha_natural_numbers}) zu Nutzen machen. Zur Demonstration der Induktion wollen wir zeigen, dass die Aussage $\sum_{i = 1}^ni^2 = \frac{n(n+1)(2n+1)}{6}$ für alle $n \in \N$ gilt.
+
+Hierzu ist es am besten, wenn man den Beweis in drei Abschnitte gliedert:
+\begin{enumerate}
+    \item \textbf{Induktionsverankerung IV}: Hier müssen wir zeigen, dass die Aussage für $n = 1$ gilt. Im Beispiel ist das leicht durch Einsetzen und explizitem Ausrechnen zu zeigen: $\sum_{i = 1}^1i^2 = 1 = \frac{1(1+1)(2\cdot1+1)}{6}$ Somit ist die Aussage für $n = 1$ bereits bewiesen.
+    \item \textbf{Induktionsannahme IA}: Nun wollen wir annehmen, dass die Aussage für ein beliebiges $n \in \N$ bereits gilt. Das mag erst unintuitiv klingen, jedoch denkt man hier am besten an den im ersten Schritt bewiesenen Fall. Wir behaupten also einfach, dass $A(n)$ bereits stimmt, im Fall vom Beispiel also $\sum_{i = 1}^ni^2 = \frac{n(n+1)(2n+1)}{6}$.
+    \item \textbf{Induktionsschritt IS}: Nun kommen wir zum entscheidenden Schritt: Da wir bereits annehmen, dass $A(n)$ stimmt, müssen wir nur noch zeigen, dass daraus auch die Aussage $A(n+1)$ folgt. Für diesen Schritt müssen wir nun ein bisschen rechnen und können unter Verwendung der Induktionsannahme zeigen, dass:
+    \begin{align*}
+        \sum_{i = 1}^{n+1}i^2 &= (n+1)^2 + \sum_{i = 1}^{n}i^2 \\
+                            &\stackrel{\text{IA}}{=} (n+1)^2 + \frac{n(n+1)(2n+1)}{6} \\
+                            &= \frac{(n+1)((n+1)+1)(2(n+1)+1)}{6} = A(n+1)
+    \end{align*}
+    Aus dem letzten \textit{Peano-Axiom} folgt hiermit bereits, dass die Aussage für alle $n \in \N$ gilt und der Induktionsbeweis abgeschlossen ist.
+\end{enumerate}
+Ein weiteres Beispiel für die Induktion kann im Abschnitt \ref{cha_bernoulli_uneq} zur Bernoulli Ungleichung gefunden werden.
+
+\subsection{Eindeutigkeit} Je nach dem wollen wir zeigen, dass es von einem Objekt mit bestimmten Eigenschaften nur genau eines gibt. Hierzu nimmt man zuerst an, dass es zwei solche Objekte $X_1$ und $X_2$ gibt und zeigt dann aus den gegeben Eigenschaften, dass $X_1 = X_2$ gelten muss. Ein ausführliches Beispiel hierfür ist der zweite Teil vom Beweis \ref{prf_inverse_of_fcn}.
+
+\section{Mengenlehre} \label{cha_settheory}
+Wir werden grundsätzlich die \textsc{Cantorsche} Mengenlehre besprechen, auch wenn sie gewisse Definitionslücken besitzt. Die \textsc{Zermelo-Fraenkel} Axiome der Mengenlehre beheben diese Lücken, jedoch sind diese viel komplexer, weswegen wir dieses Thema nur kurz anschneiden werden.
+
+\subsection{\textsc{Cantor}'sche/naive Mengenlehre}
+Ob in der Mathematik, der Physik oder einfach allgemein im Leben will man oft mehrere Objekt gruppieren. Z.B. haben wir für Tauben, Meisen und Adler den Überbegriff der Vögel. Oder für $2, 4, 6, 8, ...$ den Begriff der geraden Zahlen. Wir nennen diese Gruppierungen \textbf{Mengen} und definieren sie  folgendermassen:
+\begin{definition}{Menge}{}
+Eine Menge besteht aus beliebigen unterscheidbaren Elementen und sie ist eindeutig durch seine Elemente bestimmt.
+
+Wir können eine Menge $X$ schreiben als $$X=\{x_1, x_2, ...\}$$ wobei $x_1$ eines der Elemente darstellt. Auch kann eine Menge $Y$ aus den Elementen definiert werden, welche eine Eigenschaft haben, für welche also eine Aussage $A$ gilt: $$Y=\{x \mid A(x)\}$$
+
+Wobei das ''$\mid$'' nun dasjenige aus der Theorie der Mengenlehre ist und nichts mit der Teilbarkeit zu tun hat. Man kann es lesen als ''Menge aus den $x$, für welche $A(x)$ gilt''. Wir schreiben $x \in X$, falls $x$ ein Element von der Menge $X$ ist oder $x \notin X \equiv \neg (x \in X)$, falls $x$ kein Element dieser Menge ist.
+\end{definition}
+''Unterscheidbar'' in der Definition bezieht sich lediglich darauf, dass wie im obigen Beispiel der geraden Zahlen egal ist, ob die $2$ doppelt, dreifach, ... aufgezählt wird, sie kann entweder eine gerade Zahl sein oder nicht. Da die Menge zudem ''eindeutig durch die Elemente bestimmt'' wird, kommt es auch nicht auf die Reihenfolge der Elemente an. Darum gilt z.B. $\{1 ,2\} =\{2 ,1\} = \{1 ,2 ,1 ,1 , 2\}$
+
+\begin{example}
+Man kann die Menge aller Primzahlen wie folgt definieren: $$P = \{ p \mid \forall x \in \N, 1 < x < p: x \nmid p \}$$ Somit gilt z.B. $73 \in P$ und $42 \notin P$
+\end{example}
+
+\begin{definition}{spezielle Mengen}{}
+Wir nennen die Menge ohne Elementen die \textbf{leere Menge} und schreiben
+$$\{\} \qquad \text{ oder } \qquad \emptyset$$
+Die \textbf{Potenzmenge} einer Menge $M$ nennen wir die Menge, deren Elemente alle möglichen Teilmengen von $M$ sind. Es ist also eine Menge von Mengen:
+$$\mathcal{P}(M) = \{A \mid A \subseteq M\}$$
+\end{definition}
+
+\begin{example}[Potenzmenge]
+Die Potenzmenge von $\{A,B,C\}$ ist
+$$\mathcal{P}(\{A,B,C\}) = \{\emptyset, \{A\}, \{B\}, \{C\}, \{A, B\}, \{A, C\}, \{B, C\}, \{A, B, C\}\}$$
+Diese Potenzmenge kann z.B. wie folgt verwendet werden: Seien $A$, $B$ und $C$ die Antwortmöglichkeiten einer Multiple-Choice Frage, für welche 0 bis 3 Antworten korrekt sein können, dann wird die korrekte Lösung eine \textit{Teilmenge} von $\{A,B,C\}$, also ein \textit{Element} aus der Potenzmenge von $\{A,B,C\}$ sein.
+\end{example}
+
+Wenn wir uns nun auf wieder zurück auf das Beispiel der Vögel beziehen wollen, dann könnte man sagen, dass die Menge der Vögel zur Menge der Tiere gehört, und diese zur Menge der Lebewesen, etc. Darum wollen wir nun das Konzept der \textbf{Teilmenge} einführen, also einer Menge, deren Elemente alle in einer anderen Menge vorhanden sind:
+\begin{definition}{Teilmenge}{}
+Eine Menge $A$ heisst \textbf{Teilmenge} von B, falls
+$$\forall x : x \in A \implies x \in B$$
+Wir schreiben
+$$A \subseteq B$$
+\end{definition}
+
+\begin{example}[Teilmengen]
+Aus der Definition der Teilmengen folgen z.B.:
+$$\text{Meisen} \subseteq \text{Vögel} \subseteq \text{Tiere} \subseteq \text{Lebewesen}$$
+$$P \subseteq \N \qquad \N \subseteq \N \qquad \N \subseteq \Z \subseteq \Q \subseteq \R \subseteq \C$$
+\end{example}
+
+Man kann die Mengen und Teilmengen sehr intuitiv in \textbf{Euler-Venn-Diagrammen} darstellen, in welchen Mengen durch Flächen und deren Elemente durch Punkte in dieser Fläche repräsentiert werden. Eine Teilmenge entspricht somit einer komplett in einer anderen enthaltenen Fläche.
+
+\begin{definition}{Mengenkonstruktionen}{}
+Für beliebige Menge $A$ und $B$ definieren wir folgende Operatoren:
+\begin{itemize}
+    \item \textbf{Durchschnitt}: 
+        $$ A \cap B = \{x \mid x \in A \land x \in B\}$$
+    \item \textbf{Vereinigung}:
+        $$ A \cup B = \{x \mid x \in A \lor x \in B\}$$
+    \item \textbf{symmetrische Differenz}:
+        $$ A \bigtriangleup B = \{x \mid x \in A \cup B \land x \notin A \cap B\}$$
+    \item \textbf{Komplement} oder \textbf{Differenz}:
+        $$ A^C = B \setminus A = \{x \mid x \notin A \land x \in B\} = \{x \in B \mid x \notin A\}$$
+\end{itemize}
+\end{definition}
+Aus der Definition für das Komplement folgt, dass $(A^C)^C = A$ gilt. Für das Komplement $A^C$ ist die Menge $B$ üblicherweise eine ''Referenz-Menge'', in welcher $A$ als Teilmenge enthalten ist, z.B. ist $B = \N$ und $A$ die Menge der Primzahlen, sodass $A^C$ die Menge aller zusammengesetzten Zahlen ist.
+
+Im Euler-Venn-Diagramm entspricht der Durchschnitt der Fläche, welche in beiden Mengen enthalten ist und die Vereinigung der Fläche, die in mindestens einem der Mengen enthalten ist; bei der symmetrischen Differenz nur diejenige, die in genau einer Menge enthalten ist. Die Fläche der Differenz von $A$ befindet sich ausserhalb von $A$ und innerhalb von $B$. 
+
+\begin{lemma}{Eigenschaften von $\emptyset$ und $\mathcal{P}(A)$}{}
+\begin{align*}
+        \{\} &= \emptyset  &  \emptyset &\subseteq A & & & & & &\\
+        A \cup \emptyset &= A & A \cap \emptyset &= \emptyset &  A \setminus \emptyset &= A & \emptyset \setminus A &= \emptyset\\
+        A &\in \mathcal{P}(A) & \emptyset &\in \mathcal{P}(A)& \mathcal{P}(\emptyset)&= \{\emptyset\}  & \mathcal{P}(\{\emptyset\})&=\{\emptyset, \{\emptyset\}\}
+\end{align*}
+Beachte hierbei genau, wann $\in$ und wann $\subseteq$ verwendet wird. 
+\end{lemma}
+
+Bis jetzt haben wir für Vereinigungen und Schnitte nur zwei Mengen betrachtet. Wenn man es sich überlegt, kann man Vereinigungen und Schnitte auch über beliebig viele Mengen definieren. Für die Formalisierung verwenden wir hierfür Kollektionen oder \textbf{Familien von Mengen}, welche per se nur Mengen sind, welche weitere Mengen als Elemente besitzen:
+\begin{definition}{Beliebige Vereinigungen und Schnitte}{}
+Sei $\mathcal{A}$ eine Familie von Mengen, dann definieren wir die Vereinigung respektive den Schnitt der Mengen in $\mathcal{A}$ als:
+$$\bigcup_{A \in \mathcal{A}} A = \{x \mid \exists A \in \mathcal{A} : x \in A\}$$
+$$\bigcap_{A \in \mathcal{A}} A = \{x \mid \forall A \in \mathcal{A} : x \in A\}$$
+\end{definition}
+\begin{example}[Sieb von \textsc{Eratosthenes}] Die Menge der Primzahlen $P \subseteq \N$ kann auch wie folgt definiert werden:
+
+Sei $A_n = \{2n, 3n, 4n, 5n, ...\} \subseteq \N$, dann gilt:
+
+$$P \cap \{1\} = \Big(\bigcup_{i = 2}^\infty A_i\Big)^C = \bigcap_{i = 2}^\infty (A_i)^C$$
+Für die letzte Gleichheit wurden dabei die Gesetze von \textsc{De Morgan} verwendet:
+\end{example}
+
+\begin{definition}{\textsc{De Morgan} für Mengen}{}
+Für die Teilmengen $P$ und $Q$ von $X$ gilt:
+$$(P \cap Q)^C = P^C \cup Q^C$$
+$$(P \cup Q)^C = P^C \cap Q^C$$
+Für beliebige Schnitte einer Kollektion $\mathcal{A}$ aus Teilmengen von $X$ gilt:
+$$\Big(\bigcup_{A \in \mathcal{A}} A\Big)^C = \bigcap_{A \in \mathcal{A}} A^C$$
+$$\Big(\bigcap_{A \in \mathcal{A}} A\Big)^C = \bigcup_{A \in \mathcal{A}} A^C$$
+\end{definition}
+
+\subsection{Kartesisches Produkt}
+Nun haben wir Mengen definiert mit dem Gedanken, dass die Elemente der Mengen jeweils spezifische Objekte sind. Dies ist jedoch nur wenig hilfreich, wenn man z.B. Zuordnungen darstellen will, wenn man also Elemente einer Menge $A$ mit denen aus einer Menge $B$ zuordnen will:
+
+\begin{example} [ ]
+Sei $A$ die Menge aller Leute, die die an der ETH sind und $B$ die Menge der Dozenten, welche Vorlesungen anbieten. Dann könnte man die Paare finden wollen, welche zeigen, wer wessen Vorlesungen besucht, wobei natürlich die Dozierenden die Vorlesungen der Kollegen besuchen können. Man kann es sich vorstellen als Tabelle mit den Leuten auf der einen und den Dozenten auf der anderen Achse, in der die Felder entsprechend abgehakt werden. Das heisst, wir wollen Paare bilden aus den Elementen von den Mengen $A$ und $B$. Dabei kommt es aber auch auf die Reihenfolge an, denn wenn Urs die Vorlesung von Gio besucht, heisst das noch lange nicht, dass Gio auch die von Urs bersucht. Hierfür kommt uns das \textbf{kartesische Produkt} zur Hilfe:
+\end{example}
+
+\begin{definition}{kartesisches Produkt}{}
+Seien $A$ und $B$ Mengen, dann definieren wir das \textbf{kartesische Produkt} $A\times B$ als die Menge aller geordneten Paare:
+$$A\times B = \{(a, b) \mid a \in A, b \in B\}$$
+Wir nennen die Struktur der Form $(a, b)$ ein \textbf{Tupel}, welches im Gegensatz zur Menge geordnet ist, i.e. $(1,2) \neq (2,1)$. Somit ist $A\times B$ eine Menge aus Tupels mit jeweils 2 Einträgen.
+\end{definition}
+
+\begin{example}[kartesische Ebene nach \textsc{Descartes}]
+Eine andere sehr intuitive Anwendung des kartesischen Produktes ist die Koordinatenebene, welche wir aus der Mittelschule kennen: Wir wollen spezielle Punkte $P$ der Form $(x,y)$, welche z.B. die Funktionsgleichung $f(x) = y$ eines Graphen erfüllen zu einer Menge (den Graphen) zusammenfassen, wobei $x$ und $y$ jeweils aus der Menge $\R$ ist. Wir schreiben die kartesische Ebene daher als
+$$\R \times \R =: \R^2$$
+Es wird auch intuitiv schnell klar, dass die Geordnetheit der Paare sehr wichtig ist, da z.B. der Punkt $(1,2)$ der Ebene nicht dem Punkt $(2,1)$ entspricht.
+\end{example}
+
+\begin{remark}
+(Mengentheoretische Definition des kartesischen Produktes/eines Tupels) Wir haben die geordneten Paare eines kartesischen Produktes als neues Konzept eingeführt, jedoch kann man sie auch als Mengen definieren, ohne eine weitere Theorie einführen zu müssen. Es gibt verschiedene Varianten, dies zu erreichen, eine davon ist zu sagen, dass $A \times B \subseteq \mathcal{P}(\mathcal{P}(A \cup B))$ ist und ein Paar $(x, y) := \{\{x\},\{x, y\}\}$ mit $x \in A, y \in B$ ist. Man bemerkt, dass sich mit dieser Definition $(x, y)$ und $(y, x)$ auch als Mengen unterscheiden, welches auch die primäre Eigenschaft von geordneten Paaren ist.
+\end{remark}
+
+\subsection{\textsc{Russel}'s Paradox}
+Zwar ist die \textsc{Cantor}'sche Mengenlehre schön und gut im ''Alltagsgebrauch'', aber das genügt den Mathematiker ja nicht. Denn die \textsc{Cantor}'sche Mengenlehre erlaubt die beliebige Konstruktion von Mengen aus Mengen, und wenn man das übertreibt, kann das zu Widersprüchen führen wie in \textsc{Russel}'s Paradox:
+
+Wir wollen die Menge $X$ konstruieren, welche alle Mengen enthält, die sich selber nicht enthalten. So wäre die Menge $\N$ in $X$ enthalten, da deren Elemente nur einzelne natürliche Zahlen sind, aber nie die gesamte Menge $\N$ (als Element) darin enthalten ist. Anders wäre z.B. $\{\emptyset, \{\emptyset, \{\emptyset, \{...\}\}\}\}$ nicht in $X$ enthalten, da es das zweite Element von sich selber ist. Formal ausgedrückt also:
+$$X = \{ A \mid \neg(A \in A) \} = \{ A \mid A \notin A \}$$
+Das Paradox entsteht nun dadurch, wenn man sich fragt, ob $X$ sich selber enthält. Denn falls $X\in X$, dürfte $X$ nach der Definition nicht in sich enthalten sein. Anders herum, falls $X$ nicht in sich enthalten ist, dann müsste $X$ laut Definition in sich enthalten sein.
+
+Das ist ein Widerspruch, welches zu mindestens einem depressiven Mathematiker und zur Begründung der heute akzeptierten \textsc{Zermelo-Fraenkel}-Axiome der Mengenlehre geführt hat. Darin werden solche Konstruktionen nicht mehr als Mengen sondern als \textit{Klassen} betrachtet, welche hierarchisch über Mengen stehen und solche Widersprüche wie \textsc{Russel}'s Paradox vermeiden.
+
+\section{Abbildungen}
+Nun wollen wir eine (eindeutige) Zuordnung von Elementen einer Menge auf die einer anderen definieren, also zum Beispiel die Menge der Studis auf die Menge der Studiengänge, die sie besuchen. Dieses Beispiel ist auch ''eindeutig'' in dem Sinne, dass jeder Student (in der Regel) nur jeweils einen Studiengang belegen kann. Eine solche Zuordnung nennen wir \textbf{Abbildung} oder \textbf{Funktion}:
+
+\begin{definition}{Abbildung}{}
+Seien $X, Y$ Mengen, dann nennen wir $f: X \to Y$ eine \textbf{Abbildung} von $X$ nach $Y$, welche jedem Element $x \in X$ das Element $f(x) \in Y$ zuordnet. Wir schreiben:
+$$f: X\to Y, x\mapsto f(x)$$
+Für die Definition einer Funktion müssen der \textbf{Definitionsbereich} $X$, der \textbf{Wertebereich} oder \textbf{Wertevorrat} $Y$ und die \textbf{Abbildungregel} $x \mapsto f(x)$ für jedes \textbf{Argument} $x \in X$ eindeutig definiert sein. Ansonsten ist die Abbildung nicht \textbf{wohldefiniert}. Ganz kompakt und trotzdem vollständig wäre folgende Schreibweise:
+$$x \in X \mapsto f(x) \in Y$$
+Wir nennen zwei Abbildungen $f: X \to Y$ und $g: X' \to Y'$ gleich, falls $X = X'$, $Y = Y'$ und $\forall x \in X: f(x) = g(x)$ gilt.
+
+Die Elemente, auf die mindestens ein Element im Definitionsbereich abgebildet wird, bilden das \textbf{Bild} der Abbildung:
+$$f(X) = \{ y \mid \exists x \in X: f(x) = y\}$$
+
+Für eine Teilmenge $Y'$ des Wertebereichs $Y$ nennen wir die Menge
+$$f^{-1}(Y') = \{x \in X \mid f(x) \in Y' \}$$
+das \textbf{Urbild von Y'}
+\end{definition}
+
+\begin{remark}
+Mengentheoretisch definieren wir Abbildungen von $X$ nach $Y$ als Teilmenge vom kartesischen Produkt $X \times Y$, wobei jedes $x\in X$ in genau einer Relation mit einem Element aus $Y$ ist.
+$$f \subseteq X \times Y: \forall x \in X: \exists! y \in Y: x\ f\ y \iff f(x) = y$$
+\end{remark}
+
+\begin{example}[ ] \label{ex_example_function} Sei $X = \{\text{Yoel }, \text{Sebi }, \text{Jan}\}$ und $Y =  \{\text{PC-N }, \text{Physik }, \text{BWL}\}$ , dann können wir die ''Studiengangsfunktion'' $s$ wie folgt definieren:
+\begin{align*}
+s: X &\to Y \\
+\text{Yoel} & \mapsto \text{PC-N} \\
+\text{Sebi} & \mapsto \text{PC-N} \\
+\text{Jan} & \mapsto \text{Physik}
+\end{align*}
+Das heisst, wir erhalten z.B. $s(\text{Sebi}) = \text{PC-N}$. Das Bild von $s$ ist $\{\text{PC-N }, \text{Physik}\} \subseteq Y$. Das Urbild von $\{\text{PC-N}\}$ ist $\{\text{Yoel}, \text{ Sebi}\}$ und $f^{-1}(\{\text{BWL}\}) = \emptyset$.
+\end{example}
+
+\begin{exercise}[Urbild] Sei $f: X \to Y$ eine beliebige Abbildung.
+\begin{itemize}
+    \item Sei $Y' \subseteq Y$, zeige, dass $f(f^{-1}(Y')) \subseteq Y'$ gilt.
+    \item Sei $X' \subseteq X$, zeige, dass $f^{-1}(f(X')) \supseteq X'$ gilt.
+\end{itemize}
+\end{exercise}
+
+\begin{example}[Erste Abbildungen] \label{ex_important_functions} Hier nun einige wichtige Abbildungen:
+\begin{itemize}
+    \item Sei $X$ eine Menge, dann ist die \textbf{Identitätsabbildung} $id_X: X \to X$ definiert durch:
+    $$ x \mapsto x$$
+    \item Seien $X,Y$ zwei Mengen und $y_0 \in Y$, dann ist die \textbf{konstante Abbildung} $f$ definiert durch:
+    $$ x \in X \mapsto y_0 \in Y $$
+    \item Sei $X$ eine Menge und $X'\subseteq X$ eine Teilmenge davon. Dann ist die \textbf{charakteristische Abbildung} $\mathbbm{1}_{X'}: X \to \{0, 1\}$ definiert durch:
+    $$ x \mapsto \begin{cases}0 & x \notin X' \\ 1 & x \in X' \end{cases} $$
+    \item Sei $X\times Y$ das kartesische Produkt aus zwei Mengen, dann gibt es die zwei (kanonische) \textbf{Projektionen} $\pi_X$ und $\pi_Y$:
+    \begin{align*}
+        \pi_X: X\times Y &\to X & \pi_Y: X\times Y &\to Y \\
+        (x,y) &\mapsto x & (x,y) &\mapsto y
+    \end{align*}    
+    Die Projektion entspricht in der 2D-Ebene dem Ablesen der $x$- resp. $y$-Koordinate eines Punktes. D.h. für einen Punkt $P \in \R^2$ gibt $\pi_X(P)$ die $x$-Koordinate zurück. Bei höheren kartesischen Produkten schreiben wir $\pi_i$ ($i\in \N$), um die Projektion entlang des $i$-ten Eintrages zu bezeichnen.
+\end{itemize}
+
+\end{example}
+
+\begin{example}[ ] \label{ex_functions}
+Etwas interessanter sind die folgenden beiden Funktionen $f$ und $g$:
+\begin{align*}
+f: \R &\to \R & g: \R_{\geq 0} &\to \R \\
+x&\mapsto x^2&x&\mapsto x^2
+\end{align*}
+In beiden Fällen erhalten wir das Quadrat des Arguments. Da die Definitionsbereiche jedoch nicht gleich sind, gilt $f \neq g$.
+\end{example}
+
+Wir erkennen schnell, dass der Definitionsbereich von $g$ eine Teilmenge des Definitionsbereichs von $f$ ist. Das wollen wir entsprechend benennen und definieren daher die 
+
+\begin{definition}{Einschränkung}{}
+Die \textbf{Einschränkung} einer Abbildung $f: X \to Y$ auf eine Teilmenge $X' \subseteq X$ ist die Abbildung
+\begin{align*}
+    f\big|_{X'}: X' &\to Y \\
+    x & \mapsto f(x)
+\end{align*}
+Umgekehrt nennen wir $F$ eine \textbf{Fortsetzung} von $f$, falls $F\big|_X = f$ gilt. $f$ ist also eine Fortsetzung von $f\big|_{X'}$
+\end{definition}
+\begin{example}[Fortsetzung von Beispiel \ref{ex_functions}] Es gilt also $f\big|_{\R_{\geq 0}} = g$.
+\end{example}
+
+\subsection{Verknüpfung von Abbildungen}
+Wenn wir zwei Abbildungen $g: X \to Y$ und $f: Y \to Z$ haben, bei denen der Wertebereich von $g$ dem Definitionsbereich von $f$ entspricht, dann kann man das Ergebnis $g(x) \in Y$ direkt der Abbildung $f$ als Argument weitergeben. Diese Aneinanderreihung von Abbildungen nennen wir 
+
+\begin{definition}{Verknüpfung}{}
+Seien  $g: X \to Y$ und $f: Y \to Z$ zwei Abbildungen, dann ist die Verknüpfung von $f$ und $g$ gegeben durch:
+\begin{align*}
+    f \circ g: X &\to Z\\ x &\mapsto f(g(x))
+\end{align*}
+\end{definition}
+\begin{remark}
+Man beachte die etwas unintuitive Reihenfolge der Auswertung von $f \circ g$: Es wird zuerst $g$ ausgewertet, bevor $f$ mit dem Ergebnis von $g$ ausgewertet wird. Man wertet also von rechts nach links aus. Eine Eselsbrücke bietet die englische Aussprache ''$f$ of $g$'' für $f\circ g$: Es deutet an, dass die letztere Abbildung zuerst ausgewertet wird.
+\end{remark}
+
+\begin{example}[Funktionen in $\R$]
+Seien $f: \R \to \R, x \mapsto x^2$ und $g: \R \to \R, x \mapsto x + 1$, dann gilt:
+\begin{align*}
+    f\circ g &= f(g(x) = (g(x))^2 = (x + 1)^2\\
+    g\circ f &= g(f(x) = f(x) + 1 = x^2 + 1
+\end{align*}
+Wir erkennen also, dass die Verknüpfung \textbf{nicht kommutativ} ist, d.h., dass $f \circ g = g \circ f$ im Allgemeinen \textit{nicht} gilt, auch wenn beide Richtungen definiert sind (wegen der nötigen Übereinstimmung von den Defintions- und Wertebereichen).
+\end{example}
+
+Zwar haben wir keine Kommutativität, jedoch können wir folgende Eigenschaften der Verknüpfung zeigen:
+\begin{satz}{Assoziativität von Identität für Verknüpfungen}{}
+Für die Abbildungen $h: X \to Y$, $g: Y \to Z$ und $f: Z \to A$ gilt: 
+\begin{enumerate}
+    \item $(f\circ g) \circ h = f \circ (h \circ g) = f \circ h \circ g$
+    \item $h \circ id_X = id_Y \circ h = h$
+\end{enumerate}
+\end{satz}
+\begin{proof} Für ein beliebiges $x \in X$ gilt:
+\begin{enumerate}
+    \item $(f\circ g) \circ h(x) = (f\circ g)(h(x)) = f(g(h(x))) = f((g\circ h)(x) = f \circ (g \circ h)(x)$
+    \item $h \circ id_X (x) = h(id_X(x)) = h(x) = id_Y(h(x)) = id_Y \circ h (x)$
+\end{enumerate}
+\end{proof}
+
+\subsection{Eigenschaften von Abbildungen}
+Wie man in einigen Beispielen gemerkt hat, decken einige Abbildungen deren gesamten Wertebereich ab oder andere, welche jedes Element des Wertebereichs genau einmal verwenden. Andere erfüllen beides und wieder andere erfüllen keines dieser Kriterien. Wir wollen diese Eigenschaften benennen und definieren folgende Begriffe:
+
+\begin{definition}{Injektivität, Surjektivität und Bijektivität}{}
+Eine Abbildung $f: X \to Y$ nennen wir \textbf{injektiv}, falls für alle $x_1, x_2 \in X$ gilt:
+$$f(x_1) = f(x_2) \implies x_1 = x_2$$
+Eine Abbildung $f: X \to Y$ nennen wir \textbf{surjektiv}, falls für jedes $y \in Y$ gilt:
+$$\exists x \in X: f(x)=y$$
+welches äquivalent ist zu:
+$$f(X) = Y$$
+Eine Abbildung ist \textbf{bijektiv}, falls diese sowohl injektiv als auch surjektiv ist.
+\end{definition}
+
+In anderen Worten gibt es für jeden Funktionswert einer injektive Funktion ein eindeutiges Argument. Bei surjektiven Funktionen gibt es für jedes Element im Wertebereich mindestens ein Funktionsargument.
+
+\begin{example}
+Daraus folgt, dass $g: x \in \R_{\geq 0} \mapsto x^2 \in \R$ aus Beispiel \ref{ex_functions} injektiv ist, dass $\mathbbm{1}_X': X \to \{0, 1\}$ aus Beispiel \ref{ex_important_functions} für $X' \neq X$ und $X' \neq \emptyset$ surjektiv ist und dass die Identität $id_X$ surjektiv ist.
+\end{example}
+
+Wenn eine Abbildung $f$ bijektiv ist, gibt es also für jedes Element $y$ im Wertebereich ein eindeutiges Argument $x$, sodass man eine weitere Funktion definieren kann, welche $y$ eindeutig auf $x$ abbildet. Wir nennen diese Funktion die \textbf{Inverse} oder \textbf{Umkehrabbildung} von $f$:
+
+\begin{definition}{Inverse/Umkehrabbildung}{}
+Sei $f: X\to Y$ eine Abbildung, dann nennen wir $g: Y \to X$ die \textbf{Inverse} oder \textbf{Umkehrabbildung}, falls
+$$f \circ g = id_Y \qquad \text{ und } \qquad g \circ f = id_X$$
+das heisst
+$$\forall y \in Y: f(g(y)) = y \qquad \text{ und } \qquad \forall x \in X: g(f(x)) = x$$
+gelten.
+\end{definition}
+
+Die Umkehrabbildung hat (wie z.T. bereits angesprochen) einige Eigenschaften:
+
+\begin{satz}{Umkehrabbildung und Bijektivität}{Umkehrabbildung_und_Bijektivität}
+\begin{enumerate}
+    \item $f: X \to Y$ hat genau dann eine Umkehrabbildung, wenn $f$ bijektiv ist.
+    \item Falls $f$ bijektiv ist, dann existiert eine eindeutige Umkehrabbildung $f^{-1}$.
+\end{enumerate}
+\end{satz}
+
+\begin{proof} \label{prf_inverse_of_fcn} Sei $f: X \to Y$.
+\begin{enumerate}
+    \item ($\Longrightarrow$) Sei $g: Y \to X$ eine Inverse von $f$. Seien $x_1, x_2 \in X$ mit $f(x_1) = f(x_2)$. Durch Anwenden von $g$ auf beiden Seiten erhalten wir aus der Definition von $g$ $x_1 = x_2$, wodurch die Injektivität von $f$ gezeigt ist. Sei nun $y \in Y$, da $f(g(y)) = y$ per Definition gilt, gibt es ein $x=g(y)\in X$, für welches $f(x) =y$ gilt. Dadurch ist $f$ auch surjektiv und somit bijektiv.\\
+    ($\Longleftarrow$) Sei nun $f$ bijektiv. Da $f$ surjektiv ist, gibt es für jedes $y \in Y$ ein $x\in X$, sodass $f(x) = y$. Da $f$ injektiv ist, ist dieses $x$ auch eindeutig. Wir setzen nun $g(y) = x$ für alle $y$, wodurch wir eine Abbildung $g: Y \to X$ erhalten, für die $$\forall x \in X, \ \forall y \in Y: y = f(x) \iff x = g(y)$$ gilt. Da daraus $\forall y \in Y: f(g(y)) = y$ und $\forall x \in X: g(f(x)) = x$ folgt, ist $g$ eine Inverse von $f$.
+    \item Eindeutigkeit der Inversen: Seien $g_1$ und $g_2$ zwei Inversen. Aus der Definition der Inversen folgt: $f\circ g_1 = id_Y$ und $g_2 \circ f = id_X$. Wir erhalten:
+    $$g_1 = id_X \circ g_1 = (g_2 \circ f)\circ g_1 = g_2 \circ (f \circ g_1) = g_2 \circ id_Y = g_2 $$
+    Somit haben wir gezeigt, dass die Inverse eindeutig ist.
+\end{enumerate}
+\end{proof}
+
+Wir schreiben $f^{-1}$ für \textit{die} Umkehrabbildung von $f$, da wir nun gezeigt haben, dass die Umkehrabbildung eindeutig durch die Bedingung $$\forall x \in X, \ \forall y \in Y: y = f(x) \iff x = f^{-1}(y)$$ bestimmt wird.
+
+\subsection{Graph einer Abbildung}
+Das Konzept des Graphen einer Funktion $f: X \to Y$ kennen wir bereits aus der Mittelschule: Wir haben zwei Achsen, die $x$-Achse mit den Argumenten aus $X$ und die $y$-Achse mit den Funktionswerten $f(x) \in Y$, welche entsprechend aufgetragen sind. Doch was genau lässt sich das ausdrücken mit den Konzepten, die wir bis jetzt besprochen haben? Der \textbf{Graph} der Funktion ist doch nichts mehr als eine Teilmenge der gesamten Ebene $X \times Y$, welche die Bedingung $f(x) = y$ erfüllen. Wir definieren den Graph einer Funktion wie folgt:
+
+\begin{definition}{Graph}{}
+Sei $f: X \to Y$ eine Abbildung, dann ist der \textbf{Graph} $\Gamma$ von $f$ definiert als die Teilmenge von $X \times Y$, für die gilt:
+$$\Gamma(f) = \{(x,y) \in X \times Y\mid y = f(x) \}$$
+\end{definition}
+Der Graph $\Gamma(f)$ ist also die Menge aller Tupels $(x, f(x))$ mit $x \in X$ und $f(x) \in Y$.
+\begin{remark}
+Nicht jede Teilmenge von $X\times Y$ ist ein Graph einer Abbildung $f$, z.B. die des Einheitskreises, da der Funktionswert $f(0)$ die beiden Werte 1 und -1 annehmen müsste und $f(2)$ undefiniert sein müsste, welches der Definition einer Abbildung widerspricht.
+\end{remark}
+Aus den Limitationen der Abbildung erkennen wir graphisch, dass eine Teilmenge von $X \times Y$ genau dann ein Graph einer Abbildung sein muss, wenn jede vertikale Linie nur genau einen Punkt mit der Teilmenge gemeinsam hat. Anders gesagt, darf die Projektion der Teilmenge auf die $x$-Achse keine Punkte aufeinander schieben (d.h. injektiv) und sie darf keine Lücken haben (d.h. surjektiv). Wir formulieren deswegen den Satz:
+
+\begin{satz}{Projektion des Graphen}{}
+Sei $A$ eine Teilmenge von $X \times Y$, dann ist $A$ genau dann ein Graph einer Abbildung $X \to Y$, wenn $\pi_X\big|_A: A \to X$ bijektiv ist.
+\end{satz}
+
+\begin{proof}
+($\Longrightarrow$) Sei $A \subseteq X \times Y$ der Graph einer Abbildung $f: X \to Y$, d.h. die Elemente von $A$ sind von der Form $(x, f(x)$. Wir verwenden die Erkenntnis aus Satz \ref{satz:Umkehrabbildung_und_Bijektivität}, um mit einer Inverse von $\pi_X\vert_A$ die Bijektivität zu zeigen. Wir behaupten nun, dass $g: x \in X \mapsto (x, f(x)) \in X \times Y$ die Inverse zu $\pi_X\vert_A$ ist. Wir erhalten aus der Verknüpfung $(g \circ \pi_X\vert_A)(x, f(x)) = g(x) = (x, f(x)$ als auch für $(\pi_X\vert_A \circ g) (x) = \pi_X\vert_A(x, f(x)) = x$ die Identitätsabbildung der jeweiligen Mengen. Daraus schliessen wir nun, dass $g = (\pi_X\vert_A)^{-1}$ gilt und $\pi_X\vert_A$ somit bijektiv ist.
+
+($\Longleftarrow$) Sei nun $\pi_X\vert_A: A \subseteq X \times Y \to X$ eine bijektive Abbildung, d.h. es gibt eine Inverse $g: X \to A$, welche die Form $x \mapsto (g_X(x), g_Y(x))$ hat. Da $\forall x \in X: (\pi_X\vert_A \circ g)(x) = x$ gelten muss, folgt,  dass $g_X(x) = x$ ist, also $g(x) = (x, g_y(x))$. Wir definieren nun die Abbildung $f(x) = g_Y(x)$ für alle $x \in X$, welches eine Abbildung von $X \to Y$ ist. Da $g$ und somit $g_Y$ surjektiv ist, lässt sich jedes Element aus $A$ durch $(x, f(x))$ schreiben. Es folgt die Behauptung, dass $\Gamma(f) = A$ gilt.
+\end{proof}
+Nun wissen wir, dass die Projektion $\pi_X\vert_{\Gamma(f)}$ invertierbar ist. Daraus können wir nun auch folgern, dass sich aus einem Graphen der Form $\{(x, y) \mid y = f(x)\}$ die Funktion $f$ rekonstruieren lässt:
+\begin{lemma}{Konstruktion der Abbildung aus dem Graphen}{} Wir verwenden dafür die Verknüpfung  $\pi_Y \circ (\pi_X\vert_{\Gamma(f)})^{-1}: X \to X \times Y \to Y$, welche ein $x \in X$ wie folgt abbildet:
+$$x \stackrel{(\pi_X\vert_{\Gamma(f)})^{-1}}{\mapsto} (x, f(x)) \stackrel{\pi_Y}{\mapsto} f(x)$$
+d.h. es gilt $f = \pi_Y \circ (\pi_X\vert_{\Gamma(f)})^{-1}$
+\end{lemma}
+\begin{remark}
+(Mengentheoretische Definition einer Abbildung) Wir haben soeben gesehen, dass sich eine Abbildung eindeutig aus dessen Graphen rekonstruieren lässt. Der Graph ist lediglich eine Teilmenge von $X \times Y$ mit der Eigenschaft, dass $\pi_X\vert_{\Gamma(f)}$ bijektiv ist und beruht daher auf den Axiomen der Mengenlehre. Daraus folgt gleich die mengentheoretische Definition der Abbildungen.
+\end{remark}
+
+Wir haben bis jetzt nur Graphen von allgemeinen Abbildungen betrachtet, nun wollen wir aber noch diejenigen von bijektiven Abbildungen besprechen. Bijektive Abbildungen haben eine Inverse und wie man graphisch bereits wissen könnte, entspricht der Graph der Inversen der Spiegelung der ursprünglichen Abbildung entlang der $(x=y)$-Diagonalen. Wir wollen dieser Spiegelung die Funktion $\sigma$ zuweisen, welche natürlicherweise Punkte aus $X \times Y$ nach $Y \times X$ abbildet: $(x,y) \mapsto (y,x)$. Wir wollen mit dem nun den folgenden Satz formulieren:
+
+\begin{satz}{Graph der Inversen}{}
+Sei $f: X \to Y$ eine bijektive Abbildung, dann ist $\Gamma(f^{-1})=\sigma(\Gamma(f))$
+\end{satz}
+
+\begin{proof}
+Wir wissen, dass $\Gamma(f^{-1}) = \{ (y, x) \mid x = f^{-1}(y)\}$ gilt. Da $f$ bijektiv ist, können wir $\Gamma(f^{-1})$ unter Verwendung der Eigenschaft $$\forall x \in X, \ \forall y \in Y: y = f(x) \iff x = f^{-1}(y)$$ schreiben als:
+$$\Gamma(f^{-1}) = \{ (y, x) \mid x = f^{-1}(y)\} = \{ (y, x) \mid y = f(x)\} = \sigma(\{ (x, y) \mid y = f(x)\}) = \sigma(\Gamma(f))$$
+\end{proof}
+
+\subsection{Mengen von Abbildungen}
+Eine einzige Abbildung zu betrachten genügt ja keinem Mathematiker, die wollen natürlich \textit{alle} Abbildungen haben. Darum können wir auch Mengen mit Abbildungen machen. Die einfachste solche Menge bezeichnet einfach alle möglichen Abbildungen zwischen zwei Mengen:
+
+\begin{definition}{Mengen von Abbildungen}{}
+Seien $X$ und $Y$ zwei Mengen, dann bezeichnet $Y^X$ die Menge aller Abbildungen, die Elemente aus $X$ nach $Y$ abbilden.
+\end{definition}
+So ist also $f: X \to Y \in Y^X$. Man muss den Definitionsbereich und Wertebereich von ''oben nach unten'' lesen. Diese Notation wird erst unter Betracht der Kardinalität/Grösse dieser Mengen mehr Sinn ergeben.
+\begin{example}[Einige wichtige Mengen von Abbildungen] Wir wollen einige häufig anzutreffende Beispiele geben:
+\begin{itemize}
+    \item $\R^X = \{\text{alle reellwertige Abbildungen } X \to \R\}$
+    \item $Y^{\{1,2\}} =$ \{Menge aller Funktionen, welche durch zwei Elemente aus $Y$ gegeben sind\}\\
+    Eine Abbildung $f \in Y^{\{1,2\}}$ kann eindeutig durch das Paar $(f(1), f(2)) \in Y \times Y$ definiert werden. Deswegen ist die Menge $Y^{\{1,2\}}$ auch isomorph\footnote{d.h. es gibt eine Bijektion zwischen den beiden Mengen, die die Struktur beibehält.} zu $Y^2 := Y\times Y$. Aus diesem Grund kann man auch sagen, dass jede Abbildung aus $Y^{\{1,2\}}$ einem Punkt im $Y^2$ und $f(i)$ der Projektion $\pi_i\big((f(1), f(2)\big)$ entspricht. 
+     \item $Y^{\{1,2,3\}} =$ \{Funktionen, die durch drei Elemente aus $Y$ gegeben sind\}\\
+    Es gilt dasselbe wie oben, nur dass diese Abbildungen $f \in Y^{\{1,2,3\}}$ durch 3 Elemente aus $Y$ eindeutig definiert sind: $(f(1), f(2), f(3))$. Man kann dies weiterführen, dabei verwenden wir $Y^n := Y^{\{1,...,n\}}$, auch bis in die Unendlichkeit, wodurch man schliesslich Folgen erhält:
+    \item $Y^\N = \{\text{Folgen in } Y\}$\\
+    Eine Folge $a \in Y^\N$ ist eine Abbildung $n \in \N \mapsto a(n)$, die jedem $n \in \N$ einen Wert aus $Y$ zuordnet. Da man $n$ als Index lesen kann, wird im Kontext von Folgen anstelle von $a(n)$ in der Regel $a_n$ geschrieben. Man kann wie vorher $a$ auch eindeutig als Liste/Tupel (von unendlicher Länge) darstellen: $a = (a_1, a_2, a_3, ...)$.
+\end{itemize}
+\end{example}
+
+\begin{example}[kanonische bijektive Abbildungen] Wir können zudem auch kanonische, also ''natürliche'' bijektive Abbildungen $\Phi$ zwischen Mengen den $Y^m \times Y^n \to Y^{m+n}$, also $\Phi \in (Y^{m+n})^{Y^m \times Y^n}$, definieren:
+$$\Phi: (x_1,...,x_m) \times (y_1, ..., y_n) \mapsto (x_1,...,x_m, y_1, ..., y_n)$$
+\end{example}
+
+\begin{example}[höhere Kreuzprodukte] Mit der Interpretation von Kreuzprodukten als Mengen von Funktionen kann man auch $Y_1 \times ... \times Y_n$ (für verschiedene $Y_i$) als Menge auffassen:
+$$Y_1 \times ... \times Y_n = \{\text{Menge aller Abbildungen } f: \{1,...,n\} \to \bigcup_{i=0}^nY_i\}$$
+wobei für alle $f \in Y_1 \times ... \times Y_n$ (unüblicherweise) $f(i) \in Y_i$ gilt, i.e. die Bilder aller Abbildungen dieser Menge ausgewertet bei $i$ sind enthalten in $Y_i$: $$\{f(i) \mid f \in Y_1 \times ... \times Y_n\} \subseteq Y_i$$
+\end{example}
+
+Will man nun wissen, wie viele verschiedene Funktionen es gibt, die von der Menge $X$ auf die Menge $Y$ abbilden, so kommt einem die vorher unüblich erscheinende Notation zur Hilfe:
+
+\begin{definition}{Kardinalität von $Y^X$}{}
+Seien $X$ und $Y$ endliche Mengen mit jeweils $m$ resp. $n$ Elementen. Da eine Abbildung für jedes der $m$ Elemente in $X$ $n$ verschiedene Wahlmöglichkeiten hat, gibt es $n^m$ verschiedene Abbildungen $X \to Y$, d.h. $Y^X$ hat $n^m$ Elemente. Wir schreiben:
+$$\vert Y^X \vert = \vert Y \vert ^{\vert X \vert} = n^m$$
+\end{definition}
+
+\section{Relationen}
+Wie drücken wir aus, dass zwei Dinge ''ähnlich'' sind oder in einen Verhältnis zueinander stehen? Wir kennen zum Beispiel das Zeichen $=$, welches die Gleichheit ausdrückt oder $\mid$, welches die Teilbarkeit ausdrückt. Der Überbegriff für dieses Konzept nennen wir \textbf{Relationen}. So steht z.B. $2$ in der Teilbarkeitsrelation $|$ mit 4, welches wir als $2\mid4$ schreiben. Wir merken, dass wir für Relationen Paare brauchen, welche in Relation sein können oder nicht. Des Weiteren bemerken wir, dass es geordnete Paare sein müssen, da die Reihenfolge z.B. bei der Teilbarkeit einen Unterschied macht: $2\mid4$ aber $4\nmid 2$. Das schreit förmlich nach der Teilmenge eines kartesischen Produktes:
+
+\begin{definition}{Relation}{}
+Wir definieren eine \textbf{Relation} $\sim$ zwischen den Mengen $X$ und $Y$ als Teilmenge von $X \times Y$:
+$$\sim \ \subseteq X \times Y $$
+Wir schreiben $x\sim y$, falls $(x,y) \in \ \sim$ respektive $x \nsim y$, falls $(x,y) \notin \ \sim$.
+Falls $X = Y$ ist, nennen wir $\sim$ auch eine Relation auf $X$.
+\end{definition}
+
+\begin{example}[Teilbarkeit auf $\N$] So besteht die Teilbarkeitsrelation $\mid$ auf $\N$ aus Paaren $\in \N^2$, welche der Form $(a,ab)$ mit $a,b \in \N$ sind, z.B.:
+$$\mid \ \supseteq \{(5 ,5), (2,4), (7,42), (1,73)\}$$
+\end{example}
+
+Wir wollen nun einige Begriffe einführen für Eigenschaften, die Relationen auf einer Menge aufweisen können:
+
+\begin{definition}{Eigenschaften von Relationen}{}
+Sei $\sim$ eine Relation auf $X$. Wir nennen $\sim$ ...
+
+...\textbf{reflexiv}, falls für alle $x \in X: x\sim x$ gilt.
+
+...\textbf{symmetrisch}, falls für alle $x, y \in X: x\sim y \iff y \sim x$ gilt.
+
+...\textbf{transitiv}, falls für alle $x, y,z \in X: x\sim y \land y \sim z \implies x \sim z$ gilt.
+\end{definition}
+
+Diese Eigenschaften sind unabhängig voneinander, d.h. eine Relation kann eine von 8 Kombinationen davon aufweisen:
+
+\begin{example}[Jede Kombination] \label{ex_all_rel_combs} Wir kennzeichnen die Reflexivität mit R, die Symmetrie mit S und die Transitivität mit T. Wir geben für jede mögliche Kombination aus diesen drei Eigenschaften ein Beispiel für $X = \{1, 2, 3\}$
+\begin{align*}
+    \text{--}&:  \quad \{(1, 2),(2, 2), (3, 1)\} \\
+    \text{T}&:  \quad \{(1, 2),(2, 3), (1, 3)\} \\
+    \text{S}&:  \quad \{(1, 4),(2, 1),(1,3),(3,1)\} \\
+    \text{ST}&:  \quad \{(1,1), (1, 3),(3, 1), (3, 3)\} \\
+    \text{R}&:  \quad \{(1, 1),(2, 2), (3, 3), (1,2), (3,1)\} \\
+    \text{RT}&:  \quad \{(1, 1),(2, 2), (3, 3), (1,2), (2,3), (1,3)\} \\
+    \text{RS}&:  \quad \{(1, 1),(2, 2), (3, 3), (1,2), (2,1), (1,3), (3, 1)\} \\
+    \text{RST}&:  \quad \{(1, 1),(2, 2), (3, 3), (1,2), (2,1)\} 
+\end{align*}
+\end{example}
+
+Es kann je nach dem sehr hilfreich für die Intuition sein, sich die Relationen als Tabellen und die Eigenschaften als Muster in diesen Tabellen vorzustellen.
+
+\begin{example}[Jede Kombination als Tabelle] 
+    \newcommand{\h}{$\bullet$} \newcommand{\p}{$\ \ $}
+    Die selben Relationen aus vorherigem Beispiel \ref{ex_all_rel_combs} als Tabellen dargestellt. Die Zeilen entsprechen dem ersten Element und die Spalten dem zweiten. Falls das jeweilige Paar in der Relation ist, dann ist es mit einem  \h$\ $  markiert:
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{c|c c c}
+        --   &   1   &   2   &   3 \\
+        \hline
+     \p 1\p &       &   \h    &       \\
+        2   &       &   \h    &       \\
+        3   &   \h    &       &       \\
+    \end{tabular}\quad
+    \begin{tabular}{c|c c c}
+        T   &   1   &   2   &   3 \\
+        \hline
+     \p 1\p &       &   \h    &   \h    \\
+        2   &       &       &    \h   \\
+        3   &       &       &       \\
+    \end{tabular}\quad
+    \begin{tabular}{c|c c c}
+        S   &   1   &   2   &   3 \\
+        \hline
+     \p 1\p &       &   \h    &   \h    \\
+        2   &  \h     &       &     \\
+        3   &   \h    &       &       \\
+    \end{tabular}\quad
+    \begin{tabular}{c|c c c}
+        ST  &   1   &   2   &   3 \\
+        \hline
+     \p 1\p &   \h    &       &    \h    \\
+        2   &       &       &        \\
+        3   &   \h    &       &   \h    \\
+    \end{tabular}
+\end{table}
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{c|c c c}
+        R   &   1   &   2   &   3 \\
+        \hline
+     \p 1\p &   \h    &   \h    &       \\
+        2   &       &   \h    &      \\
+        3   &  \h     &       &    \h   \\
+    \end{tabular}\quad
+    \begin{tabular}{c|c c c}
+        RT  &   1   &   2   &   3 \\
+        \hline
+     \p 1\p &   \h  &   \h  &   \h   \\
+        2   &       &   \h  &   \h   \\
+        3   &       &       &   \h   \\
+    \end{tabular}\quad
+    \begin{tabular}{c|c c c}
+        RS  &   1   &   2   &   3 \\
+        \hline
+     \p 1\p &   \h  &   \h  &   \h   \\
+        2   &   \h  &   \h  &        \\
+        3   &   \h  &       &   \h   \\
+    \end{tabular}\quad
+    \begin{tabular}{c|c c c}
+        RST &   1   &   2   &   3 \\
+        \hline
+     \p 1\p &   \h  &   \h  &        \\
+        2   &   \h  &   \h  &        \\
+        3   &       &       &   \h   \\
+    \end{tabular}
+\end{table}
+Einfach zu erkennen sind Reflexivität (Diagonale ist belegt) und die Symmetrie (Tabelle lässt sich entlang der Diagonalen spiegeln). Symmetrie und Transitivität führt zu ''Quadraten'' (ggf. unter Umordnung der Elemente in den Zeilen und Spalten, hier z.B. $2 \leftrightarrow 3$). Dasselbe gilt auch für Relationen mit alle drei Eigenschaften, jedoch ist die Diagonale immer Teil eines ''Quadrates'' (auch ggf. unter Umordnung der Elemente, hier nicht nötig).
+\end{example}
+
+\subsection{Äquivalenzrelation}
+
+\begin{definition}{Äquivalenzrelation}{}
+Eine \textbf{Äquivalenzrelation} ist Relation auf einer Menge $X$, welche die Reflexivität, Symmetrie als auch die Transitivität erfüllt.
+\end{definition}
+
+Wir werden sehen, dass solche Äquivalenzrelationen ihrem Namen gerecht werden und eben Äquivalenzen, also eine gewisse ''Gleichheit'' bezeichnen. 
+
+\begin{definition}{Äquivalenzklasse und Quotientenmenge}{}
+Sei $\sim$ eine Äquivalenzrelation auf der Menge $X$, dann definieren wir die \textbf{Äquivalenzklasse} von $x \in X$ durch
+$$[x]_\sim = \{y \in X \mid x \sim y\}$$
+Wir nennen $x$ in diesem Fall den \textbf{Repräsentanten} der Äquivalenzklasse $[x]_\sim$
+
+Die Menge der Äquivalenzklassen von $\sim$ auf $X$ nennen wir dann die \textbf{Quotientenmenge} von $X$ modulo $\sim$ und schreiben:
+$$X\big/\!\sim \ = \{[x]_\sim \mid x \in X\}$$
+\end{definition}
+Die Äquivalenzklasse von $x$ ist also die Menge der Elemente, welche alle in Relation zu $x$ stehen. Wir können zeigen, dass diese auch zueinander in Relation stehen müssen: Seien $y, z \in [x]_\sim$, d.h. es gelten $x\sim y$ und $x \sim z$. Da $\sim$ transitiv ist, gilt auch $y \sim x$, also folgt aus der Transitivität $y \sim z$ und aus der Symmetrie $z \sim y$. Somit stehen alle in $[x]_\sim$ enthaltenen Elemente in Relation zueinander und sind sozusagen ''gleich''.
+
+Wir können zudem noch eine stärkere Aussage zeigen, nämlich dass für eine Äquivalenzrelation $\sim$ auf $X$ mit $x,y \in X$ folgendes gilt:
+\begin{lemma}{Eigenschaften von Äquivalenzklassen}{prop_of_equivclass}
+Ist $\sim$ eine Äquivalenzrelation, dann sind folgende Ausdrücke äquivalent:
+\begin{align*}
+   (i)\quad x &\sim y & (ii)\quad [x]_\sim &= [y]_\sim & (iii)\quad [x]_\sim \cap [y]_\sim &\neq \emptyset
+\end{align*}
+\end{lemma}
+
+\begin{proof} Wir zeigen die Implikationen in eine Richtung:
+
+$(i) \Longrightarrow (ii)$: Sei $z \in [x]_\sim$, dann gilt $z\sim x$. Aus der Behauptung folgt aus der Transitivität direkt $z \sim y$, also $z \in [y]_\sim$. Da $z$ beliebig war, folgt $[x]_\sim \subseteq [y]_\sim$. Die andere Richtung wird ähnlich gezeigt, wodurch wir $[x]_\sim = [y]_\sim$ erhalten.
+
+$(ii) \Longrightarrow (iii)$: Da die Mengen gleich sind und nicht-leer wegen der Reflexivität. Daraus folgt direkt, dass der Schnitt nicht-leer ist.
+
+$(iii) \Longrightarrow (i)$: Da der Schnitt nicht-leer ist, gibt es mindestens ein Element $z \in [x]_\sim$ und $z \in [y]_\sim$, d.h. es gelten $x \sim z$ und $z \sim y$. Aus der Transitivität folgt $x \sim y$.
+
+Da wir nun die drei Implikationen im Kreis gezeigt haben, gilt die Äquivalenz zwischen den Aussagen.
+\end{proof}
+
+Man kann sich langsam ausmalen, was Äquivalenzklassen auf einer Menge $X$ mit $X$ machen: Die Menge wird aufgeteilt in disjunkte, also nicht-überlappende Teilmengen. Denn jedes Element muss wegen der Reflexivität in einer Äquivalenzklasse sein. Sobald sich zwei Mengen überlappen, folgt daraus, dass alle Elemente der beiden Mengen auch zueinander in Relation stehen, also in der selben Äquivalenzklasse sind. Anders herum könnte man dann auch aus einer Aufteilung von $X$ eine Äquivalenzrelation definieren. Bevor wir die Brücke zu diesem Konzept schlagen können, wollen wir noch kurz den Begriff der \textbf{Partition} einführen:
+
+\begin{definition}{Partition}{}
+Sei $X$ eine Menge und $\cP$ eine Familie von nicht-leeren, paarweise disjunkten Teilmengen von $X$, sodass
+$$\bigsqcup_{P \in \cP}P = X$$
+gilt, dann ist $\cP$ eine \textbf{Partition} von $X$.
+\end{definition}
+
+Unsere Behauptung für Äquivalenzrelationen und Partitionen ist also folgende:
+
+\begin{satz}{Äquivalenzrelationen und Partitionen}{}
+Für eine Menge $X$ entsprechen Äquivalenzrelationen und Partitionen einander wie folgt: Für eine Äquivalenzrelation $\sim$ lässt sich die Partition $\cP_\sim$ finden:
+$$\cP_\sim = \{[x]_\sim \mid x \in X \}$$
+und für eine Partition $\cP$ lässt sich die Äquivalenzrelation $\sim_\cP$ finden:
+$$x \sim_\cP y \iff \exists P \in \cP: x \in P \land y \in P$$
+Des Weiteren soll diese Konstruktionen invers zueinander sein:
+$$\cP_{(\sim_\cP)} = \cP \text{ und } \sim_{(\cP_\sim)} =\ \sim$$
+\end{satz}
+\begin{proof} Sei $\sim$ eine Äquivalenzrelation und sei $\cP_\sim$ so definiert wie oben, dann gilt für die Vereinigung $\bigcup_{P \in \cP_\sim} P = X$, da wegen der Reflexivität für jedes $x \in X: x \in [x]_\sim \in \cP_\sim$ gilt. Die Disjunktheit aller $P \in \cP_\sim$ folgt aus der Negation von Lemma \ref{lem:prop_of_equivclass}. Somit ist $\cP_\sim$ wie behauptet eine Partition.
+
+Sei nun $\cP$ eine Partition und $\sim_\cP$ eine Relation wie oben definiert. Wir wollen zeigen, dass $\sim_\cP$ eine Äquivalenzrelation ist. Jedes Element $x$ von $X$ ist nach der Definition einer Partition genau einer Menge von $\cP$ enthalten. Aus der Definition von $\sim_\cP$ folgt, dass somit jedes $x$ mit sich selber in Relation steht, somit ist $\sim_\cP$ reflexiv. Sei nun $x \sim_\cP y$. Aufgrund der Kommutativität von $\land$ folgt direkt $y \sim_\cP x$, also ist $\sim_\cP$ symmetrisch. Seien nun $x \sim_\cP y$ und $y \sim_\cP z$. Also gilt $x,y \in P_1$ und $y,z \in P_2$. Da $y \in P_1 \cap P_2$ ist, die Mengen von $\cP$ jedoch paarweise disjunkt sind, gilt $P_1 = P_2$ und somit auch $x,z \in P_{1,2}$, woraus $x \sim_\cP z$ und die Transitivität folgt. $\sim_\cP$ ist somit eine Äquivalenzrelation.
+
+Um die letzten Behauptungen zu zeigen, setzen wir die Definitionen ineinander ein: Für eine Partition $\cP$ gilt $\cP_{(\sim_\cP)} = \{[x]_{\sim_\cP} \mid x \in X\} = \{\{y \in X \mid  \exists P \in \cP: x \in P \land y \in P \} \mid \ x \in X\}$. Da $\cP$ eine Partition ist, kann jedem $x \in X$ einem bestimmten $P \in \cP$ zugeordnet werden. Daraus folgt durch Umordnung der Quantoren $\{\{y \in X \mid y \in P \} \mid x \in X: \exists! P \in \cP: x \in P\}$, welches äquivalent ist zu $\{\{y \in X \mid y \in P \} \mid P \in \cP\} = \{P \mid P \in \cP\} = \cP$.
+
+Umgekehrt sei $\sim$ eine Äquivalenzrelation, dann gilt für beliebige $x,y \in X$ : $x \sim_{(\cP_\sim)} y \iff \exists P \in \cP_\sim: x \in P \land y \in P \iff \exists P \in \{[x]_\sim \mid x \in X \}: x \in P \land y \in P $. Da $x$ wegen der Reflexivität und der Disjunktheit aus Lemma \ref{lem:prop_of_equivclass} selber genau nur in $[x]_\sim$ enthalten ist, kann die Aussage nur dann wahr sein, wenn $x \in P$ gilt, also genau dann, wenn $P = [x]_\sim$. Darum können wir auch $x \sim_{(\cP_\sim)} y \iff y \in [x]_\sim $ schreiben. Daraus folgt direkt, dass $y \sim x$ gilt und die Behauptung ist gezeigt.
+
+\textit{Ein etwas anderer Beweis lässt sich im Skript in Abschnitt 1.62 finden.}
+\end{proof}
+
+Was lernen wir daraus? Anders wie allgemeine Relationen auf $X$, können Äquivalenzrelationen auch eindeutig als Partition $\cP$ der Menge $X$ definiert werden. Übrigens ist dann die Quotientenmenge $X/\!\sim$ einer Äquivalenzrelation, welche wir jetzt noch nicht gross erwähnt haben, sehr ähnlich zur Partition $\cP_\sim$: Beide enthalten die Mengen der Elemente, welche zueinander in Relation stehen. Man kann sich beide gut als Menge der verschiedenen Gleichheiten von $\sim$ vorstellen.
+
+\subsection{Teilordnung} \label{cha_partial_order}
+Je nach Anwendung ist es praktisch, wenn man eine Menge sortieren kann. So kann man z.B. die Menge der Münzen und Noten einer Währung nach ihrem Wert sortieren. Hierfür definieren wir eine Relation auf der zu ordnenden Menge, welche wir \textbf{Teilordnung} nennen:
+
+\begin{definition}{Teilordnung}{}
+Sei $\preceq$ eine Relation auf der Menge $X$, wir nennen $\preceq$ eine \textbf{Teilordnung}, falls sie für $x,y,z \in X$ folgende Eigenschaften aufweist:
+\begin{enumerate}
+    \item Reflexivität ($x \preceq x$)
+    \item \textbf{Antisymmetrie} ($x \preceq y \land y \preceq x \implies x = y$)
+    \item Transitivität ($x \preceq y \land y \preceq z \implies x \preceq z$)
+\end{enumerate}
+\end{definition}
+\begin{example} \label{ex_partial_order}
+Wir erkennen schnell, dass für eine Menge $X$ die Relation $\subseteq$ auf $\cP(X)$ alle Bedingungen für Teilordnungen erfüllt. Ein anderes, uns bekanntes Beispiel ist die Relation $\geq$ auf $\N$, wobei die mengentheoretisch durch $a \geq b \iff I_a \supseteq I_b \iff \{1, ..., a\} \supseteq \{1,...,b\}$ definiert ist. 
+\end{example}
+\begin{definition}{lineare Ordnung} Falls eine Teilordnung $\preceq$ auf $X$ zudem noch
+\begin{enumerate}[resume]
+    \item $\forall x,y \in X : x \preceq y \lor y \preceq x$
+\end{enumerate}
+erfüllt, dann nennen wir sie eine \textbf{lineare} oder \textbf{totale Ordnung}.
+\end{definition}
+Mit dieser Eigenschaft wird nun garantiert, dass jedes Paar aus $X$ in genau einer Richtung in Relation steht.
+\begin{example}[Fortsetzung Beispiel \ref{ex_partial_order}]
+Somit ist $\subseteq$ auf einer Potenzmenge keine totale Ordnung. Sei $X = \{1, 2\}$, dann ist $\cP(X) = \{\emptyset, \{1\}, \{2\}, \{1,2\}\}$. Für $\preceq$ haben wir also folgende Menge an Relationen: 
+\begin{align*}
+    \big\{\quad (\emptyset&, \{1\}),& (\emptyset,& \{2\}),& (\emptyset,& \{1, 2\}),& (\{1\},& \{1, 2\}),& (\{2\},& \{1, 2\})\quad \big\}
+\end{align*}
+Wir sehen also, dass weder $(\{1\}, \{2\})$ noch $(\{2\}, \{1\})$ in Relation stehen, welches einer linearen Ordnung widerspricht. $\geq$ auf $\N$ hingegen ist eine lineare Ordnung.
+\end{example}
+
+\section{Mächtigkeit}
+
+\todo{Kardinalität, Gleichmächtig, ''Schmächtig'', Cantor-Schroeder-Bernstein, Cantor: $|\mathcal{P}(A)| > |A|$}
+
+\section{Algebraische Strukturen}
+Wir brauchen beim Rechnen mit Zahlen gar nicht zu überlegen, ob $a + b$ und $b + a$ dasselbe ist. Für uns sind diese und einige andere Eigenschaften schon praktisch selbstverständlich, jedoch müssen wir uns bewusst sein, dass diese Mengen bereits spezielle Strukturen hat, die diese Operationen erlauben.
+
+In den folgenden Abschnitten wollen wir zeigen, wie \textbf{Verknüpfungen}\footnote{Verknüpfungen einer Menge $A$ sind binäre Abbildungen von $A \times A$ nach $A$.} auf die Elemente einer Menge $A$ zu wirken haben, um sie nach ihrer Struktur klassifizieren zu können. Hierfür zuerst einige Begriffe zu Eigenschaften von Verknüpfungen:
+
+\begin{definition}{Assoziativität, Kommutativität}{}
+Sei $\bullet: A^2 \to A$ eine Verknüpfung auf $A$ und $a, b, c$ beliebige Elemente aus $A$.
+
+Wir nennen $\bullet$ \textbf{assoziativ}, falls $a \bullet (b \bullet c) = (a \bullet b) \bullet c$ gilt.
+
+Wir nennen $\bullet$ \textbf{kommutativ}, falls $a \bullet b = b \bullet a$ gilt.
+\end{definition}
+
+\subsection{Gruppe}
+\begin{definition}{Gruppe}{}
+Eine \textbf{Gruppe} $(G, n, \bullet)$ ist eine Menge $G$ versehen mit dem \textbf{neutralen Element} $n$ und einer Verknüpfung $\bullet: G \times G \to G$, für die gilt:
+\begin{enumerate}
+    \item $\bullet$ ist assoziativ
+    \item $\forall g \in G : n \bullet g = g \bullet n = g$ \hfill (\textit{Neutralelement})
+    \item $\forall g \in G \ \exists g' \in G : g \bullet g' = g' \bullet g = n$ \hfill (\textit{Inverse})
+\end{enumerate}
+Falls  $\bullet$ zudem kommutativ ist, nennen wir $(G, \bullet, n)$ eine \textbf{abelsche Gruppe}.
+\end{definition}
+
+\begin{example}[Bijektive Funktionen als Gruppe] Sei $A$ eine Menge und $G = \{f \in A^A \mid f \text{ bijektiv}\}$, dann ist $(G, \circ, id_A)$ eine Gruppe:
+
+Die Assoziativität der Gruppe folgt aus der Assoziativität der Verknüpfung $\circ$ von Funktionen, die Eigenschaften des Neutralelementes aus den der Identitätsabbildung. Da alle $f\in G$ auch bijektiv sind, lässt sich auch die Inverse $f^{-1}$ finden, für welche per Definition $f \circ f^{-1} = f^{-1} \circ f = id_A$ gilt. Da $\circ$ im Allgemeinen nicht kommutativ ist, ist $(G, \circ, id_A)$ keine abelsche Gruppe.
+
+Einen Spezialfall erhalten wir, wenn $A = \{1, ..., n\}$, dann nennen wir die Menge aus bijektiven Funktionen in $A^A$ die \textbf{n-te symmetrische Gruppe} $S_n$. Deren Elemente nennen wir \textbf{Permutationen}. Dieses sind Abbildungen, die $n$ Elementen ''vertauschen''. $S_n$ ist nicht kommutativ für $n \geq 3$
+\end{example}
+
+\begin{example}[abelsche Gruppe] Wir können schnell verifizieren, dass $(\Z, +, 0)$ eine abelsche Gruppe ist. Hierfür verwenden wir $-a$ als Inverse von $a$. $(G, \cdot, 1)$ ist hingegen keine Gruppe, da z.B. $2 \in \Z$ kein Inverses in $\Z$ besitzt.
+\end{example}
+
+\begin{satz}{Eindeutigkeit des Neutralelements und der Inversen}{} Sei $(G, \bullet, n)$ eine Gruppe und $g \in G$, dann
+\begin{enumerate}
+    \item ist die Inverse $g^{-1}$ ist eindeutig durch $g$ gegeben.
+    \item ist das Neutralelement ist eindeutig.
+\end{enumerate}
+\end{satz}
+
+\begin{proof} {\ }
+\begin{enumerate}
+    \item Seien $g^{-1}_1, g^{-1}_2 \in G$ zwei Inversen von $g$: $g^{-1}_1 \bullet g = n =  g \bullet g^{-1}_2$. Dann erhalten wir:
+    $$g^{-1}_1 = g^{-1}_1 \bullet n = g^{-1}_1 \bullet (g \bullet g^{-1}_2) = (g^{-1}_1 \bullet g) \bullet g^{-1}_2 = n \bullet g^{-1}_2 = g^{-1}_2$$
+    \item Seien $n,n'$ zwei Neutralelemente: $g \bullet n = n' \bullet g = g$. Für $g = n$ erhalten wir:
+    $$n' = n' \bullet n = n$$
+\end{enumerate}
+
+\end{proof}
+
+\subsection{Ring}
+Auch wenn wir die Struktur des \textbf{Rings} weniger verwenden werden, wollen wir den vollständigkeitshalber definieren:
+\begin{definition}{Ring}{}
+Ein \textbf{Ring} $(R, +, \cdot,0)$ ist eine Menge $R$ mit zwei Operationen $+,\cdot: R \times R \to \R$ und $0 \in R$, für die gilt:
+
+\begin{enumerate}
+    \item $(R, +, 0)$ ist eine abelsche Gruppe
+    \item $\cdot$ ist assoziativ
+    \item Es gilt das \textbf{Distributivgesetz}: 
+    \begin{align*}
+        \forall a,b,c \in R: (a + b) \cdot c &= a \cdot c + b \cdot c\\
+                             c \cdot (a + b) &= c \cdot a + c \cdot b
+    \end{align*}
+\end{enumerate}
+Falls ein Ring ein Element $1$ mit der Eigenschaft $a \cdot 1 = 1 \cdot a = a$ für alle $a \in R$ hat, dann nennen wir ihn einen \textbf{Ring mit eins}.
+
+Falls  $\cdot$ kommutativ ist, nennen wir $(G, +, \cdot, 0)$ einen \textbf{kommutativen Ring}.
+\end{definition}
+\begin{example}[ ] $(\Z, +, \cdot, 0, 1)$ ist ein kommutativer Ring mit eins:
+\begin{itemize}
+    \item $+$ ist assoziativ, kommutativ mit Neutralelement $0$
+    \item $\cdot$ ist assoziativ, kommutativ mit Neutralelement $1$
+    \item Es gilt das Distributivgesetz.
+    \item Für jedes $a \in \Z$ gibt es ein (eindeutiges) Element $(-a) \in \Z$, sodass $a + (-a) = 0$ gilt.
+\end{itemize}
+\end{example}
+
+\subsection{Körper}
+Nun kommen wir zur wichtigsten Struktur der Analysis, welche wir von den rationalen und reellen Zahlen kennen, weswegen wir nun etwas ausführlicher vorgehen werden mit den Definitionen:
+\begin{definition}{Körper}{}
+Ein \textbf{Körper} [field] $(K, +, \cdot,0, 1)$ ist eine Menge $R$ mit zwei Operationen $+,\cdot: K \times K \to K$ und $0, 1 \in K$, für die gilt:
+
+\textbf{$(K, +,0)$ bildet eine kommutative Gruppe:}
+\begin{enumerate}[label={K\arabic*)}]
+    \item $\forall a \in K: 0+a = a + 0 = a$ \hfill (\textit{Nullelement})
+    \item $\forall a \in K, \ \exists (-a) \in K: a + (-a) = (-a) + a = 0$ \hfill (\textit{additive Inverse})
+    \item $+$ ist assoziativ
+    \item $+$ ist kommutativ
+\end{enumerate}
+\textbf{$(K^\times, \cdot,1)$ bildet eine kommutative Gruppe. $K^\times := K\setminus\{0\}$}
+\begin{enumerate}[resume, label={K\arabic*)}]
+    \item $\forall a \in K^\times: 1 \cdot a = a \cdot 1 = a$ \hfill (\textit{Einselement})
+    \item $\forall a \in K^\times \ \exists a^{-1} \in K^\times: a \cdot a^{-1} = a^{-1} \cdot a = 1$ \hfill (\textit{multiplikative Inverse})
+    \item $\cdot$ ist assoziativ
+    \item $\cdot$ ist kommutativ
+\end{enumerate}
+\textbf{Kompatibilität von $+$ und $\cdot$}
+\begin{enumerate}[resume, label=K\arabic*)]
+    \item $\forall a,b,c \in K: (a + b) \cdot c = a \cdot c + b \cdot c$ \hfill (\textit{Distributivgesetz})
+\end{enumerate}
+\end{definition}
+
+\begin{remark}
+Wir nennen einen Körper \textbf{angeordnet}, wenn Relation wie $\leq$ darauf definiert werden kann, welche die Elemente der Menge der ''Grösse'' nach ordnet. \textbf{Vollständig} nennen wir Körper, die keine ''Lücken'' haben. Somit ist $\Q$ ein angeordneter Körper, $\R$ ein vollständig angeordneter Körper und $\C$ ein vollständiger  Körper.
+\end{remark}
+
+Körper haben mit all diesen Vorgaben neben den von der Gruppen und Ringen ''geerbten'' auch noch eine weitere wichtige Eigenschaft, die
+
+\begin{definition}{Nullteilerfreiheit}{} Sei $K$ ein Körper (mit $+$ und $\cdot$) und $a,b \in K$, dann gilt:
+$$a \cdot b = 0 \iff a = 0 \lor b = 0$$
+\end{definition}
+
+\begin{proof}
+Seien $x,y$ Elemente eines Körpers und gelte $x \cdot y = 0$. Sei $x \neq 0$, dann existiert $x^{-1}$. 
+Es folgt $0 = x^{-1} \cdot 0 = x^{-1} \cdot (x \cdot y) = (x^{-1} \cdot x) \cdot y = y$, also $y = 0$. Es gilt also $x=0$ oder $y=0$.
+\end{proof}
+
+Diese Eigenschaft ist im Wesentlichen das, was einen Körper ausmacht: Sie besagt, dass es keine ''Nullteiler'' hat, also dass keine zwei Elemente $a,b$ in $K^\times$ gibt, welche $a \cdot b = 0$ ergeben und somit Teiler von $0$ wären, die selber nicht gleich $0$ sind. Die Nullteilerfreiheit erlaubt es uns, aus Ringen Körper zu konstruieren (siehe Konstruktion von $\Q$ aus $\Z$ in Abschnitt \ref{cha_rationals}). 
+
+Aus den Körperaxiomen kann man dann noch folgende Rechenregeln herleiten:
+\begin{satz}{Rechenregeln im Körper}{} Sei $(K, +, \cdot,0, 1)$ ein Körper und $x,y,z \in K$, dann gilt:
+\begin{enumerate}[label=\alph*)]
+    \item $-(-x) = x$ \hfill (\textit{Eindeutigkeit der add. Inversen})
+    \item $x+z = y+z \implies x = y$\hfill (\textit{additives Kürzen})
+    \item $-0 = 0$
+    \item $-(x+y) = (-x) + (-y)$
+    \item $x\cdot 0 = 0$
+    \item $(-1)x = -x$
+    \item $z \neq 0: xz = yz  \neq 0 \implies x = y$\hfill (\textit{multiplikatives Kürzen})
+    \item $x \neq 0: (x^{-1})^{-1} = x$ \hfill (\textit{Eindeutigkeit der mult. Inversen})
+    \item $(-x)(-y) = xy$
+    \item $(-x)y = x(-y) = -(xy)$
+    \item $(x + y)(x - y) = x^2 - y^2$ mit $x^2 := x\cdot x$ und $x - y := x + (-y)$
+\end{enumerate}
+\end{satz}
+\begin{proof}\ 
+\begin{enumerate}[label=\alph*)]
+    \item Folgt aus den Gruppenaxiomen von $(K, +, 0)$.
+    \item $x \stackrel{K1, K2}{=} ((-z) + z) + x \stackrel{K3}{=} -z + (z +x)\stackrel{b)}{=} -z + (z + y) \stackrel{K3}{=} (-z + z) + y \stackrel{K2, K1}{=} y $
+    \item $0 \stackrel{K1, K2}{=} 0 + (0 + (-0)) \stackrel{K3}{=} (0 + 0) + (-0) \stackrel{K1, K1}{=} -0$
+    \item $0 \stackrel{K1, K2}{=} (-x)+x+(-y)+y \stackrel{K3, K4}{=} (x+y) + (-y) + (-x) \stackrel{K2}{\implies} (-y) + (-x) = -(x+y)$
+    \item $x\cdot0 \stackrel{K1}{=} x(0+0) \stackrel{K9}{=} x\cdot 0 + x \cdot 0 \stackrel{b)}{\implies} 0 = x \cdot 0$ 
+    \item $0 \stackrel{e)}{=} x \cdot 0 \stackrel{K2}{=} x(1 + (-1)) \stackrel{K9, K5}{=} x + (-1)x \stackrel{K2}{\implies} -x = (-1)x$
+    \item $x \stackrel{K5, K6}{=} (z^{-1} z)x\stackrel{K7, K8}{=}z^{-1}(xz)\stackrel{g)}{=}z^{-1}(yz)\stackrel{K7, K8}{=}(z^{-1}z)y\stackrel{K5, K6}{=}y$
+    \item Folgt aus den Gruppenaxiomen von $(K^\times, \cdot, 1)$.
+    \item $(-x)(-y) \stackrel{f)}{=}(-1)x(-1)y\stackrel{K7}{=}(-1)(-1)xy\stackrel{f)}{=}-(-1)xy\stackrel{a)}{=}xy$
+    \item $(-x)y \stackrel{f)}{=}((-1)x)y\stackrel{K8}{=}(-1)(xy)\stackrel{f)}{=}-(xy) \rightsquigarrow x(-y)$
+    \item $(x+y)(x-y) \stackrel{K9}{=} (x+y)x-(x+y)y \stackrel{K9, K9}{=} (x^2+yx)-(xy-y^2) \stackrel{K4, K7}{=} x^2+(xy-xy)-y^2 \stackrel{K2, K1}{=} x^2-y^2$
+\end{enumerate}
+\end{proof}
+
+\begin{exercise}[Gut für das Verständnis aller Körperaxiome] Zeige die Rechenregeln für Körper. Warum hat 0 keine multiplikative Inverse?
+\end{exercise}
+
+\begin{example}[Endliche Körper] \textsc{Galois} hat gezeigt, dass $\mathbb{F}_q = \{0,...,q-1\}$ mit $+, \cdot$ für Primzahlpotenzen $q = p^n$, $p$ prim und $n\in N$, eindeutige Körper bilden (bis auf Isomorphismus).
+Für $n = 1$ erhalten wir die uns bekannte Moduloarithmetik. Wir können $+$ und $\cdot$ z.B. auf $\mathbb{F}_2$ und $\mathbb{F}_5$ tabellarisch zeigen:
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{c|c c}
+        $+$       & $\bar{0}$ & $\bar{1}$\\
+        \hline
+        $\bar{0}$ & $\bar{0}$ & $\bar{1}$ \\
+        $\bar{1}$ & $\bar{1}$ & $\bar{0}$
+    \end{tabular}
+    \qquad
+    \begin{tabular}{c|c c}
+        $\cdot$       & $\bar{0}$ & $\bar{1}$\\
+        \hline
+        $\bar{0}$ & $\bar{0}$ & $\bar{0}$ \\
+        $\bar{1}$ & $\bar{0}$ & $\bar{1}$
+    \end{tabular}
+\end{table}
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{c|c c c c c}
+        $+$       & $\bar{0}$ & $\bar{1}$& $\bar{2}$ & $\bar{3}$ & $\bar{4}$\\
+        \hline
+        $\bar{0}$ & $\bar{0}$ & $\bar{1}$& $\bar{2}$ & $\bar{3}$ & $\bar{4}$\\
+        $\bar{1}$ & $\bar{1}$& $\bar{2}$ & $\bar{3}$ & $\bar{4}$ & $\bar{0}$\\
+        $\bar{2}$& $\bar{2}$ & $\bar{3}$ & $\bar{4}$ & $\bar{0}$ & $\bar{1}$\\
+        $\bar{3}$ & $\bar{3}$ & $\bar{4}$ & $\bar{0}$ & $\bar{1}$& $\bar{2}$\\
+        $\bar{4}$  & $\bar{4}$ & $\bar{0}$ & $\bar{1}$& $\bar{2}$& $\bar{3}$\\
+    \end{tabular}
+    \qquad
+    \begin{tabular}{c|c c c c c}
+        $\cdot$       & $\bar{0}$ & $\bar{1}$& $\bar{2}$ & $\bar{3}$ & $\bar{4}$\\
+        \hline
+        $\bar{0}$ & $\bar{0}$ & $\bar{0}$& $\bar{0}$ & $\bar{0}$ & $\bar{0}$\\
+        $\bar{1}$ & $\bar{0}$& $\bar{1}$ & $\bar{2}$ & $\bar{3}$ & $\bar{4}$\\
+        $\bar{2}$& $\bar{0}$ & $\bar{2}$ & $\bar{4}$ & $\bar{1}$ & $\bar{3}$\\
+        $\bar{3}$ & $\bar{0}$ & $\bar{3}$ & $\bar{1}$ & $\bar{4}$& $\bar{2}$\\
+        $\bar{4}$  & $\bar{0}$ & $\bar{4}$ & $\bar{3}$& $\bar{2}$& $\bar{1}$\\
+    \end{tabular}
+\end{table}
+
+Man kann durch Ablesen verifizieren, dass es für jedes Element $\in \mathbb{F}_p$ ein einziges additives und für jedes Element $\in \mathbb{F}_p^\times$ ein einziges multiplikatives Inverses gibt und tatsächlich alle Körperaxiome erfüllt sind.
+\end{example}
+
+\begin{definition}{Charakteristik}{}
+Wir definieren die Charakteristik eines Körpers durch
+$$\text{char}(K) = \begin{cases} \min\{n \mid n \cdot 1 = 0\} & \exists n < \infty: n \cdot 1 = 0 \\ 0 & \forall n: n \cdot 1 \neq 0 \end{cases}$$
+\end{definition}
+
+\begin{remark}
+Mit dieser Definition erhalten wir z.B. für $\mathbb{F}_2$ einen Körper mit $\text{char}(\mathbb{F}_2) = 2$
+\end{remark}
+
+\subsubsection{Geordneter Körper}\label{cha_ordered_field}
+
+Je nach dem kann ein Körper weitere Eigenschaften erfüllen, nämlich dass sich seine Elemente sinnvoll ordnen lassen. Wir führen daher den Begriff der \textbf{geordneten Körper} ein:
+\begin{definition}{geordneter Körper}{} Sei $(K, +, \cdot, 0, 1)$ ein Körper und $\preceq$ eine Relation auf $K$. Wir nennen $(K, +, \cdot, 0, 1, \preceq)$ einen \textbf{geordneten Körper} [ordered field], falls neben den Körperaxiomen zusätzlich folgende Eigenschaften erfüllt sind:
+
+\textbf{$\leq$ ist eine lineare Ordnungsrelation}\footnote{siehe Abschnitt \ref{cha_partial_order}}
+\begin{enumerate} [label=O\arabic*)]
+    \item $\forall x \in K : x \leq x$ \hfill (\textit{Reflexivität})
+    \item $\forall x,y \in K : x \leq y \land y \leq x \implies x = y$ \hfill (\textit{Antisymmetrie})
+    \item $\forall x,y, z \in K : x \leq y \land y \leq z \implies x \leq z$ \hfill (\textit{Transitivität})
+    \item $\forall x,y \in K : x \leq y \lor y \leq x$ \hfill (\textit{lineare Ordnung})
+\end{enumerate}
+\textbf{Kompatibilität von $\leq$}
+\begin{enumerate} [resume, label=O\arabic*)]
+    \item $\forall x,y,z \in K: x \leq y \implies x + z \leq y + z$\hfill (\textit{additive Kompatibilität})
+    \item $\forall x,y \in K: 0 \leq x \land 0 \leq y \implies 0 \leq xy$\hfill (\textit{multiplikative Kompatibilität})
+\end{enumerate}
+Wir schreiben zudem $x\geq y \iff y \leq x$ und $x < y \iff x \leq y \land x \neq y$. Es folgt $x > y \iff y < x$.
+\end{definition}
+
+Wir haben also einen Begriff für die Ordnung auf einem Körper definieren können. Für einen geordneten Körper lassen sich nun einige Eigenschaften herleiten:
+
+\begin{satz}{Folgerungen für geordnete Körper}{}
+ Sei $(K, +, \cdot,0, 1, \leq)$ ein geordneter Körper und $w,x,y,z \in K$, dann gilt:
+\begin{enumerate}[label=\alph*)]
+    \item Es gilt entweder $x<y$, $x=y$ oder $x>y$ \hfill (\textit{Trichotomie})
+    \item $x < y \land y \leq z \implies x < z$
+    \item $x \leq y \land w \leq z \implies x + w \leq y + z$ 
+    \item $x \leq y \iff 0 \leq y - x$
+    \item $x^2 = x\cdot x \geq 0$ und $x^2 = 0 \implies x = 0$
+    \item $x \geq 0, y \leq z \implies xy \leq xz$
+    \item $x \leq 0, y \leq z \implies xy \geq xz$
+    \item $0<x\leq y \implies 0 < y^{-1} \leq x^{-1}$
+\end{enumerate}
+\end{satz}
+\begin{proof}\ 
+\begin{enumerate}[label=\alph*)]
+    \item O4) gilt immer. Falls $x = y \stackrel{def. <}{\implies} x \nless y \land x \ngtr y$, falls $x \neq y \stackrel{\neg O2)}{\implies} x \nleq y \lor x \nleq y$. Aus der Umkehrung der Relationen erhalten wir $x > y \lor x < y$, wovon wegen O2) nur eine Aussage gilt.
+    \item $x \neq y \land x \leq y \land y \leq z \stackrel{O3)}{\implies} x \leq z$. Um die strikte Ungleichheit zu zeigen, nehme $x = z$ an: $x \neq y \land x \leq y \land y \leq x \stackrel{O3)}{\implies}  x \neq y \land x = y$ Widerspruch $\implies x < z$
+    \item O5): $x + w \leq y + w$ und $w + y \leq z + y$. Aus K4) und O3) folgt $x + w \leq y + z$.
+    \item $x \leq y \stackrel{O5)}{\implies} x + (-x) \leq y + (-x) \iff 0 \leq y - x$ und $0 \leq y - x \stackrel{O5)}{\implies} x \leq y$.
+    \item Verwende a) (Trichotomie): Sei $x \geq 0 : x \cdot x \stackrel{O6)}{\implies} x^2 \geq 0$. Sei $x \leq 0 \stackrel{d)}{\implies} 0 > -x \stackrel{O6)}{\implies} (-x)(-x) = -(-1)x^2 = x^2 > 0$. Sei $x^2=0$, aus Nullteilerfreiheit folgt $x=0$.
+    \item $y \leq z \stackrel{d)}{\implies} 0 \leq z - y \stackrel{O6)}{\implies} 0 \leq x(z-y) = xz - xy \stackrel{d)}{\implies} xy \leq xz$
+    \item $x \leq 0 \stackrel{d)}{\implies} 0 \leq -x$. Aus f) mit $(-x)$ folgt: $(-x)y \leq (-x)z \iff -(xy) \leq -(xz) \stackrel{O5, O5)}{\implies} xy + xz -(xy) \leq xy + xz -(xz) \iff xy \geq xz$
+    \item Es gilt: $xx^{-1} = 1 = 1^2 \stackrel{d)}{\geq} 0$. Da $1 \stackrel{K5)}{\neq} 0$ gilt $xx^{-1} > 0$. Mit O6) folgt, dass $x^{-1} > 0$, $y^{-1} > 0$ und auch $x^{-1}y^{-1} > 0$ gilt. $y^{-1}=y^{-1}x^{-1}x \stackrel{O6)}{\leq}y^{-1}x^{-1}y = x^{-1}$.
+\end{enumerate}
+\end{proof}
+
+\subsubsection{vollständiger Körper}
+Man kann zeigen, dass je nach Konstruktion (z.B. diejenige von $\Q$) ein geordneter Körper Lücken haben kann. Es gibt daher noch eine weitere Eigenschaft, die ein Körper haben kann; sie kann \textbf{vollständig} sein resp. sie erfüllt das \textbf{Vollständigkeitsaxiom}. Dieses haben wir im Abschnitt \ref{cha_completeness} im Kontext von den reellen Zahlen definiert.

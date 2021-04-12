@@ -1,0 +1,660 @@
+\begin{savequote}[60mm]
+---Die natürlichen hat der liebe Gio geschaffen, alles andere ist Menschenwerk.
+\qauthor{Konfuzius}
+\end{savequote}
+
+
+\chapter{Zahlenmengen}
+
+In diesem Kapitel behandeln wir den axiomatischen Aufbau und die Eigenschaften verschiedener Zahlenmengen, insbesondere den reellen Zahlen.
+
+\section{Die natürlichen Zahlen} \label{cha_natural_numbers}
+Es beginnt wie im Kindergarten mit den Zahlen, welche mit mit den Fingern abzählen können: Die \textbf{natürlichen Zahlen}, geschrieben als $\N$. Wir wollen diese Zahlenmenge mithilfe der Axiome von \textsc{Giuseppe Peano} definieren:
+\subsection{\textsc{Peano}-Axiome}\label{cha_peano_axioms}
+\begin{enumerate}
+    \item $1$ ist eine natürliche Zahl\footnote{In Rahmen der Analysis Vorlesung verwenden wir diese Konvention. Andere definieren 0 als die kleinste natürliche Zahl.}.
+    \item  $1 \notin \nu(\N)$: Jede natürliche Zahl $n$ hat einen Nachfolger $\nu(n)$\footnote{$\nu(n)$ schreiben wir normalerweise als $n + 1$}, wobei $\nu: \N \to \N$ die \textbf{Nachfolgerfunktion} bezeichnet.
+    \item $\nu$ ist injektiv: Es $n = m$ gilt, falls $\nu(n) = \nu(m)$ gilt.
+    \item \textbf{Induktionsaxiom}: $A \subseteq \N \land 1 \in A \land \nu(A) \subseteq A \implies A = \N$
+    
+    In anderen Worten bedeutet das, dass eine Aussage $\mathcal{A}$ für alle natürlichen Zahlen gilt, wenn
+    \begin{itemize}
+        \item \textbf{Induktionsverankerung}: für die Aussage $\mathcal{A}(1)$ gilt und
+        \item \textbf{Induktionsschritt}: $\mathcal{A}(\nu(n))$ aus $\mathcal{A}(n)$ folgt.
+    \end{itemize} 
+    Daraus folgt, dass jede beliebig grosse natürliche Zahl durch ein endlich-oftes Anwenden der Nachfolgerfuktion erreicht werden kann. Auf diesem Axiom beruht auf der Induktionsbeweis in Kapitel \ref{cha_induction}. Es ist zu bemerken, dass die ''Zahlen'' $\pm \infty$ nicht zu den natürlichen Zahlen gehören, da diese durch die Addition von 1 nie erreicht werden können.
+\end{enumerate}
+\begin{remark}
+\textsc{Dedekind} hat gezeigt, dass es im wesentlichen nur eine Menge an natürlichen Zahlen gibt. Falls eine andere Zahlenmenge $\mathbb{A}$ ähnliche Eigenschaften hat wie $\N$, dann lässt sich eine eins-zu-eins-Abbildung (ein \textit{Isomorphismus}) $\Phi: \mathbb{A} \to \N$ finden, welche die Eigenschaften von beiden Mengen ineinander ''übersetzen'' kann.
+\end{remark}
+
+Wir wollen nun noch einige Sätze erwähnen, welche direkt aus den Axiomen folgen:
+
+\begin{satz}{Sätze zu den Peano-Axiomen}{}
+\begin{enumerate}
+    \item Jede Zahl ausser 1 ist ein Nachfolger einer natürlichen Zahl
+    \item Zu jedem $n\in \N$ gibt es genau eine Teilmenge $I_n$, sodass
+    \begin{enumerate}
+        \item $\forall k \in \N: \nu(k) \in I_n \implies k \in I_n$ und
+        \item $n \in I_n, \nu(n) \notin I_n$ gilt.
+    \end{enumerate}
+    $I_1 = \{1\}$. Für alle $n \in \N$ gilt rekursiv $I_{\nu(n)} = I_n \cup \{\nu(n)\} = \{1, ..., n\}$ Wir nennen diese Mengen \textbf{Anfangsmengen} [initial set].
+\end{enumerate}
+\end{satz}
+
+\begin{remark}
+Die Anfangsmengen $I_n$ können auch mithilfe des Urbildes von $\nu$ definiert werden: (a) $\nu^{-1}(I_n) \subseteq I_n$ und (b) $n \in I_n, \nu(n) \notin I_n$
+\end{remark}
+
+\begin{proof}\label{prf_no_successor} {\ }
+\begin{enumerate}
+    \item Um das zu zeigen, konstruieren wir die Menge $A = \{1\} \cup \nu(\N)$. Wir wissen aus dem zweiten Axiom, dass $1 \notin \nu(\N)$ gilt und haben das somit manuell zu $\nu(\N)$ hinzugefügt. Wir wollen nun zeigen, dass $A = \N$ gilt, denn dann wissen wir, dass es für eine beliebige Zahl $n \neq 1 \in \N$ ein $m \in \N$ gibt, sodass $n = \nu(m)$ gilt:
+    \newcommand{\ard}{\downarrow}
+    \begin{center}
+        \begin{tabular}{ccccccccccccc}
+            $\N=\big\{$ &1&,&2&,&3&,&4&,&5&,& ... \big\}  \\
+                        &&&$\ard$&&$\ard$&&$\ard$&&$\ard$&&\\
+            $A =\big\{$ &$1$&,&$\nu(1)$&,&$\nu(2)$&,&$\nu(3)$&,&$\nu(4)$&,& ... \big\} 
+        \end{tabular}
+    \end{center}
+    Wir verwenden hierfür das Induktionsaxiom: Für die Induktionsverankerung wissen wir bereits aus der Konstruktion von $A$, dass $1 \in A$ gilt. Wir nehmen an, dass $n \in A$ gilt. Da $A \subseteq \N$ ist, ist $n \in \N$. Daraus folgt wiederum aus der Konstruktion, dass $\nu(n) \in \nu(\N)$ also $\nu(n) \in A$ gelten muss. Der Induktionsschritt ist abgeschlossen und es folgt $A = \N$, was zu zeigen war. 
+    \item Wir verzichten hier auf den Beweis, grundsätzlich kann man die Existenz und die Eindeutigkeit ebenfalls durch Induktion zeigen.
+\end{enumerate}
+\end{proof}
+
+\begin{remark}(Mengentheoretische Konstruktion von $\N$) Zwar haben wir $\N$ axiomatisch eingeführt, jedoch haben wir die Existenz einer solchen Menge noch nicht gezeigt. Die folgende mengentheoretische Konstruktion stammt von \textsc{John von Neumann} und verwendet hierzu ausschliesslich die von den \textsc{Zermelo-Fraenkel}-Axiomen gegeben Mittel: leere Mengen und Mengen von Mengen:
+\begin{align*}
+    1 &:= \{\emptyset\}\\
+    \nu(n) &:= n \cup \{n\}\\
+    2 &:= \{\emptyset, \{\emptyset\}\}\\
+    3 &:= \{\emptyset, \{\emptyset\}, \{\emptyset, \{\emptyset\}\}\}\\
+    &...
+\end{align*}
+Das zeigt, dass sich die natürlichen Zahlen ebenfalls aus der Mengenlehre ableiten lässt. Wir werden jedoch diese ''Urform'' der natürlichen Zahlen praktisch nie brauchen; wir werden uns stattdessen (auch im Allgemeinen in anderen Theorien) auf die Axiome stützen und brauchen nur zu wissen, dass sie auf mengentheoretische Konstruktionen zurückzuführen sind.
+\end{remark}
+
+\subsection{Operationen auf $\N$}
+
+Mit diesem Gerüst kann man nun Operationen wie $+,\cdot$ aus den Axiomen herleiten. Folgend werden wir die Addition und Multiplikation definieren:
+
+\begin{definition}{Addition in $\N$}{}
+\begin{align*}
+    +: \N \times \N &\to \N\\
+    (n,m) &\mapsto n + m
+\end{align*}
+Für $n+m$ definieren für jedes $n \in \N$ die Abbildung $m \mapsto n + m$ rekursiv:
+$$n + m = \begin{cases}\nu(n)&\text{falls }m = 1 \\ \nu(n + \tilde{m}) & \text{falls } m\neq1 \implies \exists \tilde{m}: \nu(\tilde{m}) = m\end{cases}$$
+\end{definition}
+\begin{example}[ ] Es gilt also für die Rechnung $2+3$:
+$$2 + 3 = \nu(2 + 2) = \nu(\nu(2 + 1)) = \nu(\nu(\nu(2))) = 2 + 1 + 1 + 1 = 5$$
+wobei in den letzten beiden Schritten die gängigen Konventionen verwendet wurden.
+\end{example}
+
+\begin{definition}{Multiplikation in $\N$}{}
+\begin{align*}
+    \bullet: \N \times \N &\to \N\\
+    (n,m) &\mapsto n \cdot m
+\end{align*}
+Auch hier definieren wir $n\cdot m$ für jedes $n \in \N$ die Abbildung $m \mapsto n \cdot m$ rekursiv:
+$$n \cdot m = \begin{cases}n&\text{falls }m = 1 \\ n + (n \cdot \tilde{m}) & \text{falls } m\neq1 \implies \exists \tilde{m}: \nu(\tilde{m}) = m\end{cases}$$
+\end{definition}
+\begin{example}[ ] Für $2\cdot3$ gilt also:
+\begin{align*}
+    2 \cdot 3 &= 2 + (2 \cdot 2) = 2 + (2 + (2 \cdot 1)) = 2 + (2 + 2) = 2 + (\nu(2 + 1))= 2 + \nu(\nu(2))\\
+              &= \nu(2 + \nu(2)) = \nu(\nu(2 + 2)) = \nu(\nu(\nu(2 + 1))) = \nu(\nu(\nu(\nu(2)))) = 6
+\end{align*}
+\end{example}
+
+Wir könnten des Weiteren zeigen, dass die soeben definierten Abbildungen für $+$ und $\cdot$ die üblichen Eigenschaften wie die Assoziativität, Kommutativität, die Distributivität und das Kürzen erfüllen:
+
+\begin{lemma}{Kürzen in $\N$}{}
+Es folgt (aus der Injektivität von $\nu$, also ohne der Definition der Subtraktion resp. der Division):
+\begin{align*}
+    n + m = p + m \implies n = p\\
+    n\cdot m = p \cdot m \implies n = p
+\end{align*}
+\end{lemma}
+
+\subsection{Relationen}\label{cha_natural_number_ff}
+Nun wollen wir eine Ordnung auf $\N$ definieren, also Relationen wie $<, >, \geq, \leq$. Da wir für Mengen bereits die Ordnungsrelation $\subseteq$ haben, wollen wir die Relationen auf $\N$ mit $\subseteq$ definieren:
+\begin{definition}{Relationen auf $\N$}{}
+Sei $I_n = \{1, ..., n\}$. Wir schreiben:
+\begin{align*}
+    n \leq m &\text{ falls } I_n \subseteq I_m &  n > m &\text{ falls } m < n\\
+    n < m &\text{ falls } n \leq m \land n \neq m & n \geq m &\text{ falls } m \leq n
+\end{align*}
+\end{definition}
+Es folgen daraus die üblichen Rechenregeln für alle natürlichen Zahlen $n, p, m$:
+\begin{align*}
+    n \leq p &\implies n + m \leq p + m\\
+    n \leq p &\implies n \cdot m \leq p \cdot m
+\end{align*}
+Mit den Relationen können wir nun z.B. $I_n$ definieren als $\{ k \in \N \mid 1 \geq k \geq n\}$
+
+\begin{lemma}{Anordnung von $\N$}{}
+\begin{enumerate}[label=(\alph*)]
+    \item $\forall n \in \N \implies n = 1 \lor n-1 \in \N$
+    \item $\forall n,m \in \N: n \leq m \leq n+1 \implies m = n \lor m = n+1$
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\begin{enumerate}[label=(\alph*)]
+    \item Falls $n \ne 1$ folgt $n \in \N \setminus \{1\}$. Aus den \textsc{Peano}-Axiomen folgt, dass jede natürliche Zahl ausser 1 Nachfolger einer Zahl ist: $\exists m \in \N: m+1 = n$, also gilt $ m = n - 1  \in \N$.
+    \item Siehe Script Lemma 2.18 oder Notizen vom 1.10.2020
+\end{enumerate}
+\end{proof}
+
+Hier wollen wir noch einige wichtige Eigenschaften von $\N$ erwähnen, welche auch aus den Axiomen folgen, jedoch werden wir sie nicht beweisen:
+\begin{satz}{Eigenschaften von $\N$}{}
+\begin{enumerate}[]
+    \item $\N$ ist \textbf{wohlgeordnet}: Jede nicht leere Teilmenge $A \subseteq \N$ hat ein eindeutiges kleinstes Element:
+    $$\forall A \subseteq \N: \exists! a_0 \in A, \forall a \in A: a_0 \leq a $$
+    \item \textbf{Division mit Rest}: Sei $\N_0 = \N \cup \{0\}$, dann gibt es für alle $n \in \N_0$ und $d\in\N$ einen eindeutigen ''Quotienten'' $q \in \N_0$ und Rest $r \in \N_0$ mit $0 \leq r < d$, sodass gilt:
+    $$n = qd + r$$
+    \item \textbf{Primfaktorzerlegung}: Jede natürliche Zahl $n$ lässt sich eindeutig als Produkt von endlich vielen Primzahlen (bis auf Reihenfolge) schreiben:
+    $$n = p_1\cdot ... \cdot p_k, \qquad p_i \text{ prim}$$
+    Wir verwenden die Konvention, dass das Produkt aus 0 Zahlen 1 ist.
+    $\forall n \in \N$ gibt es eindeutige $n_2, n_3, n_5, n_7,... \in \N_0$ (von denen nur endlich viele $\neq 0$ sind), sodass
+    $$n = 2^{n_2} \cdot 3^{n_3} \cdot 5^{n_5} \cdot 7^{n_7} \cdot ...$$
+\end{enumerate}
+\end{satz}
+
+\section{Die ganzen Zahlen}
+Wir wollen nun die Zahlenmenge $\N$ zu den ganzen Zahlen $\Z$ erweitern. Da aber die Subtraktion nicht definiert ist, müssen wir sie durch eine geschickte Konstruktionen mit Elementen aus $\N$ schaffen.
+
+Die Idee für die Konstruktion der ganzen Zahlen darauf, dass es sich dabei um die Differenz zweier ganzen Zahlen handelt. Wir bemerken noch kurz, dass die Darstellung durch die Differenz nicht eindeutig ist. Das werden wir gleich sehen.
+\begin{definition}{ganze Zahlen $\Z$}{}
+$\Z$ ist die Menge der Äquivalenzklassen für die Äquivalenzrelation $\sim$ auf $\N^2$:
+$$(n,m) \sim (n',m') \iff n + m' = n' + m$$
+\end{definition}
+Wir sehen nun, dass die Subtraktion ganz elegant umschifft wurde. So können wir $-3 \in \Z$ schreiben als $(1, 4), (2, 5)$ oder $(420, 423)$. Da all diese drei Paare die Äquivalenzrelation erfüllen, sind sie Repräsentanten der selben Äquivalenzklasse, also laut Definition für die selbe ganze Zahl. Gedanklich subtrahieren wir die rechte Zahl von der linken, die Konstruktion jedoch ist frei von jedem Minus-Zeichen.
+
+Wir haben in der Definition bereits erwähnt, dass $\sim$ ein Äquivalenzrelation ist. Dies wollen wir noch kurz beweisen:
+\begin{proof} Zu zeigen sind die Reflexivität, Symmetrie und Transitivität von $\sim$:
+\begin{enumerate}
+    \item Es gilt $(n, m) \sim (n, m)$ da $n + m = n + m$ (Addition ist kommutativ.)
+    \item Sei $(n, m) \sim (p, q)$, dann gilt:
+    \begin{align*}
+        (n, m) \sim (p, q)  &\iff n + q = p + m\\
+                            &\iff p + m = n + q\\
+                            &\iff (p, q) \sim (n, m)
+    \end{align*}
+    \item Seien $(n, m) \sim (p, q)$ und $(p, q) \sim (s, t)$, dann gelten $n + q = p + m$ und $p + t = s + q$. Daraus folgt durch Addition:
+    \begin{align*}
+     n + q + p + t &= p + m + s + q\\
+        n + t &= m + s\\
+        n + t &= s + m
+    \end{align*}
+    Also gilt $(n, m) \sim (s + t)$
+\end{enumerate}
+\end{proof}
+
+Da $\sim$ nun eine Äquivalenzrelation ist, wir $\N^2$ partitioniert: $[(n,m)]$ ist dabei die Äquivalenzklasse von $(n,m)$, zu der alle anderen Paare mit der selben Differenz gehören. Man sieht schnell, dass z.B. $[(n,m)] = [(n + p,m + p)]$ gilt. Zudem finden wir für jede Äquivalenzklasse aus $\Z$ einen eindeutigen Repräsentanten der Form $(n+1, 1) =: n \in \Z$, $(1, 1) =: 0 \in \Z$ und $(1, 1+n) =: -n \in \Z$ ($n \in \N$).
+
+\subsection{$\N \subseteq \Z$}
+Wir können eine kanonische Abbildung $\Phi: \Z \to \N$ wie folgt definieren:  $n \mapsto [(n+1,1)]$ (Bemerke, dass der Versatz, hier 1, gleich sein muss, aber ansonsten frei wählbar ist, da die Äquivalenzklasse invariant ist unter Verschieben der Differenz.) Wir erhalten also $\Phi: n \in \N \mapsto n \in \Z$. Unter $\Phi$ können wir nun $\N$ als Teilmenge von $\Z$ auffassen\footnote{Genau ausgedrückt meinen wir mit ''als Teilmenge unter $\Phi$ auffassen'' $\Phi(\N) \subseteq \Z$.}:
+$$ \Z = \N \cup \{0\} \cup \{-n \mid n \in \N\}$$
+
+
+\subsection{Operationen auf $\Z$}
+Wir werden nun wie für $\N$ die Addition als auch die Multiplikation auf $\Z$ definieren:
+\begin{definition}{Addition auf $\Z$}{}
+\begin{align*}
+    +: \Z \times \Z &\to \Z\\
+    \big([(n,m)], [(p, q)]\big) &\mapsto ([n + p, m + q])
+\end{align*}
+\end{definition}
+Das diese Definition Sinn ergibt, ist nicht direkt offensichtlich. Wir müssen also zeigen, dass diese Abbildung wohldefiniert ist. In diesem Fall, da es eine Abbildung über Äquivalenzklassen ist, wollen wir v.a. die Repräsentantenunabhängigkeit prüfen: Wir müssen also zeigen, dass es nicht von der Wahl der Repräsentanten der Äquivalenzklassen abhängt:
+
+Seien $(n,m) \sim (n',m')$, es gilt also $n + m' = n' + m$. Dann ist $(n,m) + (p,q) = (n+p,m+q)$ und $(n',m') + (p,q) = (n'+p, m'+q)$. Nun müssen wir zeigen, dass diese Summen gleich sind:
+\begin{align*}
+(n+p,m+q) \sim (n'+p',m+q) &\iff n+p+m'+q=n'+p+m+q\\
+                        &\iff n+m'=n+m\\
+                        &\iff (n,m) \sim (n',m')
+\end{align*}
+Da das letzte die Annahme ist, haben wir die Repräsentantenunabhängigkeit von der Addition bzgl. $[(n,m)]$ gezeigt. Ähnlich ist es auch für $[(p,q)]$ gezeigt, wodurch wir nun gezeigt haben, dass die Addition wie oben definiert wohldefiniert ist.
+
+Für $\Phi: n \in \N \mapsto [(n+1,1)] \in \Z$ stimmt diese Definition der Addition mit der Addition der natürlichen Zahlen überein. Seien $n,m \in \N$. Es gilt:
+$$\Phi(n)+\Phi(m) = [(n+1, 1)]+[(m+1, 1)] = [(n+m+1,1)] = [(n+m+2, 2)] = \Phi(n+m)$$
+
+Die Negation ist mit dieser Konstruktion auch sehr schnell definiert, wir verzichten aber auf die Verifikation: $$-: \Z \to \Z, [(n, m)] \mapsto [(m, n)]$$ Die Subtraktion folgt demnach aus der Addition der Negation.
+
+Wir zeigen nur noch kurz die Definition der Multiplikation:
+\begin{definition}{Multiplikation auf $\Z$}{}
+\begin{align*}
+    \bullet: \Z \times \Z &\to \Z\\
+    \big([(n,m)], [(p, q)]\big) &\mapsto ([np + mq, nq + mp])
+\end{align*}
+\end{definition}
+Die Idee von der Definition ist, die Paare jeweils als Differenzen zu betrachten:
+$$(n-m)(p-q) = np+mq-nq-mp = np+mq - (nq + mp)$$
+\begin{exercise}[Verifizierung] Um die Definition abzuschliessen, wären folgende Eigenschaften noch zu verifizieren:
+\begin{enumerate}
+    \item wohldefiniert
+    \item stimmt überein mit der Multiplikation auf $\N \subseteq \Z$
+    \item übliche Rechenregeln: Kommutativität, Assoziativität, Distributiviät (also zeigen, dass $\Z$ ein kommutativer Ring mit eins ist) und Kürzen
+\end{enumerate}
+\end{exercise}
+
+\section{Die rationalen Zahlen} \label{cha_rationals}
+Wie auch bei der Konstruktion von $\Z$ werden wir für $\Q$ die Brüche $\frac{a}{b}$ als Äquivalenzklassen über ausdrücken. Wir wollen zudem, dass $\Q$ die gewohnten Eigenschaften eines Körpers besitzt, somit muss die Nullteilerfreiheit gewährleistet sein. Dies hat wie erwartet zur Folge, dass der Nenner ungleich 0 sein muss, also $a \in \Z$ und $b \in \Z^\times$
+
+\begin{definition}{rationale Zahlen $\Q$}{}
+Wir definieren die Äquivalenzrelation $\sim$ auf $\Z \times \Z^\times$ durch
+$$(n, m) \sim (p, q) \iff nq = mp$$
+und $\Q$ als die Menge der Äquivalenzklassen von $\sim$:
+$$\Q = \big[\Z \times \Z^\times\big]_\sim$$
+\end{definition}
+Wir zeigen kurz, dass es sich dabei auch tatsächlich um eine Äquivalenzrelation handelt:
+\begin{proof} Reflexivität und Symmetrie sind hier ähnlich bewiesen wie bei $\Z$. Seinen nun $(n, m) \sim (p, q)$ und $(p, q) \sim (s, t)$ in Relation auf $\Z \times \Z^\times$, also gelten  $nq = pm$ und $pt = sq$ und $m, q, t \neq 0$. Es folgt also unter Verwendung der Ringaxiome von $\Z$:
+\begin{align*}
+   (n, m) \sim (p, q) &\iff nq = pm&& \mid  \cdot t \neq 0\\
+            &\iff t(nq) = t(pm)&& \mid  \text{$\cdot$ assoz. und kommut.}\\
+            &\iff (tn)q = (pt)m&& \mid  pt = sq\\
+            &\iff (tn)q = (sq)m&& \mid  \text{additive Inverse}\\
+            &\iff (tn)q - (sm)q = 0&& \mid  \text{Distributivität}\\
+            &\iff (tn - sm)q = 0 & &\mid  q \neq 0\\
+            &\iff tn - sm = 0\\
+            &\iff tn = sm\\
+            &\iff (n, m) \sim (s, t)
+\end{align*}\end{proof}
+
+\begin{remark}
+Man sieht anhand dieses Beweises, welche Bedeutung die Nullteilerfreiheit für die Konstruktion von $\Q$ hat: Ohne der Einschränkung ''Nenner $\neq 0$'' wäre $\sim$ keine Äquivalenzrelation (z.B. $(1,1) \sim (0, 0)$ und $(0,0) \sim (2, 1)$, aber $(1,1) \nsim (2,1)$), wodurch sich eine Äquivalenzklassen bilden lassen, welche die Elemente von $\Q$ sein sollen.
+\end{remark}
+
+Wir definieren daher nun $\Q$ als die Menge der Äquivalenzklassen und schreiben $n/m$ für die Äquivalenzklasse von $(n,m)$. (Diese Schreibweise soll noch nicht die Division sein, sie soll nur der Intuition helfen). Wir erkennen schnell die uns bekannte Kürzungsregel: $n/m = pn/pm$ da $(n, m) \sim (pn, pm)$. Wir definieren die Addition und die Multipliation wie folgt:
+
+\begin{definition}{Operationen auf $\Q$}{}
+\begin{align*}
+    +: \Q \times \Q &\to \Q\\
+    \big(n/m, p/q\big) &\mapsto (nq + pm)/ mq
+\end{align*}
+\begin{align*}
+    \bullet: \Q \times \Q &\to \Q\\
+    \big(n/m, p/q\big) &\mapsto np/mq
+\end{align*}
+\end{definition}
+
+Mit diesen Definitionen wollen wir nun folgenden Satz behaupten:
+
+\begin{satz}{$\Q$ ist ein Körper}{}
+$(\Q, +, \cdot, 0/1, 1/1)$ erfüllt die Körperaxiome.
+\end{satz}
+
+Für das sind folgende Eigenschaften zu verifizieren:
+\begin{itemize}
+    \item Zeige, dass die Operationen $+, \cdot$ \textbf{wohldefiniert} (repräsentantenunabhängig) sind.
+    \item \textbf{Kompatibilität zu $\Z$}: Wie bei $\Z$ können wir auch für $\Q$ eine injektive, kanonische Abbildung $\Phi: n \in \Z \mapsto n/1 \in \Q$ definieren, unter welcher wir $\Z$ wieder als Teilmenge von $\Q$ auffassen können. Aus dieser Definition folgt:
+    \begin{enumerate}
+        \item $\Phi(n)+\Phi(m)=n/1 + m/1 = (n+m)/1 = \Phi(n+m)$
+        \item $\Phi(n)\Phi(m)=n/1 \cdot m/1 = (nm)/1 = \Phi(nm)$
+        \item $\Phi(0) = 0/1,\ \Phi(1) = 1/1$
+        \item $n/m + (-n)/m = (n+(-n))/m = 0/m = 0/1 = \Phi(0)$
+        \item $n/m \cdot m/n = (nm)/(nm) = 1/1 = \Phi(1)$
+    \end{enumerate}
+    Wir erkennen in 1. und 2., dass die Operationen unter $\Phi$ mit $\Z$ kompatibel ist. Daher können wir ganze Zahlen ''implizit'' umwandeln zu rationalen Zahlen und schreiben $n$ amstelle von $n/1$ für ein $n\in \Z$. Auch erkennen wir in 3., 4. und 5. schon einige wichtige Eigenschaften, welche $\Q$ zu einem Körper machen: Nullelement und Einselement, die additive Inverse resp. die multiplikative Inverse.
+    \item \textbf{$\Q$ ist ein Körper}: Dass $(\Q, +, \cdot, 0, 1)$ einen kommutativen Ring mit eins bildet, wissen wir bereits aus $\Z$. Die multiplikative Inverse von $n/m \in \Q^\times$ ist $(n/m)^{-1} = m/n$, somit ist $\Q$ ein Körper.
+\end{itemize}
+Mit der multiplikativen Inversen sind wir nun endlich in der Lage, die Division definieren  zu können:
+\begin{definition}{Division}{}
+    $$\div: \Q \times \Q^\times \to \Q\\$$
+    $$\big(n/m, p/q\big) \mapsto n/m \cdot (p/q)^{-1} = n/m \cdot q/p = nq/mp$$
+\end{definition}
+\begin{remark}
+Wir erkennen hier, wieso die Division durch 0 nicht erlaubt ist: Es gibt keine multiplikative Inverse von 0 wegen der Nullteilerfreiheit.
+\end{remark}
+
+Zu guter Letzt können wir noch zeigen, dass $\Q$ ein angeordneter Körper ist: Hierzu legen wir fest, dass rationale Zahlen der Form $\frac{n}{m}$, wobei $n,m \N$ gilt, positiv sind, es gilt also $\frac{n}{m} > 0$. Des Weiteren sollen $a, b \in \Q$ zueinander in Relation $a \leq b$ stehen , falls $a = b$ oder $ b-a >0$ gilt. Mit diesen Vorgaben ist zu zeigen, dass $\leq$ tatsächlich eine lineare Ordnung auf $\Q$ bildet, siehe Abschnitt \ref{cha_ordered_field}. Es folgt, dass $(\Q, +, \cdot,0, 1, \leq)$ ein geordneter Körper ist. Man kann sich diese Zahlenmenge deshalb auch als Zahlenstrahl vorstellen, welche von links nach rechts läuft, wobei $a < b$ soviel wie ''$a$ liegt links von $b$'' bedeuten würde.
+
+\section{Die reellen Zahlen}
+Wir könnten doch schon mit $\Q$ zufrieden sein, es stellt sich jedoch heraus, dass dieser Zahlenstrahl von $\Q$ Lücken hat: So ist z.B. die Zahl $x$, für welche $x^2 = 2$ gilt, nicht in $\Q$ enthalten:
+
+\begin{example}[Irrationalität von $\sqrt{2}$]\label{ex_sqrt2_irrational}
+Die Behauptung ist, dass $\sqrt{2}$ irrational ist und somit nicht als Bruch geschrieben werden kann.
+
+Wir behaupten nun, dass $\sqrt{2}$ trotzdem als gekürzter Bruch $\frac{p}{q}$ geschrieben werden kann, d.h. $p$ und $q$ sind teilerfremd. Da $2 = (\sqrt{2})^2 = (\frac{p}{q})^2$ gilt, erhalten wir $2 q^2 = p^2$. Es folgt, dass $p^2$ gerade sein muss und wir wissen aus vorherigem Beispiel \ref{ex_counterpos}, dass somit auch $p$ gerade sein muss. Da aber nun $p$ gerade ist, ist $p^2$ durch 4 teilbar. Aus der Gleichheit $2 q^2 = p^2$ folgt somit aber auch, dass $p^2$ sowie $p$ gerade sein muss, wodurch $p$ und $q$ nicht teilerfremd sein können, welches ein Widerspruch zur Annahme ist. 
+\end{example}
+
+\subsection{Vollständigkeitsaxiom}\label{cha_completeness}
+
+Wir brauchen also eine Eigenschaft, die es verspricht, dass all diese Lücken von gefüllt werden können. Um diese Eigenschaft (mengentheoretisch) präzise ausdrücken zu können, definieren wir das \textbf{Vollständigkeitsaxiom}:
+\begin{definition}{Vollständigkeitsaxiom}{}
+Sei $(K, + ,\cdot, 0, 1, \geq)$ ein geordneter Körper. Wir nennen den Körper \textbf{vollständig}, falls für alle nicht-leeren Teilmengen $X,Y \subseteq K$ mit $X \leq Y \iff \forall x\in X, y \in Y: x \leq y$ ein $c \in K$ existiert, welches zwischen diesen Mengen liegt:
+$$\exists c \in K: \forall x\in X \forall y \in Y: x \leq c \leq y$$
+Alternative Definition: alle Cauchy-Folgen konvergieren.
+\end{definition}
+Um es etwas besser verbildlichen zu können, verwenden wir nochmals das Beispiel von $\sqrt{2}$:
+\begin{example}[$\Q$ erfüllt nicht das Vollständigkeitsaxiom] \label{ex_Q_not_complete} Wir suchen also eine Lösung für $x^2 = 2$. Wir können daher die zwei Teilmengen (von $K$) wie folgt definieren: $X$, die Teilmenge die darunter liegt, soll sein:
+$$X = \{x \in K \mid x \leq 0, x^2 \leq 2 \}$$
+und $Y$, diejenige, die darüber liegt
+$$Y = \{y \in K \mid y \leq 0, y^2 \geq 2 \}$$
+Bemerke die zusätzliche Bedingung $0 \geq x$ für beide Mengen, das stellt auch sicher, dass $X \leq Y$ gilt. Was haben wir nun konstruiert? Sprich können wir zeigen, dass $\Q$ diese Bedingung nicht erfüllt? Wir haben jetzt (plump gesagt) so etwas wie $X \leq \sqrt{2} \leq Y$. Wir wissen von vorher, dass $\sqrt{2}$ nicht in $\Q$ ist, trotzdem können wir aber diese zwei Mengen konstruieren: Wir nehmen ''jede'' Zahl aus $\Q$, vergleichen das Quadrat der Zahl mit 2 und teilen es der entsprechenden Menge zu. Wir werden aber zeigen können, dass dann eben kein solches $c \in \Q$ zwischen $X$ und $Y$ gefunden werden kann:
+
+\begin{proof}[Beweis (Heron-Verfahren).]
+Nehmen wir an, dass ein solches $\frac{a}{b} \in \Q$ mit $a,b \in \N$ existiert, für welches $X \leq \frac{a}{b} \leq Y$ gilt, jedoch ungleich $\sqrt{2}$ ist. Aus der Trichotomie folgt, dass es dann entweder grösser oder kleiner als $\sqrt{2}$ sein muss. Sei $\frac{a}{b} > \sqrt{2}$, dann gilt $\sqrt{2} < \frac{a}{b} \leq Y$. Da der linke Teil davon die Bedingung für $Y$ ist, muss $\frac{a}{b}$ das kleinste Element von $Y$ sein. Wir wollen nun zeigen, dass man eine Differenz $d \in \Q$ finden kann, für welches $\sqrt{2}< \frac{a}{b}-d<\frac{a}{b}$ gilt, also kleiner als $\frac{a}{b}$ ist aber die Bedingung von $Y$ trotzdem erfüllt, wodurch $\frac{a}{b}$ nicht das kleinste Element von $Y$ sein kann:
+\begin{align*}
+    \sqrt{2} + d &\stackrel{!}{<} \frac{a}{b} & &\mid ()^2\\
+    2 + 2\sqrt{2}d + d^2 &\stackrel{!}{<}  \frac{a^2}{b^2} & & \mid \text{Mitternachtsformel}\\
+    d &\stackrel{!}{<}  \frac{a-\sqrt{2}b}{b} && \mid \cdot \frac{a+\sqrt{2}b}{a+\sqrt{2}b}\\
+    d &\stackrel{!}{<}  \frac{a^2 - 2 b^2}{ab+\sqrt{2}b^2} && \mid \text{Abschätzung } \sqrt{2} < \frac{a}{b}\\
+    d &\stackrel{!}{\leq}  \frac{a^2 - 2 b^2}{2ab} < \frac{a^2 - 2 b^2}{ab+\sqrt{2}b^2} 
+\end{align*}
+Mit $d = \frac{a^2 - 2 b^2}{2ab} \in \Q$ ist $d$ positiv ($a^2 > 2b^2$) und erfüllt die obige Bedingung, wodurch $\sqrt{2} < \frac{a}{b}-\frac{a^2 - 2 b^2}{2ab} < \frac{a}{b}$ gilt. Somit haben wir eine kleinere Zahl in $Y$ gefunden, welches ein Widerspruch zur Annahme ist (ähnlich für $\frac{a}{b} < \sqrt{2}$).\footnote{Durch iteratives Anwenden dieser Funktion erhält man eine immer genauere Approximation für $\sqrt{2}$. Wir werden dieses Verfahren viel später mit der Differentialrechnung herleiten.}
+\end{proof}
+Daran erkennen wir also, dass $\Q$ das Vollständigkeitsaxiom für das Beispiel von $\sqrt{2}$ nicht erfüllt.
+\end{example}
+
+\begin{remark} Man könnte meinen, dass man die Mengen auch für die Bedingung $x^2 \geq -1$ resp. $x^2 \leq -1$ definieren kann, dann aber auch z.B. in $\R$ Lücken finden würde.
+Mit den Mengen $X = \{x \in K \mid x^2 \leq -1 \}$ und $Y = \{y \in K \mid y^2 \geq -1 \}$ kann man aber keine Aussage über die Vollständigkeit machen, da $X = \emptyset$ und $Y = K$ gilt und die Mengen für das Axiom nicht leer sein dürfen.
+\end{remark}
+
+Wir werden später zeigen, wie $\R$ aus $\Q$ konstruiert wird (z.B. \textsc{Dedekind}-Schnitte) und dass $\R$ dieses Axiom auch erfüllt. For the time being nehmen wir einfach an, dass $\R$ die Axiome eines vollständig angeordneten Körpers erfüllt und auch existiert.
+
+Es gibt eine ganze Liste aus Konsequenzen dieses Axioms, hierfür verweisen wir auf den Abschnitt \ref{cha_consequences_completeness}.
+ 
+%\subsection{Konstruktion von $\R$ aus $\Q$}
+%Wir haben soeben im Beispiel \ref{ex_Q_not_complete} gesehen, dass sich diese Teilmengen $X$ und $Y$ für $\sqrt{2}$ in $\Q$ bilden lassen, jedoch existiert kein Wert in $\Q$, der zwischen den Mengen liegt. Die Idee für die Konstruktion von $\R$ aus $\Q$ ist, diese Teilmengen $X$ und $Y$ von $\Q$ direkt als Definition der ''eingequetschten'' reellen Zahl zu verwenden. 
+
+\subsection{$\R$ als Mutter von $\N$, $\Z$ und $\Q$}
+Bis jetzt haben wir fast alle Zahlenmengen auf die Axiome der Mengenlehre zurückführen können: Aus Mengen können wir die Natürlichen konstruieren, aus denen die ganzen, etc. Anders wie diese ''Bottom-Up''-Methode, können wir auch die Körperaxiome eines vollständig angeordneten Körpers annehmen --- in diesem Fall werden wir $\R$ verwenden --- und können daraus ''Top-Down'' die anderen Zahlenmengen als Teilmengen mit 1 konstruieren, welche jeweils bezüglich $+$ und $\cdot$ abgeschlossen sind. Dazu wollen wir zuerst den Begriff einer \textbf{induktiven Teilmenge} definieren:
+
+\begin{definition}{Induktive Teilmenge}{} Eine Teilmenge $M \subseteq \R$ heisst \textbf{induktiv}, falls:
+\begin{enumerate}
+    \item $1 \in M$
+    \item $\forall x \in M \implies x + 1 \in M$
+\end{enumerate}
+\end{definition}
+
+\begin{example}
+So ist $\R$ selber eine induktive Menge. Andere Beispiele sind: $\R_\geq1 = \{x \in \R \mid x \geq 1\}$ oder $\{1, 2, 3, \pi, 4, \pi + 1, 5 , \pi + 2, ...\}$.
+\end{example}
+
+Mit induktiven Teilmengen von $\R$ können wir nun die Menge der natürlichen Zahlen definieren als:
+
+\begin{definition}{natürliche Zahlen aus $\R$}{}
+$\N$ soll die kleinste induktive Teilmenge von $\R$ sein:
+
+$$\N = \bigcap_{\substack{M \subseteq \R \\ M \text{ induktiv}}} M = \{x \in \R \mid \forall M \subseteq \R \text{ induktiv}: x \in M\}$$
+\end{definition}
+
+Wir können des Weiteren zeigen, dass $\N$ dann wie oben definiert die \textsc{Peano}-Axiome (siehe Abschnitt \ref{cha_peano_axioms}) erfüllt, woraus wir dann wieder $\Z$ und $\Q$ konstruieren können. Man könnte sich dann fragen, wieso wir uns die Mühe gemacht habe, die Zahlenmengen aus $\N$ herzuleiten. Zwar sind diese beiden Methoden der Herleitung äquivalent, jedoch ist die ''Bottom-Up''-Methode notwendig, um die Existenz der Mengen zeigen zu können. Es nützt nichts, wenn die Axiome von $\N$ und $\R$ miteinander übereinstimmen, aber insgesamt widersprüchlich sind.
+
+\begin{proof}\ 
+\begin{enumerate}[label=(\arabic*)]
+    \item $1 \in \N$: Folgt aus der Definition von induktiven Mengen.
+    \item $\forall n \in \N \implies n + 1 \in \N$: Folgt aus der Definition von induktiven Mengen.
+    \item $\forall m \in \N: 1 \neq 1 + m$: Gilt, da $\notin \N$
+    \item $\forall n,m \in \N: n+1 = m+1 \implies n = m$: Folgt aus Körperaxiomen
+    \item Induktionsaxiom $A \subseteq \N \land 1 \in A \land (n \in A \implies n + 1 \in A) \implies A = \N$: $\N \subseteq A$ folgt aus der Definition von $\N \implies A = \N$.
+\end{enumerate}
+\end{proof}
+
+\begin{remark}
+Da wir $\N$ nun als Teilmenge eines geordneten Körpers definiert haben, können wir aus $1 > 0$ folgern, dass $n \in \N: n + 1 > n$ gilt, also $1 < 2 < 3 < ...$
+\end{remark}
+
+\begin{satz}{$\N$ ist abgeschlossen bezüglich $+$ und $\cdot$}{}
+Wenn $n,m \in \N$, dann gilt $n + m \in \N$ und $n \cdot m \in \N$
+\end{satz}
+
+\begin{proof} Wir machen für jedes $n$ eine Induktion über $m$:
+
+($+$): Sei $m=1$: $n+1 \in \N$ gilt wegen (2). Sei nun $n+m \in \N$, dann gilt wegen (2) und der Assoziativität des Körpers  $\underbrace{n+(m+1)}_{IS} = \underbrace{(n+m)}_{IA: \in \N}+1 \in \N$.
+
+(\ $\cdot$\ ): Sei $m = 1$: $n\cdot 1 = n \in \N$ gilt wegen K5). Sei $m \cdot n \in \N$, dann gilt mit K9) $(m + 1) \cdot n = \underbrace{(m \cdot n)}_{IA: \in \N} + n$. Aus der Abgeschlossenheit von $+$ folgt $(m + 1) \cdot n \in \N$.  
+\end{proof}
+
+Alle weiteren Eigenschaften von $\N$ sind im Abschnitt \ref{cha_natural_number_ff} erwähnt.
+
+Weiter können wir nun die anderen Zahlenmengen einführen: $\Z = \N \cup \{0\} \cup \{-n \mid n \in \N\}$ und $\Q = \{ \frac{p}{q} \mid p,q, \in \Z, q \neq 0\}$.
+
+\section{Die komplexen Zahlen}
+Nun wollen wir die komplexen Zahlen aus $\R$ definieren. Eine Motivation kann sein, eine Lösung für $x^2 = -1$ zu finden. Wir haben sie stattdessen geometrisch/algebraisch motiviert hergeleitet: Wir wollen einen $\R^n$ mit der Vektoraddition definieren. Die Addition soll wie folgt aussehen: $x,y \in \R^2: x + y := (x_1+y_1,...,x_n+y_n)$. Man kann sehen, dass dies im Allgemeinen eine ablesche Gruppe bildet (siehe lineare Algebra), die Frage ist jedoch, ob ein $\R^n$ mit dieser Addition auch die Körperaxiome mit multiplikativer Inverse, etc. erfüllen kann. Es stellt sich heraus, dass dies nur für $n \in \{1 ,2\}$ der Fall sein kann\footnote{Falls man auf die multiplikative Kommutativität verzichtet, kann auch der $\R^4$ (Quarternionen) ein Körper sein. Verzichten wir auf beide Kommutativiäten, so ist auch der $\R^8$ (Oktonionen) ein Körper. Es gibt keine weiteren.}.
+
+Statt die Elemente als Vektoren $z = (x, y)$ zu schreiben, schreiben wir $z = x + yi$. Wir definieren nun die komplexen Zahlen wie folgt:
+
+\begin{definition}{komplexe Zahlen}{}
+Die \textbf{imaginäre Einheit} $i$ definieren wir durch: $i\cdot i = -1$ oder vektoriell durch $i = (0, 1)$. Die Addition definieren wir durch
+\begin{align*}
++: \C \times \C &\to \C:\\
+((x, y), (x', y'))  &\mapsto (x + x', y + y')\\
+((x + yi), (x' + y'i)) &\mapsto (x + x') + i(y + y')
+\end{align*}
+die Multiplikation durch
+\begin{align*}
+\bullet: \C\times \C  &\to \C:\\
+((x, y), (x', y')) &\mapsto (xx'- yy', xy'+x'y)\\
+((x + yi), (x' + y'i)) &\mapsto (xx'- yy') + i(xy'+x'y)
+\end{align*}
+Wir definieren also $\C := \R^2$.
+\end{definition}
+
+\begin{satz}{$\C$ ist ein Körper}{}
+$(\C, +, \cdot, 1, 0)$ erfüllt mit
+\begin{itemize}
+    \item $0 = (0,0)$ als Nullelement
+    \item $1 = (1,0)$ als Einselement
+    \item $-(x, y) = (-x, -y)$ als additive Inverse
+    \item $(x, y)^{-1} = (\frac{x}{x^2+y^2}, \frac{-y}{x^2+y^2})$ als multiplikative Inverse
+\end{itemize}
+alle Axiome eines vollständigen Körpers.
+\end{satz}
+
+\begin{example}
+Die Körperaxiome gilt es nun zu zeigen, da solche Beweise bereits genug oft beschrieben wurden, kann man das als Übung machen. Für Lösungen siehe Notizen vom 1.10.2020.
+\end{example}
+
+to add: Intuition für Addition und Multiplikation in der Ebene.
+
+
+
+\begin{satz}{Fundamentalsatz der Algebra}{}
+Jede algebraische Gleichung in $\C$
+$$a_nz^n + a_{n-1}z^{n-1}+...+a_1z+a_0 = 0$$
+von Grad $n\geq1$ mit $a_1,...,a_n \in \C, a_n\neq0$ hat (mindestens) eine Lösung.
+\end{satz}
+Der Fundamentalsatz der Algebra besagt also, dass alle Polynome in $\C$ auch Lösungen in $\C$ besitzen, so auch $x^2 + 1 = 0$.
+
+Wir wollen nun noch einige Funktionen auf $\C$ definieren:
+
+\begin{definition}{Funtionen auf $\C$}{}Sei $z = x + yi \in \C, x,y \in \R$
+\begin{enumerate}
+    \item \textbf{Realteil}: $\Re(z) = x \in \R$, wir nennen $z$ (rein) imaginär, falls $\Re(z)=0$
+    \item \textbf{Imaginärteil}: $\Im(z) = y \in R$, wir nennen $z$ reell, falls $\Im(z)=0$
+    \item \textbf{komplexe Konjugation}: $\quer{\ \ }: \C \to \C: z \mapsto \quer{z}, \quer{x+yi} \mapsto x-yi$
+\end{enumerate}
+\end{definition}
+
+Die komplexe Konjugation ist eine Spiegelung an der realen Achse. Es gelten:
+\begin{itemize}
+    \item $\quer{z + w} = \quer{z}+\quer{w}$
+    \item $\quer{z \cdot w} = \quer{z}\cdot\quer{w}$
+    \item $\quer{1} = 1, \quer{0} = 0, \quer{i} = -i$
+    \item $z\quer{z} = x^2 + y^2 \geq 0 \in \R$, Gleichheit genau dann, wenn $z=0$
+    \item $z^{-1}= \frac{\quer{z}}{z\quer{z}}=(\frac{x}{z\quer{z}}, \frac{-y}{z\quer{z}})$
+    \item $\Re(z) = \frac{z+\quer{z}}{2}$
+    \item $\Im(Z) = \frac{z-\quer{z}}{2i}$
+    \item $z = \quer{z} \iff z$ reell, $z=-\quer{z} \iff z$ imaginär.
+\end{itemize}
+
+\section{Absolutbetrag und Intervalle}
+\subsection{Absolutbetrag}
+In der Analysis werden wir sehr oft das Konzept des Abstands zwischen zwei Werten gebrauchen. Der \textbf{Absolutbetrag} soll daher eine Funktion sein, welche die Distanz zwischen einer Zahl und der 0 zurück gibt. Der Funktionswert ist stets positiv und wird wie folgt definiert:
+\begin{definition}{Absolutbetrag}{}
+Der \textbf{Absolutbetrag/Betrag} ist die Funktion:
+\begin{align*}
+    |\ \ |: \R &\to \R_{\geq 0}\\
+    x &\mapsto |x| = \begin{cases} \ \ x &, x\geq 0\\-x &, x<0\end{cases}
+\end{align*}
+Alternative Definition: $|x| := \sqrt{x^2}$
+\end{definition}
+Wir können daraus direkt einige sehr wichtige Gleich- und Ungleichheiten für die Analysis herleiten:
+\begin{satz}{Folgerungen}{} Für alle $x,y \in \R$ gilt:
+\begin{enumerate}[label=(\alph*)]
+    \item $|x| \geq 0$, Gleichheit genau dann, wenn $x=0$.
+    \item $|x| = |-x|$
+    \item $|xy| = |x||y|$
+    \item $|\frac{1}{x}| = \frac{1}{|x|}, x \neq 0$
+    \item $|x| \leq r \iff -r\leq x \leq r$ für $r \geq 0$.
+    \item $|x| < r \iff -r < x < r$ für $r \geq 0$.
+    \item \textbf{Dreiecksungleichung}: $|x+y| \leq |x|+|y|$ \\ Varianten: (i) $|x-y| \leq |x|+|y|$, (ii) $|x-y| \leq |x+z|+|y+z|$
+    \item \textbf{umgekehrte Dreiecksungleichung}: $\big||x|-|y|\big| \leq |x-y|$
+\end{enumerate}
+\end{satz}
+\begin{proof} Beweise für (e) und (g) sind hier aufgezeigt. Alle anderen Beweise sind im Abschnitt 2.4.2 von Skript zu finden.
+\begin{itemize}
+    \item[(e)]($\Longrightarrow$): Sei $x \in \R$ mit $|x| \leq r$. Falls $x\geq0$ ist, gilt $|x| = x \leq r$. Falls $x <0$ ist, gilt  $|x| = -x \leq r$, also $x \geq -r$. Es folgt die Behauptung. 
+    
+    ($\Longleftarrow$): Sei $-r\leq x \leq r$. Falls $x \geq 0$, gilt $x = |x| \leq r$. Falls $x < 0$, gilt $-r \leq x$, also $-x = |x| = \leq r$. Es folgt die Behauptung.
+    \item[(f)] Analog zu (e).
+    \item[(g)] Varianten: (i) Ersetze $y$ mit $-y$ (ii) Ersetze $x$ und $y$ in (i) mit $x-z$ resp. $y-z$
+\end{itemize}
+\end{proof}
+
+Alle Formeln der Dreiecksungleichung sind etwas mühsam zu merken, weswegen wir sie so zusammenfassen:
+\begin{lemma}{Dreiecksungleichung}{} Für alle $x,y$ in $\R$ gilt:
+$$\Big| |x|-|y|\Big| \le |x \pm y| \le |x|+|y|$$
+Aus Induktion folgt aus der Dreiecksungleichung diejenige für beliebige Terme:
+$$\Big| \sum_i{x_i} \Big| \leq \sum_i{|x_i|}$$
+\end{lemma}
+
+\subsection{Absolutbetrag von komplexen Zahlen}
+\todo{}
+Cauchy-Schwartz Uglg
+
+\subsection{Intervalle}
+Mit der mathematischen Formulierung der Distanz können wir nun Teilmengen mit einem ''Abstandskriterium'' bestimmen. Wir können also z.B. eine Teilmenge bilden aus Mittelpunkt und Radius. Wir nennen diese Mengen \textbf{Bälle} (auch wenn sie auf $\R$ vorerst nur eindimensional sind; in $\C$ wären das Kreise):
+
+\begin{definition}{offener Ball}{}
+Der \textbf{offene} Ball von Radius $r > 0$ um $a \in \R$ ist die Teilmenge
+$$B_r(a) = \set{x \in \R }{|x-a| < r}$$
+\end{definition}
+
+Das sind also alle Punkte zwischen $a-r$ und $a+r$, ohne den Endpunkten, also ohne ''Rand''. Für eindimensionale Teilmengen wollen wir den Begiff der \textbf{Intervalle} einführen:
+
+\begin{definition}{offenes Intervall}{} Sei $a \leq b \in \R$. Das \textbf{offene Intervall} $(a,b)$ ist die Teilmenge:
+$$(a, b) = \set{x \in \R}{a < x < b}$$
+$a$ und $b$ sind die \textbf{Endpunkte} vom Intervall $(a,b)$. Die \textbf{Länge} des Intervalls ist $b-a$. Wenn beide Endpunkte in $\R$ sind, nennen wir es ein \textbf{beschränktes Intervall}. Wir nennen die Mengen 
+\begin{align*}
+    (a, \infty) &= \set{x \in \R}{a < x} = \R_{>a}\\
+    (-\infty, b) &= \set{x \in \R}{x < b} = \R_{<b}\\
+    (-\infty, \infty) &= \R
+\end{align*}
+\textbf{unbeschränkte Intervalle}.
+\end{definition}
+
+Somit sind also die Mengen $B_r(a)$ und $(a-r, a+r)$ gleich. Wir haben nun schon zweimal eine ''offene'' Menge definiert. Da bedeutet soviel wie, dass die Endpunkte im eindimensionalen Fall oder der Rand im zwei- oder dreidimensionalen Fall nicht mehr zur Menge gehört:
+
+\begin{definition}{offene und abgeschlossene Mengen}{}
+Eine Teilmenge $U \subseteq \R$ heisst \textbf{offen} (in $\R$) falls für alle $x \in U$ ein $\varepsilon > 0$ existiert, sodass der gesamte Ball um $x$ mit Radius $\varepsilon$ in $U$ enthalten ist:
+$$\forall x \in U: \exists \varepsilon > 0: B_\varepsilon(x) \subseteq U$$
+Eine Teilmenge $A \subseteq \R$ heisst \textbf{abgeschlossen}, falls das Komplement $\R \setminus A$ offen ist.
+\end{definition}
+
+Man kann sich die Offenheit einer Menge vage als ''enthält keinen Rand'' übersetzen: Man kann für jeden Punkt eine Umgebung (die nicht nur aus dem Punkt selber besteht, da der Radius $\varepsilon$ nicht 0 sein darf) finden, die noch in der Menge enthalten ist.
+
+Schau dir zudem die Definition von der Abgeschlossenheit genau an! Man schliesst direkt von der Offenheit des Komplements auf die Abgeschlossenheit der Menge. In anderen Worten schliessen sich diese Bezeichnungen nicht unbedingt gegenseitig aus, d.h. es gibt \textit{keine} Implikation ''$U$ nicht offen $\implies$ $U$ abgeschlossen'' oder dergleichen. Die Menge wie auch das Komplement davon können beide jeweils unabhängig voneinander offen oder nicht offen sein:
+
+\begin{example}[offene und abgeschlossene Mengen]
+$U = \R$ ist offen, da um jeden Punkt ein Ball gelegt werden kann, der komplett in $\R$ enthalten ist. Daraus folgt, dass $\emptyset$ abgeschlossen ist. Da diese Menge aber leer ist, ist jede Aussage bezüglich deren Elemente wahr, also ist $\emptyset$ auch offen, wodurch $\R$ ebenfalls abgeschlossen ist. 
+\end{example}
+
+Wir können nun selber verifizieren, dass offene Bälle und Intervalle tatsächlich offene Mengen sind:
+
+\begin{proof} Sei $x_0 \in (a, b) \subseteq \R$, also gilt $a<x_0<b$. Wir wählen das $\varepsilon$ aus der Definition offener Mengen wie folgt:
+$$\varepsilon = \min\{x_0-a, b-x_0\}$$
+Somit gilt $B_\varepsilon = \set{x \in \R}{|x-x_0| < \varepsilon}$. Sei das $x_0$ in der rechten Hälfte des Balles, also gilt $\varepsilon = b-x_0$. Ein beliebiges $x \in B_\varepsilon$ erfüllt somit die Bedingung $|x-x_0| < b-x_0$ resp. $-(b-x_0) < x-x_0 < b-x_0$. Wir wollen also zeigen, dass $x < b$ gilt. Betrachten wir die rechte Ungleichung, erhalten wir durch Addition von $x_0$ direkt $x < b$. Ähnlich ist es für $a < b$ und den Fall $\varepsilon = x_0-a$ zu zeigen.
+\end{proof}
+
+Wenn es offene Intervalle  gibt, kann man durch Ersetzen der strickten Gleichheit auch abgeschlossene Intervalle definieren:
+
+\begin{definition}{abgeschlossenes Intervall}{} Sei $a \leq b \in \R$. Das \textbf{abgeschlossene Intervall} $[a,b]$ ist die Teilmenge:
+$$[a, b] = \set{x \in \R}{a \leq x \leq b}$$
+\end{definition}
+
+Es ist auch schnell verifiziert, dass solche Intervalle nicht offen sind: Sei $[a,b]$ ein abgeschlossenes Intervall, dann lässt sich kein Ball um die Endpunkte legen.
+
+\todo{Vereinigung von Intervallen}
+
+\todo{halboffene Intervalle}
+
+\subsection{Teilmengen auf $\C$}
+\todo{Bälle auf $\C$}
+
+\section{Ungleichungen und Abschätzungen}
+Für die Bestimmung von Stetigkeit, Divergenz, Konvergenz, etc. sind sehr oft Abschätzungen von grosser Hilfe, um einen unbekannten Ausdruck nach oben oder nach unten abzuschätzen. In anderen Worten sucht man einen bekannten/einfacheren Ausdruck, der immer grösser oder kleiner als der unbekannte ist.
+
+Hier nun einige wichtige Ungleichungen und Abschätzungen:
+\subsection{Dreiecksungleichung}
+Die Dreiecksungleichung wurde aus der Definition des Absolutbetrags hergeleitet. Folgende Varianten können für Abschätzungen in  $\mathbb{R}$ und $\mathbb{C}$ sehr hilfreich sein:
+\begin{itemize}
+    \item $\Big| |x|-|y|\Big| \le |x \pm y| \le |x|+|y|$ für alle $x,y$ in $\mathbb{C}$
+    \item $\Big| \sum_i{x_i} \Big| \leq \sum_i{|x_i|}$ für $x_i$ in $\mathbb{R}$ oder $\mathbb{C}$ (folgt aus Induktion)
+\end{itemize}
+
+\subsection{Cauchy-Schwarz Ungleichung}
+Für den $\mathbb{R}^n$ gilt die \textbf{Cauchy-Schwarz Ungleichung}:
+$$\forall x,y \in \mathbb{R}^n: |x \cdot y| \leq |x| \cdot |y|$$
+wobei $x \cdot y = \sum_i{x_i + y_i}$ im $\mathbb{R}^n$ die Skalarmultiplikation und $|x| = \sqrt{\sum_i{x_i^2}}$ die Norm ist. Zur Gleichheit kommt es nur bei koliniaren Vektoren, also $\exists \lambda: \lambda x = y$.
+
+Intuitiv lässt sich diese Ungleichung aus der Definition der Skalarmultiplikation von Vektoren im $\mathbb{R}^2$ herleiten: $x, y \in \mathbb{R}^2: |x \cdot y| = |x|\cdot|y|\cdot\cos{\theta}$, wobei $\theta$ der Winkel zwischen $x$ und $y$ ist. Da der Kosinus im Betrag stets $\leq 1$ ist, gilt: $|x \cdot y| \leq |x|\cdot|y|$ 
+
+Falls das nicht genügt, hier noch ein weiterer Ansatz: Durch Division erhalten wir $\frac{|x \cdot y|}{|x|} \leq |y|$. Links erhalten wir die Projektion von $y$ auf den Vektor $x$. Nun folgt intuitiv (oder aus Pythagoras oder der Dreiecksungleichung), dass $y$ selber länger als seine Projektion sein muss.
+
+Die Ungleichung lässt sich auch in der Bra-Ket Notation aufschreiben, welches eine fäncy Art ist, um (u.a.) Vektoren auszudrücken. Im Gegensatz zu vorher wurde die Ungleichung quadriert, ansonsten sind die Ausdrücke äquivalent.
+$$|\left< v | u\right>|^2\leq \left< v | v\right>\cdot\left< u | u\right>$$
+
+\textit{Wahrscheinlich wird diese Ungleichung nicht so wichtig sein; hier steht wahrscheinlich viel zu viel dazu...}
+
+\subsection{Bernoulli-Ungleichung} \label{cha_bernoulli_uneq}
+Für $\forall x > -1 \in \mathbb{R}$ und $\forall n \in \mathbb{N}$ gilt:
+$$(1+x)^n \geq 1 + nx$$
+\begin{proof} Wir zeigen die Ungleichung mittels Induktion über $n$:
+
+\textbf{IV}: Für $n=1$ erhalten wir $(1 + x)^1 \geq 1 + 1 \cdot x$, was wahr ist.
+
+\textbf{IA}: Es gilt $(1+x)^n \geq 1 + nx$
+
+\textbf{IS}: Für den Fall $n+1$ erhalten wir unter Verwendung der Induktionsannahme:
+$$ (1+x)^{n+1} = (1+x)(1+x)^n \stackrel{\text{IA}}{\geq} (1+x)(1 + nx) = 1 + (x+1)n + \underbrace{nx^2}_{\geq 0} \geq  1 + (x+1)n$$
+Dabei wurde für die erste Ungleichheit neben der Induktionsannahme auch $x>-1$ verwendet (ansonsten wäre der Faktor $(1+x)$ negativ). Da wir mit dem Induktionsschritt die Behauptung für $n+1$ gezeigt haben, gilt die Ungleichung für alle $n \in \N$.
+\end{proof}
+
+\section{Maximum, Minimum, Supremum, Infimum}
+\todo{(VL 8.10.2020) Definition, (kleinste) obere/ (grösste) untere Schranke, Eindeutigkeit, Bezug zum Vollständigkeitsaxiom, Folgerung: $\N$ wohlgeordnet}
+
+\todo{(VL 12.10.2020, Seite 5) Konventionen $\sup(M) = \pm \infty$}
+
+
+\section{Konsequenzen der Vollständigkeit} \label{cha_consequences_completeness}
+\subsection{Archimedische Eigenschaft von $\mathbb{R}$}
+Die Aussage vom \textbf{Archimedische Eigenschaft} ist so offensichtlich, und trotzdem können die Folgerungen sehr hilfreich sein:
+$$\forall x,y \in \mathbb{R}_{>0} \exists n \in \mathbb{N}: ny\geq x$$
+In Worten: Jede nicht-negative (reelle) Zahl lässt durch Addition mit sich selber beliebig gross machen (Beweis durch Widerspruch mit oberen Schranken). Die Implikationen sind:
+
+\begin{satz}{Folgerungen}{}
+\begin{itemize}
+    \item $\forall \epsilon \in \mathbb{R}_{>0} \ \exists n \in \mathbb{N}: \frac{1}{n} < \epsilon$
+    \item $\forall n \in \mathbb{N}: x \leq \frac{1}{n} \implies x = 0$ \hspace*{\fill} (\textit{keine positiven Infinitesimalgrössen})
+    \item $\forall x \in \mathbb{R} \ \exists! n \in \mathbb{Z}: n \leq x < n+1$\hspace*{\fill} (\textit{ganzer Anteil/Abrundung ist eindeutig})
+    \item \todo{$\Q$ liegt dicht in $\R$}
+    \item \todo{Division mit Rest ist eindeutig}
+\end{itemize} 
+\end{satz}
+
+Daraus folgt zum Beispiel, dass sich $\forall n \in \mathbb{N}: \frac{1}{2}-\frac{1}{n} \leq a \leq \frac{1}{2}+\frac{1}{n}$ auch ohne der Verwendung von Limes-Rechenregeln berechnen lässt (Anwendung z.B. bei der Berechnung vom Riemann-Integral):
+$$-\frac{1}{n} \leq a - \frac{1}{2} \leq \frac{1}{n}$$
+Nun folgt aus der Archimedischen Eigenschaft $\frac{1}{n} \geq -(a-\frac{1}{2})$ und $a-\frac{1}{2} \leq \frac{1}{n}$. Durch zweifache Anwendung der Eigenschaft erhalten wir $a - \frac{1}{2} = 0$, also $a = \frac{1}{2}$
+
+\todo{(VL 12.10.2020) Beweise aller Folgerungen}
+
+\section{Häufungspunkte}
+Dieses Konzept haben wir in Abschnitt \ref{cha_limit_points} eingeführt.
+
+\section{Intervallschachtelungsprinzip, Überabzählbarkeit von $\R$}
+\todo{(VL 12.10.2020 Seite 6) Definition}
+\todo{(VL 14.10.2020) $|[0, 1]| > |\N|$, Kontinuumshypothese}
+\section{Konstruktion von $\R$}
+\todo{(VL 14.10.2020) Konstr. von $\R$ aus $\Q$, def. Dedekind-Schnitt, Eindeutigkeit $\R$}

@@ -1,0 +1,173 @@
+\documentclass[a4paper, 11pt]{report}
+
+
+%%%%%%%%%%%%
+% Packages %
+%%%%%%%%%%%%
+
+\usepackage[ngerman]{babel}
+\usepackage[noheader]{packages/sleek}
+\usepackage{packages/sleek-title}
+\usepackage{packages/sleek-theorems}
+\usepackage{packages/sleek-listings}
+\usepackage{ragged2e}
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+\usepackage{quotchap}
+\usepackage{biblatex}
+\usepackage{graphicx} 
+\usepackage{bbm}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{mdframed}
+\usepackage{mathtools}
+\usepackage[makeroom]{cancel}
+\usepackage{diffcoeff}
+
+%\tcbuselibrary{theorems}
+%\usepackage{cleveref}
+\addbibresource{bibliographie.bib}
+\newcommand{\notimplies}{\;\not\!\!\!\implies}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\cA}{\mathcal{A}}
+\newcommand{\cB}{\mathcal{B}}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\abk}[1]{\left\langle #1 \right \rangle}
+\newcommand{\bk}[1]{\left(#1\right)} 
+\newcommand{\Nrm}{\norm{\:\cdot\:}}
+\newcommand{\bigmid}{\ \big|\ }
+\newcommand{\set}[2]{\left\{\left.#1 \ \right|  #2 \right\}}
+\newcommand{\setr}[2]{\left\{#1 \ \left|  #2 \right.\right\}}
+\newcommand{\todo}[1]{TODO: \textit{#1}}
+\newcommand{\limto}[1]{\lim_{#1 \to #1_0}}
+\newcommand{\limtoinf}[1]{\lim_{#1 \to \infty}}
+\newcommand{\limtoneginf}[1]{\lim_{#1 \to -\infty}}
+\newcommand{\quer}[1]{\overline{#1}}
+\newcommand{\smat}[1]{\bk{\begin{smallmatrix} #1 \end{smallmatrix}}}
+\newcommand{\mat}[1]{\begin{pmatrix}#1\end{pmatrix}}
+
+\DeclareMathOperator{\divergence}{div}
+\DeclareMathOperator{\rot}{rot}
+\DeclareMathOperator{\grad}{grad}
+
+
+
+\graphicspath{ {./images/} }
+%\newtheorem{defin}{Definition}[section]
+
+\makeatletter
+\newtheoremstyle{indented}
+  {3pt}% space before
+  {3pt}% space after
+  {%\addtolength{\@totalleftmargin}{3.5em}
+   \addtolength{\linewidth}{-3em}
+   \parshape 1 1.5em \linewidth}% body font
+  {}% indent
+  {\bfseries}% header font
+  {.}% punctuation
+  {.5em}% after theorem header
+  {}% header specification (empty for default)
+\makeatother
+
+\theoremstyle{definition}
+
+%\newtheorem{mdexample}{Beispiel}[section]
+%\newenvironment{example}%
+%  {\begin{mdframed}[topline=false,  bottomline=false, rightline=false, leftline=false, innertopmargin=0,
+%    innerbottommargin=0.1]\begin{mdexample}}%
+%  {\end{mdexample}\end{mdframed}}
+
+\theoremstyle{indented}
+\newtheorem{example}{Beispiel}[section]
+
+
+\newtheorem{exercise}[example]{Übung}
+
+\newtheorem{tippcounter}{Tippps}[chapter]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Bemerkung}
+
+\newtcbtheorem[use counter*=example, number within=section]{definition}{\strut Definition}
+{colback=cyan!5,colframe=cyan!35!gray,fonttitle=\bfseries,breakable, parbox=false}{def}
+
+\newtcbtheorem[use counter*=example, number within=section]{lemma}{\strut Lemma}
+{colback=black!5,colframe=black!45,fonttitle=\bfseries,breakable, parbox=false}{lem}
+
+\newtcbtheorem[use counter*=tippcounter]{tipp}{\strut Tipp}
+{colback=lime!5,colframe=lime!35!gray,fonttitle=\bfseries,breakable, parbox=false}{tipp}
+
+\newtcbtheorem[use counter*=example, number within=section]{satz}{\strut Satz}
+{colback=red!5,colframe=red!35!gray,fonttitle=\bfseries,breakable, parbox=false}{satz}
+
+\newtcbtheorem[use counter*=example, number within=section]{korollar}{\strut Korollar}
+{colback=orange!5,colframe=orange!35!gray,fonttitle=\bfseries,breakable, parbox=false}{kor}
+
+
+%%%%%%%%%%%%%%
+% Title-page %
+%%%%%%%%%%%%%%
+
+\institute{ETH ZÜRICH}
+\faculty{D-MATH}
+\title{Analysis I \& II\\ \normalsize Vorlesungsnotizen ge{\TeX}t}
+\subtitle{\normalsize basierend auf den Vorlesungen von Prof. Giovanni Felder HS2020/FS2021}
+
+
+%\author{\\Jan \textsc{Obermeier}
+%       \\Yoel \textsc{Zimmermann}
+%}
+
+\context{}
+\date{\today}
+
+%%%%%%%%%%%%%%%%
+% Bibliography %
+%%%%%%%%%%%%%%%%
+
+\addbibresource{./resources/bib/references.bib}
+
+%%%%%%%%%%
+% Others %
+%%%%%%%%%%
+
+\lstdefinestyle{latex}{
+    language=TeX,
+    style=default,
+    %%%%%
+    commentstyle=\ForestGreen,
+    keywordstyle=\TrueBlue,
+    stringstyle=\VeronicaPurple,
+    emphstyle=\TrueBlue,
+    %%%%%
+    emph={LaTeX, usepackage, textit, textbf, textsc}
+}
+
+\FrameTBStyle{latex}
+
+\def\tbs{\textbackslash}
+
+%%%%%%%%%%%%
+% Document %
+%%%%%%%%%%%%
+
+\begin{document}
+    \setcounter{secnumdepth}{2}
+    \setcounter{tocdepth}{3}
+    \maketitle
+    \romantableofcontents
+    %\include{resources/chapters/00_vorwort}
+    %\include{resources/chapters/01_grundlagen}
+    %\include{resources/chapters/02_zahlenmengen}
+    \include{resources/chapters/07_differenzialrechnung}
+    %\include{resources/chapters/08_notizen}
+    \include{resources/chapters/09_metrische_raeume}
+    \include{resources/chapters/10_mehrdim_diffrechnung}
+    \printbibliography
+\end{document}
+

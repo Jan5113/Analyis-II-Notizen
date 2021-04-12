@@ -1,0 +1,651 @@
+\chapter{Differenzialrechnung}
+
+\section{Grundlagen}\label{cha_grundlagen_diffrechnung}
+Bevor wir uns Ableitungen, Integrale, usw. anschauen können, ist es wichtig, ein solides Fundament aus Grundbegriffen zu bauen, um die Definitionen möglichst präzis formulieren zu können. Die wichtigsten Grundlagen seien daher in den nachfolgenden Unterkapiteln erklärt.
+
+Wie wir schon aus der Mittelschule gelernt haben, wollen wir mit der Ableitung einer Funktion eine Aussage über die Steigung machen können. Dazu haben wir mit immer kleineren Steigungsdreiecken Sekanten gebildet mit der Steigung $\frac{\Delta y}{\Delta x}$, welche dann im Grenzfall $\lim_{\Delta x \to 0}$ zur Tangente der Funktion wurde. Um diesen Grenzwert bilden zu können, benötigen wir für $\Delta x$ eine Nullfolge, die jedoch nie den Wert $0$ annimmt, da wir ansonsten durch $0$ teilen. Als \textbf{Häufungspunkte} wollen wir nun genau die Punkte bezeichnen, bei welchen man solche konvergierende Folgen finden kann, sodass sich dann der \textbf{Grenzwert einer Funktion} bilden lässt.
+
+\subsection{Häufungspunkte}\label{cha_limit_points}
+Um Häufungspunkte definieren zu können, müssen wir erst einmal das Konzept der \textbf{Umgebung} aus dem  Teilbereich der Topologie einführen:
+
+\begin{definition}{Umgebung}{}
+    Seien $x_0 \in \mathbb{R}$ und $ \varepsilon > 0$. Wir nennen 
+    $$U_\varepsilon\,(x_0) := (x_0 - \varepsilon , x_0 + \varepsilon)\quad \text{ bzw. } \quad U_\varepsilon\,(x_0) := \{\ x \in \mathbb{R} \mid \abs{x-x_0} < \varepsilon \,\}$$
+     die $\varepsilon$-Umgebung von $x_0$.
+\end{definition}
+    
+ Die $\varepsilon$-Umgebung enthält alle Punkte $x$, die sich innerhalb eines gewissen Abstand  $\varepsilon$ von $x_0$ befinden, also auch $x_0$ selbst. Die Umgebung ist geometrisch das selbe die  bereits vorher verwendeten Bälle $B_\varepsilon(x_0)$, jedoch wird in diesem Kontext generell von Umgebungen gesprochen. Im Gegensatz dazu definieren wir die 
+ 
+\begin{definition}{punktierte Umgebung}{}
+$$\dot{U}_\varepsilon(x_0) := (x_0 - \varepsilon, x_0) \cap (x_0, x_0 + \varepsilon) \quad \text{ bzw. } \quad \dot{U}_\varepsilon(x_0) := U_\varepsilon(x_0)\setminus \{x_0\}$$
+wobei $x_0 \in \R$ und $\varepsilon>0$
+\end{definition}
+als die \textbf{punktierte} $\varepsilon$-Umgebung von $x_0$. Der Unterschied zwischen der ''normalen'' und der punktierten Umgebung ist also, dass die punktierte Umgebung den Punkt $x_0$ selbst nicht enthält. Diese Eigenschaft wird sich später für einige Definitionen als sehr nützlich erweisen.
+
+Mit diesen Grundbegriffen können wir nun Häufungspunkte definieren:
+
+\begin{definition}{Häufungspunkt}{}
+$x_0 \in \R$ ist ein Häufungspunkt einer Teilmenge $D \subseteq \R$, falls die in der Teilmenge $D$ enthaltenen punktierte Umgebung $\dot{U}_\varepsilon(x_0) \cap D$ mit einem $\varepsilon>0$ nicht leer ist:
+$$\forall \varepsilon > 0 : \dot{U}_\varepsilon(x_0) \cap D \ne \emptyset $$
+\end{definition}
+
+In Worten: Für jede noch so kleinen Radius um den in Frage stehenden Punkt können wir unendlich weitere Punkte im Inneren des Radius finden, welche Teil der Menge sind. Am besten lässt sich das anhand von ein paar Beispielen zeigen:
+\begin{example} \label{07ex_hp1}
+\begin{enumerate}
+    \item Sei $D = (a, b), a<b$, dann sind $[a, b]$ Häufungspunkte von $D$.
+    \item Sei $D = [0, 1) \cap \{2\}$, dann sind $[0,1]$ Häufungspunkte von $D$.
+    \item Sei $D = \{\frac{1}{n} \mid n \in \N\}$, dann ist nur $\{0\}$ ein Häufungspunkt von $D$.
+\end{enumerate}
+\end{example}
+
+
+Wie man sieht, sind auch Randpunkte Häufungspunkte, isolierte Punkte jedoch (oben in Bsp. 2 die Menge $\{2\}$) können keine Häufungspunkte sein.
+
+Da die Menge eines Häufungspunktes dieses $\varepsilon$-Kriterium erfüllt, ist sie sehr eng verwandt mit nach $x_0$ konvergente Folgen, darum hier noch ein Lemma, welches die beiden verbindet:
+
+\begin{lemma}{Häufungspunkte und Folgen}{}
+Sei $D \subseteq \R$, dann sind die folgenden Aussagen äquivalent:
+\begin{enumerate}
+    \item $x_0$ ist ein Häufungspunkt.
+    \item Es gibt eine Folge $(x_n)_{n \in \N} \in D\setminus\{x_0\}$, sodass $\lim_{n \to \infty}{x_n} = x_0$
+    \item $\forall \varepsilon > 0 : \dot{U}_\varepsilon(x_0) \cap D$ hat unendlich viele Punkte
+\end{enumerate}
+\end{lemma}
+
+
+\subsection{Grenzwerte von Funktionen}
+Nun haben wir mit einem Häufungspunkt $x_0 \in D$ eine Menge an Punkten, auf welchen wir beliebig nahe an $x_0$ gehen können. Jetzt brauchen wir noch unsere auf $D$ definierte Funktion $f(x)$, dann lassen sich mit der Definition vom Limes auch schon gleich ein Grenzwert bilden:
+
+\begin{definition}{Grenzwert einer Funktion}{}
+Sei $D \subseteq \R$ und $f: D \to \R$ eine Funktion und $x_0$ ein Häufungspunkt von $D$. Dann nennen wir $a \in \R$ den \textbf{Grenzwert} von $f$ für $x \to x_0$ falls für alle $\varepsilon>0$ ein $\delta>0$ existiert, sodass:
+$$x\in\dot{U}_\delta(x_0) \cap D \implies | f(x) - a | < \varepsilon$$
+oder
+$$x\in\dot{U}_\delta(x_0) \cap D \implies  f(x) \in \dot{U}_\varepsilon(a)$$
+Wir schreiben 
+$$a = \lim_{x \to x_0}{f(x)}$$
+\end{definition}
+
+Somit können wir Grenzwerte nur in Häufungspunkten definieren, ansonsten ergibt die Definition des Grenzwertes keinen Sinn. Des Weiteren müssen wir auch zuerst garantieren, dass der Grenzwert eindeutig ist, bevor wir diesen als $a$ bezeichnen können. Dieser Begriff des Grenzwertes ist auch sehr nahe an der Definition der Stetigkeit und kann auch durch eine Umformulierung des obigen Kriteriums erhalten werden:
+
+\begin{lemma}{Zusammenhang zur Stetigkeit}{Zusammenhang_zur_Stetigkeit}
+Sei $x_0$ ein Häufungspunkt mit $x_0 \in D$, dann gilt für $f: D \to \R$
+$$f(x_0) = \lim_{x \to x_0}{f(x)} \iff \text{f stetig in } x_0$$
+\end{lemma}
+
+Da wir jedoch bei der Definition der Stetigkeit keine punktierten Umgebungen verwendet haben, könnte man meinen, die Aussage des Lemmas oben etwas schwächer ist. Jedoch stellt sich heraus, dass trotz der punktierten Umgebung des Grenzwertes die Definitionen äquivalent sind (Beweis dem Dozenten überlassen).
+
+\begin{example}\label{07b1}
+Hier ein Beispiel aus der Vorlesung: Sei
+$$f: \R \to \R, f(x)=\begin{cases}x & x \ne 1\\2 & x = 1\end{cases}$$
+dann gilt für den Grenzwert $\lim_{x \to 1}{f(x)} = 1 \ne f(1)$, welches die Unstetigkeit von $f$ zeigt.
+\end{example}
+
+\subsubsection{Stetige Fortsetzung}
+
+Wie wir aus dem obigen Beispiel gesehen haben, lässt sich diese Unstetigkeit beheben lässt. Man nennt diese Stellen \textbf{hebbare Unstetigkeitsstellen}. Wenn man also nur die unmittelbare Umgebung von $x_0$ betrachtet, dann lässt sich die Funktion durch die Redefinition von $f(x_0) = \lim_{x \to x_0}{f(x)}$ \textbf{stetig fortsetzen}:
+
+\begin{definition}{stetige Fortsetzung}{}
+Wenn $x_0 \notin D$, $x_0$ ein Häufungspunkt von $D$ und $f$ stetig ist mit $\lim_{x \to x_0}{f(x)} = a$, dann können wir eine Fortsetzung $\widetilde{f}: D \cup \{x_0\} \to \R$ durch
+$$\widetilde{f}(x)=\begin{cases}f(x) & x \in D\\a & x = x_0\end{cases}$$
+definieren, die stetig ist, da per Konstruktion folgendes gilt: $$\lim_{x \to x_0}{\widetilde{f}(x)} = \lim_{x \to x_0}{f(x)} = a = \widetilde{f}(x_0)$$
+\end{definition}
+
+\begin{example} Fortsetzung des Beispiels \ref{07b1}: Durch die Einschränkung von $f: \R \setminus \{1\}$ erhalten wir durch die stetige Fortsetzung $f(x) = x$.
+\end{example}
+
+\subsubsection{Grenzwerte von Funktionen und Folgen}
+
+Da Grenzwerte vieles mit Folgen gemeinsam haben und wir aus den vorherigen Kapiteln bereits schon sehr viel über Folgen wissen, gibt es die folgende sehr nützliche/intuitive alternative Definition von Grenzwerten durch Folgen:
+
+\begin{lemma}{Grenzwerte von Funktionen durch Folgen}{Grenzwerte_von_Funktionen_durch_Folgen}
+Sei $x_0$ ein Häufungspunkt von $D \subseteq \R, f: D \to \R$ und $a\in \R$, dann gilt:
+$$a = \lim_{x \to x_0} f(x) \iff \forall (x_n)_{n \in \N} \subseteq D \setminus \{x_0\}: a = \lim_{n \to \infty}{f(x_n)}$$
+wobei $(x_n)_{n \in \N}$ Folgen sind, welche gegen $x_0$ konvergieren, aber $x_0$ nie annehmen.
+\end{lemma}
+
+\begin{remark}{1}
+Es gibt nach $x_0$ konvergente Folgen $(x_n)_{n \in \N}$ in  $\subseteq D \setminus \{x_0\}$, da $x_0$ ein Häufungspunkt ist.
+\end{remark}
+
+Somit können wir viele Eigenschaften, welche wir bereits für die Folgen definiert haben, auch auf die Grenzwerte von Funktionen anwenden, so z.B. die Eindeutigkeit des Grenzwertes, das Sandwich-Lemmas, Linearität, Monotonie, etc.
+
+\begin{remark}{2}
+Auch unterscheidet sich Lemma \ref{lem:Zusammenhang_zur_Stetigkeit} von Lemma \ref{lem:Grenzwerte_von_Funktionen_durch_Folgen} durch die Definition von $x_0$, welches im letzterem Lemma nicht zwingend $\in D$ ist (Siehe Beispiel \ref{07ex_hp1}, wo auch offene Intervallsgrenzen Häufungspunkte der Menge sind). Des Weiteren wird in Lemma \ref{lem:Grenzwerte_von_Funktionen_durch_Folgen} auch nicht von einer stetigen Funktion ausgegangen.
+\end{remark}
+
+Aus den Sätzen zu Grenzwerten von Folgen folgt nun auch für die Grenzwerte von Funktionen:
+\begin{satz}{Eigenschaften von Grenzwerten von Funktionen}{}
+\begin{enumerate}
+    \item Der Grenzwert $\lim_{x \to x_0} f(x)$ ist eindeutig, wenn er existiert.
+    \item Linearität:\\Wenn $f,g:D \to \R, x_0$ ein Häufungspunkt von $D$ ist mit $\lim_{x \to x_0} f(x) = a$, $\lim_{x \to x_0} g(x) = b$, dann gilt:
+    $$\lim_{x \to x_0}{\left( f(x) + g(x) \right) }= a + b$$
+    $$\lim_{x \to x_0}{\left( f(x) g(x) \right) }= ab$$
+    \item $f \leq g \implies \lim_{x \to x_0}{f(x)} \leq \lim_{x \to x_0}{g(x)}$
+    \item Sandwich-Lemma:\\$f\leq g \leq h : D \to \R$, $x_0$ Häufungspunkt. Wenn $\lim_{x \to x_0}{f(x)}=\lim_{x \to x_0}{h(x)}=a$, dann existiert der Grenzwert auch für $\lim_{x \to x_0}{g(x)} = a$
+\end{enumerate}
+\end{satz}
+
+\begin{example}[Sandwich-Lemma]
+Nun wollen wir die von den Folgen übertragenen Sätze in einem Beispiel anwenden. Sei $f(x) = \frac{\sin{x}}{x}$, $f: \R \setminus \{0\} \to \R$, $0$ ein Häufungspunkt, dann ist$\lim_{x \to 0}{\frac{\sin{x}}{x}} = $ definiert, weil:
+$$x -\frac{x^3}{3!} \leq \sin{x} \leq x \qquad \text{für } x > 0$$
+$$1 -\frac{x^2}{3!} \leq \frac{\sin{x}}{x} \leq 1 \qquad \text{für } x > 0$$
+Da diese Funktionen alle gerade sind, gilt dasselbe auch für $x<0$. Da $1-\frac{x^2}{6}$ und $1$ stetig auf $\R$ sind (Grenzwert nimmt Funktionswert bei $x=0$ an), lässt sich das Sandwich-Lemma für die Bestimmung des Grenzwertes verwenden:
+$$\lim_{x \to 0}{\frac{\sin{x}}{x}} = 1$$
+\end{example}
+
+\begin{example}[Verschachtelte Funktionen]
+Seien $f: D \to E \subseteq \R$ und $g: E \to \R$ Funktionen, sodass $g$ stetig ist bei $y_0 = \lim_{x \to x_0} f(x)$, dann gilt:
+$$\limto{x}{g(f(x)) = g(y_0)}$$
+\end{example}
+
+\subsubsection{Links- und Rechtsseitige Grenzwerte}
+Wie man vielleicht schon mal gesehen hat, kann einen Grenzwert auch ausschliesslich von links oder von rechts bilden. Um dies zu ermöglichen, müssen wir die zuvor eingeführten Grundbegriffe nochmals umdefinieren: Für links- und rechtsseitige Grenzwerte brauchen wir analog links- bzw. rechtsseitigen $\varepsilon$-Umgebungen resp. Häufungspunkte:
+
+\begin{definition}{Einseitige Umgebungen und Häufungspunkte}{}
+Analog zur punktierten Umgebung definieren wir die \textbf{linke/rechte punktierte Umgebung} von $x_0 \in \R$ als:
+$$\dot{U}_\varepsilon^-(x_0) := (x_0-\varepsilon, x_0) \qquad\textit{linke punktierte Umgebung}$$
+$$\dot{U}_\varepsilon^+(x_0) := (x_0, x_0+\varepsilon) \qquad\textit{rechte punktierte Umgebung}$$
+
+$x_0$ nennen wir \textbf{links/rechtsseitiger Häufungspunkt}, falls $\forall \varepsilon >0$
+$$\dot{U}_\varepsilon^-(x_0) \cap D \ne \emptyset \qquad\textit{linksseitiger Häufungspunkt}$$
+$$\dot{U}_\varepsilon^+(x_0) \cap D \ne \emptyset \qquad\textit{rechtsseitiger Häufungspunkt}$$
+\end{definition}
+
+\begin{example}[einseitiger Häufungspunkt] Sei $a<b$, dann ist $b$ ein linksseitiger Häufungspunkt von $(a,b)$ und $(a,b]$, jedoch kein rechtsseitiger Häufungspunkt dieser Intervalle.
+\end{example}
+
+\begin{remark}
+\begin{itemize}
+    \item Links- und rechtsseitige Häufungspunkte von $D$ sind auch Häufungspunkte von $D$, wir nennen diese \textbf{einseitige Häufungspunkte}.
+    \item Häufungspunkte sind links-seitige, rechts-seitig oder beidseitige Häufungspunkte.
+    \item Für Intervalle $I = [a, b], [a, b), (a, b), [a , \infty), (-\infty, b)$ etc... sind rechte Endpunkte $<\infty$ linksseitige Häufungspunkte, linke Endpunkte $>-\infty$ rechtsseitige Häufungspunkte und die inneren Punkte sind beidseitige Häufungspunkte.
+\end{itemize}
+\end{remark}
+
+
+\begin{definition}{Einseitige Grenzwerte}{}
+Sei $f: D \to \R, x_0$ ein linksseitiger Häufungspunkt von $D$. Wir nennen $a$ den \textbf{linksseitigen Grenzwert} von $f$ für $x \to x_0$ und schreiben
+$$a = \lim_{x \nearrow x_0}f(x)$$
+falls
+$$\forall \varepsilon>0 \ \exists \delta>0: x \in \dot{U}_\delta^-(x_0)\cap D \implies f(x) \in U_\varepsilon(a)$$
+Es folgt:
+$$a = \lim_{x \nearrow x_0} f(x) \iff \forall (x_n)_{n \in \N}: a = \lim_{n \to \infty}{f(x_n)}$$
+wobei $(x_n)_{n \in \N}$ Folgen sind in $D \cap \R_{<x_0}$, welche gegen $x_0$ konvergieren.
+\end{definition}
+Dazu gibt es ein sehr nützliches Lemma, das wir noch öfters brauchen werden:
+\begin{lemma}{Beidseitige Grenzwerte}{Beidseitige_Grenzwerte}
+Sei $f:D \to \R$ und $x_0$ ein beidseitiger Häufungspunkt von $D$. Dann gilt:
+$$a=\lim_{x \to x_0}{f(x)} \Longleftrightarrow \lim_{x \nearrow x_0}f(x) = \lim_{x \searrow x_0}f(x)=a$$
+\end{lemma}
+
+\begin{example}[Einseitige Grenzwerte]Berechne den Grenzwert von $x \log x$ und $x^x$:
+\begin{align*}
+\lim_{x \searrow 0} x \log x &= \lim_{x \searrow 0}e^{\log x} \log x\\
+&= \lim_{x \searrow 0} \frac{\log x}{e^{- \log x}}\\
+&= - \lim_{x \searrow 0} \frac{-\log x}{e^{- \log x}}
+\end{align*}
+Bemerke nun, dass im Nenner für kleine $x$ ein sehr grosser Exponent entsteht. Wir wollen also zeigen, das $e^{-\log x}$ schneller wächst als $-\log x$. Wir verwenden also zur Abschätzung die Reihen-Definition von $e^x$: Für ein $a>0$ gilt: $$e^a \geq 1 + a + \frac{a^2}{2} \geq \frac{a^2}{2}$$
+$$0\leq \frac{1}{e^a} \leq \frac{2}{a^2}$$
+Sei nun $a = -\log(x)$, es folgt somit:
+\begin{align*}
+    0 \leq \lim_{x \searrow 0} \frac{-\log x}{e^{- \log x}} & \leq \lim_{x \searrow 0} \frac{-2\log x}{(- \log x)^2}= \lim_{x \searrow 0} \frac{2}{- \log x} = 0
+\end{align*}
+Das heisst, wir haben $\lim_{x \searrow 0} x \log x = 0$ gezeigt. Daraus können wir nun auch den Grenzwert von $\lim_{x \searrow 0}x^x$ bestimmen:
+$$\lim_{x \searrow 0} x^x = \lim_{x \searrow 0} e^{x \log x} = e ^0 = 1$$
+\end{example}
+
+
+\subsubsection{Uneigentlicher Grenzwert von $x_0$}
+Nun wollen wir auch Grenzwerte von Stellen bestimmen können, welche z.B. durch Definitionslücken von Brüchen oder bei $f(x)=\log{x}$ mit $x_0 = 0$ entstehen und ins Unendliche divergieren. Diese Grenzwerte nennen wir \textbf{uneigentliche Grenzwerte}:
+\begin{definition}{Uneigentliche Grenzwerte}{}
+Wir schreiben $\lim_{x \to x_0}{f(x)} = \infty$ (analog für $-\infty$), falls zu jedem $M > 0$ ein $\delta > 0$ existiert, sodass:
+$$x \in \dot{U}_\delta(x_0) \cap D \implies f(x) > M$$
+Es ist äquivalent zu 
+$$\forall (x_n)_{n \in \N}: \lim_{n \to \infty}{f(x_n)} = \infty $$
+wobei $(x_n)_{n \in \N} \subseteq D \setminus \{x_0\}$ beliebige Folgen sind mit $\lim_{n \to \infty}{x_n} = x_0$
+\end{definition}
+In Worten: Für jedes noch so grosse $M$ finden wir nahe an $x_0$ liegende Argumente, sodass der Funktionswert $f(x)$ grösser als M ist.
+
+\begin{example}[Uneigentlicher Grenzwert in Häufungspunkt] Sei $f: \R\setminus\{0\}$, $x \mapsto \frac{1}{x}$, dann gilt:
+$$\lim_{x \nearrow 0} \frac{1}{x} = - \infty$$
+Das bedeutet, dass für alle $M > 0$ ein $\delta >0$ existiert, sodass $\frac{1}{x} < -M$ für alle $x \in (-\delta, 0) = U_\delta^-(0)$ gilt.
+Analog gilt:
+$$\lim_{x \searrow 0} \frac{1}{x} = \infty$$
+\end{example}
+
+\subsubsection{Grenzwert von uneigentlichen Häufungspunkten}
+Bis jetzt haben wir aber nur Grenzwerte von einem bestimmten Punkt $x_0$ in einer Menge $D$ bestimmt, welche einen endlichen oder unendlichen Funktionswert (also einen Grenzwert resp. uneigentlichen Grenzwert) haben. Was ist jedoch, wenn wir dieses $x_0$ nach $\pm \infty$ laufen lassen, also ein unendliches Funktionsargument haben? Für das benötigen wir zuerst ein nicht von oben beschränktes $D$, d.h. $D$ hat beliebig grosse Elemente. Wir können dann schreiben:
+\begin{definition}{Grenzwert von $\pm \infty$}{}
+$$a = \lim_{x \to \infty} f(x)$$
+falls für alle $\varepsilon>0$ ein $M>0$ existiert, sodass:
+$$x \in D, x>M \implies |f(x)-a| < \varepsilon$$
+(analog für $-\infty$)
+\end{definition}
+
+In Worte gefasst, finden wir einen Grenzwert für immer näher an $\infty$ liegende Argumente. Wir haben somit gewissermassen eine $\varepsilon$-Umgebung von $\infty$. Diese können wir auch mathematisch rigoros definieren als ein
+
+\begin{definition}{Uneigentlicher Häufungspunkt}{}
+Wir definieren die $\varepsilon$-Umgebung von $\infty$ als:
+$$\dot{U}_\varepsilon(\infty) := \left\{x \in \R \mid x > \frac{1}{\varepsilon}\right\}$$
+(analog für $-\infty$)
+\end{definition}
+d.h. für den Grenzwert $a = \lim_{x \to \infty}f(x)$ bedeutet das in der Schreibweise mit der $\varepsilon$-Umgebung von $\infty$:
+$$\forall \varepsilon>0 \ \exists \delta>0: x \in \dot{U}_{\frac{1}{\delta}}(\infty) \cap D \implies f(x) \in U_\varepsilon(a)$$
+
+\begin{remark}
+Felder nennt sowohl den \textit{uneigentlichen Grenzwert} wie auch den \textit{Grenzwert von uneigentlichen Häufungspunkten} einfach nur \textit{uneigentlicher Grenzwert}. Wir haben uns dafür entschieden, eine klare Differenzierung zwischen den beiden Begriffen zu machen, da bei Grenz\textbf{werten} von uneigentlichen Häufungspunkten der Wert der Funktion sehr wohl definiert ist, während die uneigentlichen Grenzwerte nicht in $\R$ sind.
+\end{remark} 
+
+\begin{example}[Uneigentlicher Grenzwert in uneigentlichem Häufungspunkt] Sei $\log{x}: (0, \infty) \to \R$, dann gilt:
+$$ \limtoinf{x}{\log(x)}$$
+Das bedeutet, dass $\forall M >0 \ \exists N>0$, sodass für jedes $x \in (N, \infty): \log x > M$ gilt. Des Weiteren können wir auch den uneigentlichen Grenzwert von $\lim_{x \searrow 0} \log{x}$ berechnen
+$$\lim_{x \searrow 0} \log x = - \infty$$
+indem wir $\delta \leq e^{-M}$ wählen. Denn dadurch gilt $|x - 0| = x < e^{-M}$ und somit erhält man durch Einsetzen von $x$ in $\log$: $\log x < \log e^{-M} = -M $, welches den uneigentlichen Grenzwert von $\lim_{x \searrow 0} \log x = -\infty$ zeigt.
+\end{example}
+
+\begin{tipp}{}{}
+Wir haben in diesem Kapitel der Vorlesung folgende Identitäten gezeigt:
+\begin{itemize}
+    \item $\lim_{x \to 0}{\frac{\sin{x}}{x}} = 1$
+    \item $\lim_{x \searrow 0} x \log x = 0$
+    \item $\lim_{x \searrow 0} x^x = 1$
+    \item $\lim_{x \searrow 0} \log x = -\infty$, $\lim_{x \to \infty} \log x = \infty$
+\end{itemize}
+Beachte, dass man auch Limites durch ''Substitution'' in eine bekannte Form umformen kann, z.B. $\limtoinf{x}{\frac{\sin{(x + 1)}}{x+1}}$ lässt sich mit der Substitution $y = x + 1$, also $\limtoinf{x}{\frac{\sin{(x + 1)}}{x+1}} = \limtoinf{y}{\frac{\sin y}{y}} = 1$ berechnen. %Maybe an eine bessere Stelle packen
+\end{tipp}
+
+\subsection{Landau Notation}\label{cha_landau_notation}
+\subsection{Leibniz Notation}
+
+\section{Ableitung}
+Bei der Ableitung stellen wir uns die Frage, wie schnell sich eine gewisse Grösse (Funktionswert) relativ zu einer anderen (Funktionsargument) ändert. Derartige Betrachtungen sind beispielsweise in der Physik heute nicht mehr wegzudenken. Um sagen zu können, wie sich ein Funktionswert ändert, benötigen wir die zuvor definierten Häufungspunkte und Grenzwerte. Ohne Häufungspunkten wäre diese Betrachtung auch sehr sinnlos, da isolierte Punkte in sich auch keine Änderungsraten aufweisen können. 
+\subsection{Differenzenquotient und Differenzierbarkeit}
+Ähnlich wie wir es schon vor der Uni gemacht haben, werden wir uns erst kurz den Differenzenquotienten anschauen. Dieser berechnet die \textbf{durchschnittliche} bzw. \textbf{mittlere Änderungsrate} des Graphen einer Funktion $f$ zwischen zwei Punkten $f(x_0)$ und $f(x)$. Man könnte auch sagen: Der Differenzenquotient berechnet die Steigung der Sekante, die durch die zwei Punkte $f(x_0)$ und $f(x)$ geht. Ganz konkret ist diese Steigung gegeben durch:
+$$\frac{f(x)-f(x_0)}{x-x_0}$$
+Der Differenzenquotient ist schon eine relativ gute Approximation der Steigung der Funktion. Was ist jedoch, wenn wir es genauer wissen wollen? Intuitiv würden wir sagen, dass man die zwei Punkte einfach immer näher zueinander rücken lässt, z.B. $x$ zu $x_0$. Die Approximation wird so immer besser, bis man im Grenzfall die Steigung der Tangente durch $f(x_0)$ erhält. Um diesen Schritt zur Tangente auch machen zu können, muss $x_0$ ein Häufungspunkt sein. Dadurch ist es garantiert, dass man immer kleinere Schritte für den Differenzenquotienten betrachten kann und auch den Grenzwert davon bilden kann. So macht man den Sprung von der mittleren Änderungsrate hin zur tatsächlichen, \textbf{momentanen Änderungsrate}, welche wir dann \textbf{Ableitung} von $f$ bei $x_0$ nennen, notiert $f'(x_0)$ oder $\frac{df(x_0)}{dx}$.    
+\begin{definition}{Ableitung und Differenzierbarkeit}{Ableitung_Differenzierbarkeit}
+Seien $D \subseteq \R$, $f:D \to \R$ und $x_0 \in D$ ein Häufungspunkt von $D$. $f$ heisst \textbf{differenzierbar} bei $x_0$, falls der Grenzwert
+$$f'(x_0) := \lim_{x \to x_0}{\frac{f(x)-f(x_0)}{x-x_0}} = \lim_{h \to 0}{\frac{f(x_0 + h)-f(x_0)}{h}}$$
+existiert. Wir nennen dann $f'(x_0)$ die \textbf{Ableitung} bzw. \textbf{momentane Änderungsrate} von $f$ bei $x_0$. $f$ heisst \textbf{differenzierbar}, falls $f$ bei allen Häufungspunkten in $D$ differenzierbar ist.
+\end{definition}
+\begin{remark}
+Den Term $\lim_{x \to x_0}{\frac{f(x)-f(x_0)}{x-x_0}}$ nennen wir nun nicht mehr Differenzenquotient, sondern \textbf{Differentialquotient}. Durch die alternative Schreibweise $\lim_{h \to 0}{\frac{f(x_0 + h)-f(x_0)}{h}}$, die manchmal auch \textbf{h-Methode} genannt wird, wird noch einmal mehr ersichtlich, wie man sich bei der Ableitung immer näher an $x_0$ annähert, um dort die Ableitung zu ermitteln. Bei Rechnungen kann diese auch nützlich sein.
+\end{remark}
+Ähnlich wie bei Häufungspunkten und Grenzwerten unterschieden wir auch bei der Differenzierbarkeit zwischen \textbf{rechts-} und \textbf{linksseitiger Differenzierbarkeit}. 
+\begin{definition}{Einseitige Differenzierbarkeit}{}
+Falls $x_0 \in D$ ein linksseitiger Häufungspunkt ist, dann heisst $f:D \to \R$ linksseitig differenzierbar, wenn
+$$f_{-}^{\prime}\left(x_{0}\right)=\lim _{x \nearrow x_{0}} \frac{f(x)-f\left(x_{0}\right)}{x-x_{0}}=\lim _{h \nearrow 0} \frac{f\left(x_{0}+h\right)-f\left(x_{0}\right)}{h}$$
+existiert. $f_-'(x_0)$ nennt man dann \textbf{linksseitige Ableitung}. Analog ist die \textbf{rechtsseitige Ableitung} $f_+'(x_0)$ definiert.
+\end{definition}
+\begin{remark}
+Aufgrund von Lemma \ref{lem:Beidseitige_Grenzwerte} für Grenzwerte von Funktionen gilt auch hier: $$f'(x_0)=\lim_{x \to x_0}\frac{f(x)-f(x_0)}{x-x_0} \Longleftrightarrow \lim_{x \nearrow x_0}\frac{f(x)-f\left(x_{0}\right)}{x-x_{0}} = \lim_{x \searrow x_0}\frac{f(x)-f\left(x_{0}\right)}{x-x_{0}}=f'(x_0)$$
+\end{remark}
+\begin{lemma}{Differenzierbarkeit und Stetigkeit}{}
+Wenn $f:D \to \R$ bei $x_0 \in D$ differenzierbar ist, dann ist $f$ stetig bei $x_0$.\\ Insbesondere gilt: Differenzierbare Funktionen sind stetig.
+\end{lemma}
+\begin{remark}
+Die Umkehrung gilt nicht. Als Beispiel sei nur die Funktion $f(x)=\abs{x}$ genannt.
+\end{remark}
+
+\subsection{Extrempunkte}
+Das Prinzip der Extrempunkte ist eigentlich altbekannt: Funktionen können Maxima und Minima annehmen. Mit den erarbeiteten Grundlagen können wir nun eine präzise Definition geben:
+
+\begin{definition}{Lokale Maxima und Minima}{}
+Sei $D \subseteq \R$, $f:D \to \R$. Wir sagen, dass f ein \textbf{lokales} Maximum bei $x_0 \in \R$ hat, wenn ein $\delta > 0$ existiert, sodass
+\begin{center}
+$f(x) \leq f(x_0)$ für alle $x \in U_\delta\,(x_0) \cap D$
+\end{center}
+Wir sprechen von einem \textbf{isolierten lokalen} Maximum bei $x_0$, falls sogar die strikte Ungleichung gilt:
+\begin{center}
+$f(x)<f(x_0)$ für alle $x\in\dot{U}_\delta(x_0) \cap D$    
+\end{center}
+Die Definition des Minimums erfolgt analog mit $\geq$ bzw. >.
+
+
+Merke! Wir nennen den Funktionswert $f(x_0)$ \textbf{Extremum} bzw. \textbf{Extremwert} und die Stelle $x_0$ \textbf{Extremstelle}. Die Kombination aus Wert und Stelle nennt man \textbf{Extrempunkt}.  
+\end{definition}
+\begin{remark}
+Man beachte, dass man beim isolierten lokalen Extremum unbedingt die punktierte Umgebung braucht, da diese den Punkt $x_0$ nicht enthält. Für diesen gilt nämlich selbstverständlich die strikte Ungleichung nicht. 
+\end{remark}
+Die Definition ist relativ selbsterklärend: Bei einem isolierten Extremum sind alle Funktionswerte in einer gewissen Umgebung ausschliesslich grösser bzw. kleiner als der Funktionswert an der Extremstelle selbst. Das typische Bild des ``Hügels'' bzw. ``Tals'' entsteht. Beim nicht-isolierten Extremum fordern wir nur, dass die Funktionswerte in einer gewissen Umgebung nicht grösser bzw. kleiner als der Extremwert sind. Es gibt also auch Punkte, die auf gleicher ``Höhe'' sind. Sprich: konstante Funktionen haben an jeder Stelle ein Maximum und Minimum.
+
+Mithilfe der gerade eingeführten Ableitung können wir nun die weniger abstrakte, notwendige Bedingung für Extrema formulieren. 
+
+\begin{lemma}{Notwendige Bedingung für Extrema}{}
+Seien $D \subseteq \R$, $x_0 \in D$ ein beidseitiger Häufungspunkt bzw. innerer Punkt eines Intervalls und $f:D \to \R $ bei $x_0$ differenzierbar.\\
+Wenn $f$ ein lokales Extremum bei $x_0$ hat, dann $$f'(x)=0.$$  
+\end{lemma}
+\begin{remark}
+Wir haben das Lemma möglichst allgemein formuliert. Man beachte trotzdem, dass es sogar eine hinreichende Bedingung ist, wenn wir nicht fordern, dass es sich um ein isoliertes lokales Extremum handelt. Sobald nämlich $f'(x_0)=0$ gilt, wissen wir schon, dass sich bei $x_0$ zumindest ein lokales Extremum befindet. Das Extremum könnte jedoch ein Terassenpunkt sein. Daher brauchen wir noch eine hinreichende Bedingung für isolierte lokale Extrema, um dies auszuschliessen. 
+\end{remark}
+
+\subsection{Ableitungsregeln}
+Da es viel zu lästig ist, für jede Funktion, die ich ableiten möchte, einen Differentialquotienten aufzustellen und diesen ewig umzuformen, gibt es einige Regeln, die uns beim Ableiten helfen. Da diese sehr fundamental sind, geben wir ausnahmsweise Beweise.
+\subsubsection{Linearität des Differentialoperators}
+Die Linearität der Ableitung haben wir eigentlich schon in der \textit{Lineare Algebra I} Vorlesung gesehen. Dort haben wir uns jedoch auf Polynome beschränkt und gesagt, dass die Abbildung
+$$(\cdot)': K[X] \to K[X], \ \ p \mapsto p'$$
+die ein Polynom $p$ auf seine Ableitung $p'$ abbildet, eine \textbf{lineare Abbildung} ist. Das heisst, dass die Ableitung von Polynomen \textbf{additiv} und \textbf{homogen} ist. Wir wollen diese besondere Eigenschaft nun auf alle differenzierbaren Funktionen ausweiten, uns dabei aber auch erst einmal auf reellwertige Funktionen beschränken.
+\begin{satz}{Linearität der Ableitung}{Linearität_der_Ableitung}
+Seien $\lambda \in \R$, $f:D \to \R$ und $g:D \to \R$ differenzierbare Funktionen. Dann gilt:
+\begin{center}
+    $(f(x) + g(x))' = f'(x) + g'(x)$ \hfill (Additivität) \\
+    $(\lambda \cdot f(x))' = \lambda \cdot f'(x)$  \hfill (Homogenität)
+\end{center}
+Man sagt, der Differentialoperator bzw. die Ableitung ist \textbf{linear}.
+\end{satz}
+\begin{proof}
+Zeigen wir zuerst mithilfe der allgemeinen Rechenregeln zu Grenzwerten die Additivität:
+\begin{align*}
+   (f(x)+g(x))'&=\limto{x}\frac{f(x)+g(x)-(f(x_0)+g(x_0))}{x-x_0}\\
+   &= \limto{x}\frac{f(x)-f(x_0)+g(x)-g(x_0)}{x-x_0}\\
+   &= \limto{x}\frac{f(x)-f(x_0)}{x-x_0}+\limto{x}\frac{g(x)-g(x_0)}{x-x_0}=f'(x)+g'(x)
+\end{align*}
+Analog erhalten wir die Homogenität:
+\begin{align*}
+    (\lambda \cdot f(x))' &=\limto{x}\frac{\lambda f(x) - \lambda f(x_0)}{x-x_0}\\
+    &=\lambda \limto{x}\frac{f(x)-f(x_0)}{x-x_0} = \lambda \cdot f'(x)
+\end{align*}
+
+\end{proof}
+
+%\subsubsection{Polynome}
+
+%\subsubsection{Produktregel}
+
+
+
+%\subsubsection{Kettenregel}
+%\subsubsection{Quotientenregel}
+%\subsubsection{Ableitung der Inversen Funktion}
+%\subsubsection{Weitere Tricks}
+%Es gibt noch einige Tricks mit denen sich einige Funktionen viel einfacher ableiten lassen, als es erst scheint.
+%\begin{enumerate}
+%\item \textbf{Der Exponentialtrick}\\
+Diese Methode kommt immer dann zum Einsatz, wenn man Funktionen der Form $x^{g(x)}$ hat, wobei $g(x)$ keine konstante Funktion ist, da man in diesem Fall auch einfach die Methode für Polynome verwenden kann. \\ 
+Forme wie folgt um:
+%\begin{center}
+%       $x^{g(x)} = e^{\log x^{g(x)}} = e^{g(x) \log x}$ 
+%\end{center}
+%Leite dann mit den üblichen Regeln ab.
+%\begin{example}
+%Berechne die Ableitung von $f(x)=x^{\sin{x}}$.
+
+%Wir bemerken, dass $f(x)=x^{\sin{x}} = e^{\log x^{\sin{x}}} = e^{\sin{x}\log x}$.\\ Nun leiten wir ganz normal %mithilfe der Ketten- bzw. Produktregel ab: \\ $f'(x)=(\cos{x} \log x + \frac{\sin{x}}{x}) e^{\sin{x}\log x} = %(\cos{x} \log x + \frac{\sin{x}}{x}) x^{\sin{x}} $
+%\end{example}
+%\end{enumerate}
+%
+%
+%\subsection{Mittelwertsatz}
+%\subsubsection{Satz von Rolle}
+%\section{Integral}
+%\subsection{Hauptsatz der Differentialrechnung}
+%\subsection{Integrationsmethoden}
+\subsubsection{Partielle Integration}
+Die Methode der partiellen Integration, Integration by Parts, lat. integratio per partes, macht so einige schwierige Integrale zu einem Kinderspiel. Sie ist als Analogon zu der Produktregel zu verstehen, und wird daher auch so hergeleitet.
+\begin{satz}{Partielle Integration}{ibp}
+Seien zwei stetig differenzierbare Funktionen $u(x)$ und $v(x)$. \\
+Die Produktregel besagt, dass
+$$( u(x) \cdot v(x) )' = u'(x) \cdot v(x) + u(x) \cdot v'(x)$$ 
+Wenn man beide Seiten intergiert, erhält man 
+$$\int ( u(x) \cdot v(x) )' \mathrm{d}x = \int ( u'(x) \cdot v(x) + u(x) \cdot v'(x) ) \mathrm{d}x$$ 
+Mittels des Hauptsatzes der Integral- und Differentialrechnung folgt
+$$u(x) \cdot v(x) = \int ( u'(x) \cdot v(x) ) \mathrm{d}x + \int ( u(x) \cdot v'(x) ) \mathrm{d}x$$
+Wenn man dies nun umstellt, erhält man die eigentliche Integrationsregel:
+$$\int ( u'(x) \cdot v(x) ) \mathrm{d}x = u(x) \cdot v(x) - \int ( u(x) \cdot v'(x) ) \mathrm{d}x$$
+\end{satz}
+
+\begin{example}[Stammfunktion des natürlichen Logarithmus]
+\begin{align*}
+\int \ln(x) \,\mathrm{d}x &= \int 1 \cdot \ln(x) \,\mathrm{d}x\\ 
+& = x \cdot \ln(x) - \int x \cdot {1 \over x} \,\mathrm{d}x \\
+& = x \cdot \ln(x) - \int 1 \,\mathrm{d}x \\
+& = x \cdot \ln(x) - x + C\,.
+\end{align*}
+\end{example}
+Wie man an diesem Beispiel sieht und wie so oft in der Analysis, ist auch hier das hinzufügen des neutralen Elements manchmal vom Vorteil.
+\vspace{3mm}\\
+Zur leichteren Verständlichkeit haben wir in \ref{satz:ibp} die Regel für das unbestimmte Integral hergeleitet, aber selbstverständlich funktioniert sie auch für das bestimmte:
+\begin{align*} 
+\int_a^b f'(x)\cdot g(x)\,\mathrm{d}x 
+&= \Big[f(x)\cdot g(x)\Big]_{a}^{b} - \int_a^b f(x)\cdot g'(x)\,\mathrm{d}x\\
+&=f(b) \cdot g(b) - f(a) \cdot g(a) - \int_a^b f(x)\cdot g'(x)\,\mathrm{d}x\,.
+\end{align*}
+\begin{example}[ ]
+    
+\end{example}
+
+\subsubsection{Substitutionsregel}
+Wo die partielle Integration das Gegenstück zur Produktregel der Ableitung, ist die Substitutionsregel das Gegenstück zur Kettenregel. Sie ist ebenfalls ein starkes Tool, das für manche Integrations-Aufgaben unerlässlich ist. 
+\begin{satz}{Substitutionsregel}{}
+Sei $F$ eine Stammfunktion von $f$. Nach der Kettenregel gilt
+$$(F \circ g)'(x) = F'(g(x))\cdot g'(x) = f(g(x))\cdot g'(x)$$
+Durch bilden des Integrals auf beiden Seiten erhält man
+$$F(g(x)) = \int f(g(x))\cdot g'(x)\, \mathrm{d}x $$
+\end{satz}
+
+
+\subsubsection{Integration von rationalen Funktionen}
+Nun wollen wir eine allgemeine Formulierung für Stammfunktionen von rationalen Funktionen betrachten (Def. rationale Funktionen: Polynome mit Strich dazwischen), d.h. wir haben ganz allgemein zwei reelle Polynome $P,Q \in \R[x]$, die mit $\frac{p(x)}{q(x)}$ eine rationale Funktion bilden.
+
+Im ersten Schritt gilt es, durch Polynomdivision von $\frac{p(x)}{q(x)}$ einen \textbf{polynomialen Teil} $\widetilde{p}(x)\in \R[x]$ und einen \textbf{echt gebrochenen} $\frac{P(x)}{Q(x)}$ Teil zu erhalten, sodass $\frac{p(x)}{q(x)} = \widetilde{p}(x) + \frac{P(x)}{Q(x)}$ und $\deg P < \deg Q$ gelten. Der polynomiale Teil $p(x)$ ist mit der Linearität des Integrals und der Potenzregel einfach zu integrieren, der echt-gebrochene Teil ist jedoch etwas trickreicher zu integrieren.
+
+Wir wollen uns dazu die Linearität des Integrals zu Nutze machen, somit müssen wir in einem ersten Schritt das Polynom durch Partialbruchzerlegung in eine Summe von Brüchen aufteilen, um sie dann dann einzeln integrieren zu können.
+
+Erst einmal wollen wir ein Lemma für die Partialbruchzerlegung erwähnen:
+
+\begin{lemma}{Partialbruchzerlegung}{Partialbruchzerlegung}
+Für allgemeine rationale Funktionen gilt, dass für $P, Q \in \C[z]$, $\deg P < \deg Q$ die Funktion $\frac{P(z)}{Q(z)}$ als Linearkombination $$\frac{P(z)}{Q(z)} = \sum_{z_i \in \mathcal{N}}\sum_n^{\mu(Q, z_i)} \frac{A_{i,n}}{(x-z_i)^n}$$ geschrieben werden kann, wobei $\mathcal{N} \subseteq \C$ die Menge der Nullstellen von $Q$  ist und $\mu(Q, z_i)$ die Vielfachheit der jeweiligen Nullstelle bezeichnet.
+
+Für reelle Polynome $P, Q \in \R[x]$ sind die Nullstellen immer entweder reell oder kommen in komplex-konjugierten Paaren vor ($Q(z) \implies \quer{Q(z)} = Q(\quer{z}) = 0$). Solche rationalen Brüche kann man ebenfalls als Linearkombination darstellen, wobei hier zuerst die reellen Nullstellen (einzeln) und dann die komplexen Nullstellen paarweise aufsummiert werden:
+
+$$\frac{P(x)}{Q(x)} = \sum_{x_i \in \mathcal{N}_\R}\sum_n^{\mu(Q, x_i)} \frac{A_{i,n}}{(x-x_i)^n} +
+\sum_{z_j, \quer{z_j} \in \mathcal{N}_\C}\sum_m^{\mu(Q, z_j)} \frac{B_{j,m}x + C_{j,m}}{((x-z_j)(x- \quer{z_j}))^m}$$
+
+wobei $\mathcal{N}_\R$ die Menge der reellen Nullstellen und $\mathcal{N}_\C$ die Menge der komplexen Nullstellenpaare von $Q$ bezeichnet.
+\end{lemma}
+
+In anderen Worten gibt es 2 Kriterien, welche bei den Nullstellen von $Q$ zu beachten sind: Art der Nullstelle $a$ (reell- oder komplexwertig): Solche Nullstellen tragen jeweils zu einem Term der Form
+$$\frac{A}{x-a} \qquad \textit{für }a \in \R$$
+oder
+$$\frac{B x + C}{(x-a)(x- \quer{a})} \qquad \textit{für }a \in \C$$
+bei. Nun ist auch die Vielfachheit der Nullstelle zu beachten: Falls $a$ eine $n$-fache Nullstelle ist, dann kommen die Terme dieser Nullstelle mit bis zu $n$ potenzierten Nennern vor:
+$$\frac{A_1}{x-a}+\frac{A_2}{(x-a)^2}+...+\frac{A_n}{(x-a)^n} \qquad \textit{für }a \in \R$$
+resp.
+$$\frac{B_1 x + C_1}{(x-a)(x- \quer{a})}+...+\frac{B_n x + C_n}{((x-a)(x- \quer{a}))^n} \qquad \textit{für }a \in \C$$
+Natürlich muss man für ein $Q$, welches sowohl reelle als auch komplexe Nullstellen enthält, eine Linearkombination beider ''Arten'' von Termen bilden. Die Koeffizienten $A_i$, $B_i$ und $C_i$ lassen sich dann durch Koeffizientenvergleich mit $\frac{P(x)}{Q(x)}$ und dem Lösen eines linearen Gleichungssystems berechnen.
+
+Wir erkennen aus dem Lemma, dass durch die Partialbruchzerlegung genau vier verschieden Typen von nicht weiter vereinfachbaren Brüchen entstehen können:
+\begin{align*}
+    \frac{A}{x-a} \qquad
+    \frac{B}{(x-a)^n} \qquad
+    \frac{Cx + D}{(x-z)(x- \quer{z})} \qquad
+    \frac{Ex + F}{((x-z)(x- \quer{z}))^n}
+\end{align*}
+
+Wir wollen nun für die ersten beiden Fälle eine allgemeine Formulierung des Integrals finden, wofür wir eine rationale Funktion der Form $\frac{cx + d}{(x-a)(x-b)}$ betrachten wollen:
+
+Seien $P, Q \in \R[x]$ mit Grad $\deg P < \deg Q \leq 2$ der Form $P(x) = cx + d$ und $Q(x) = (x-a)(x-b)$ dann lassen sich $A, B \in \R$ finden, sodass gilt:
+\begin{align*}
+    f(x) = \frac{P(x)}{Q(x)} = \frac{cx + d}{(x-a)(x-b)} &= \frac{A}{x-a} + \frac{B}{x-b}\\
+    &=\frac{A(x-b)+B(x-a)}{(x-a)(x-b)}\\
+    &=\frac{(A+B)x-(Ab+Ba)}{(x-a)(x-b)}
+\end{align*}
+Um das $A$ und $B$ zu finden, müssen wir ein $2\times2$ lin. Gleichungssystem mit $A+B = c$ und $bA+aB=-d$ lösen. Dieses Problem lässt sich auch als Matrixgleichung schreiben: $\big(\begin{smallmatrix}
+  1 & 1\\
+  b & a
+\end{smallmatrix}\big)
+\big(\begin{smallmatrix}
+  A\\
+  B
+\end{smallmatrix}\big)=
+\big(\begin{smallmatrix}
+  c\\
+  -d
+\end{smallmatrix}\big)  $ Für diese Matrix ist die Determinante $a-b$.
+
+Wir wollen nun den Fall betrachten, bei dem $a \ne b$ ist, also den Fall, bei dem $Q$ zwei einfache Nullstellen hat und eine eindeutige Lösung für $A$ und $B$ existiert. Das Integral von $f$ ist dann
+\begin{align*}
+    \int f(x) dx &= \int \frac{A}{x-a} dx + \int \frac{B}{x-b} dx \\
+    &= A \log|x-a| + B \log |x-b|
+\end{align*}
+wobei für den letzten Schritt die Logarithmus-Regel für die Integration verwendet wurde.
+
+Für den Fall $a=b$ hat $Q$ eine doppelte Nullstelle. Laut obigem Lemma \ref{lem:Partialbruchzerlegung} müssen die Nenner bis zur Ordnung der Nullstelle verwenden, d.h. wir erhalten:
+$$f(x) = \frac{cx + d}{(x-a)^2} = \frac{c}{(x-a)} + \frac{ca + d}{(x-a)^2}$$
+wobei für den letzten Schritt der Trick $x = x + a - a$ zur Umformung verwendet wurde. Das kann nun integriert werden; wir erhalten:
+\begin{align*}
+    \int f(x)dx &= \int\frac{c}{(x-a)}dx +\inf \frac{ca + d}{(x-a)^2}dx \\
+    &= c\log|x-a|-\frac{ca+d}{x-a}
+\end{align*}
+
+Brüche des dritten Typus sind der Form
+$$\int \frac{cx+d}{(x-z_i)(x-\quer{z_i})} dx$$
+Solche Integrale lassen sich durch die Variablensubstitution $u = x + \lambda$ (Quadratisches Ergänzen) auf folgende Form bringen:
+\begin{align*}
+\int \frac{x}{x^2-a^2} &= \frac{1}{2} \int \frac{2x}{x^2+a^2} = \frac{1}{2} \log |x^2+a^2| + C\\
+\int \frac{1}{x^2-a^2} &= \frac{1}{a} \arctan \frac{x}{a} + C
+\end{align*}
+
+\begin{example} Berechne das Integral 
+$$\int \frac{1}{x^2(x+1)}$$
+Wir erkennen, dass wir eine doppelte Nullstelle bei $x=0$ haben und eine bei $x=-1$. Somit muss die Zerlegung von folgender Form sein:
+$$\frac{1}{x^2(x+1)} = \frac{A}{x^2}+\frac{B}{x}+\frac{C}{x+1}$$
+Wir bringen nun alles auf einen gemeinsamen Nenner und erhalten:
+\begin{align*}
+    1 &= A(x+1)+Bx(x+1)+Cx^2\\
+    &= x^2(B + C) + x(A+B)+ A
+\end{align*}
+Wir erhalten durch Koeffizientenvergleich die Gleichungen $0=B+C, 0 = A+B, 1 = A$, welche uns auf die Werte $A=1, B=-1$ und $C=1$ und somit die Partialbruchzerlegung
+$$\frac{1}{x^2}-\frac{1}{x}+\frac{1}{x+1}$$
+führt. Nun können wir die einzelnen Brüchen mit den bereits bekannten Integrationsmethoden integrieren und kommen auf
+\begin{align*}
+    \int \frac{1}{x^2(x+1)}dx &= \int \frac{1}{x^2}dx- \int \frac{1}{x}dx+\int \frac{1}{x+1}dx
+    \\&= -\frac{1}{x} - \log|x| + \log|x+1| + C
+\end{align*}
+\end{example}
+
+\begin{tipp}{}{}
+Um die durch die Partialbruchzerlegung erhaltenen Brüche zu integrieren, sind folgende allgemein formulierten Integrale sehr nützlich:
+\begin{align*}
+\int \frac{A}{x-a} &= A \log|x-a| + C\\
+\int \frac{A}{(x-a)^n} &= -\frac{A}{(n-1)(x-a)^{n-1}} + C \qquad \textit{für }n\geq2\\
+\int \frac{x}{x^2-a^2} &= \frac{1}{2} \int \frac{2x}{x^2+a^2} = \frac{1}{2} \log |x^2+a^2| + C\\
+\int \frac{1}{x^2-a^2} &= \frac{1}{a} \arctan \frac{x}{a} + C
+\end{align*}
+
+\end{tipp}
+
+\section{Regeln von de L'Hôpital}
+Bevor wir die Regeln von de L'Hôpital herleiten können, brauchen wir zuerst den \textbf{erweiterten Mittelwertsatz}:
+\begin{satz}{Erweiterter Mittelwertsatz}{}
+Seien $f,g : [a,b] \to \R$ stetig auf $(a,b)$ differenzierbar und sei $g(x)' \ne 0$ für alle $x \in [a,b]$. Dann gilt $g(x) \ne g(a)$ und gibt es ein $\xi \in (a,b)$, so dass:
+$$\frac{f(b)f(a)}{g(b)-g(a)} = \frac{f'(\xi)}{g'(\xi)}$$
+\end{satz}
+\begin{remark}
+Falls $g(x)=x$ ist, erhalten wir den Mittelwertsatz. Man könnte meinen, dass wir hier einfach zweimal den Mittelwertsatz verwendet haben, einmal für $f(x)$ und einmal für $g(x)$, welche wir dann durch einander geteilt haben, wodurch sich das $b-a$ im Nenner jeweils rauskürzen würde. Jedoch wären die $\xi$ nicht die selben wie hier im verallgemeinerten Mittelwertsatz.
+\end{remark}
+\begin{proof}
+Wir zeigen (zuerst ohne der Annahme $g'(x)\ne0$), dass es ein gibt $\xi$ gibt, sodass:
+$$g'(\xi)\Big(f(b)-f(a)\Big) = f'(\xi)\Big(g(b)-g(a)\Big)$$
+Wir führen nun eine Hilfsfunktion $h$ ein:
+$$h(x) = g(x)\Big(f(b)-f(a)\Big)-f(x)\Big(g(b)-g(a)\Big)$$
+welche die Eigenschaften $h(a)=g(a)f(a)-f(a)g(b)$ und $h(b)=-g(b)f(a)+f(b)g(a) = h(a)$ aufweist.
+Also haben wir eine Funktion, die den selben Wert auf beiden Endpunkten haben. Aus dem Satz von Rolle wissen wir, dass es dann ein $\xi \in (a,b)$ gibt, so dass
+$$h'(\xi)=0$$
+gilt. Daraus folgt 
+$$g'(\xi)\Big(f(b)-f(a)\Big)-f(\xi)'\Big(g(b)-g(a)\Big) = 0$$
+Aus der Kontraposition des Satzes von Rolle folgt nun:
+$$ \forall x \ g'(x)\ne 0 \implies g(b) \ne g(a)$$
+Nun können wir durch $g'(\xi)\big(g(b)-g(a)\big)$ dividieren und erhalten den erweiterten Mittelwertsatz, was zu zeigen war.
+\end{proof}
+
+\subsection{L'Hôpital-Regel}{}
+Wir wollen eine Methode finden, um Limites, weche der ''Sorte'' oder Form:
+$$\frac{0}{0}\qquad\frac{\infty}{\infty}\qquad0\cdot\infty\qquad 1^\infty \qquad \textit{etc...}$$
+sind, bestimmen zu können. Also wenn z.B. $\limto{x}{f(x)}=\limto{x}{g(x)}=0$ gilt und wir $\limto{x}{\frac{f(x)}{g(x)}}$ berechnen wollen. Die Regel von de L'Hôptital besagt, dass wir das Verhältnis der Ableitungen von $f$ und $g$ bei $x_0$ betrachten können:
+
+\begin{satz}{\textsc{Bernoulli - de l'Hôpital}}{}
+Sei $-\infty \leq a < b \leq \infty$, $f,g:(a,b) \to \R$ differenzierbar, $g(x)\ne 0, g'(x)\ne 0 \forall x \in (a,b)$ und $\lim_{x \searrow a}\frac{f'(x)}{g'(x)} \in \R \cup \{\pm \infty\}$ existiert mit den folgenden Bedingungen:
+\begin{enumerate}
+    \item ''$\frac{0}{0}$'': $\lim_{x \searrow a}{g(x)}=0$, $\lim_{x \searrow a}{f(x)}=0$
+    \item ''$\frac{\infty}{\infty}$'': $\lim_{x \searrow a}{g(x)}=\infty$, $\lim_{x \searrow a}{f(x)}=\infty$
+\end{enumerate}
+Dann existiert der uneigentliche Grenzwert $\lim_{x \searrow a}\frac{f(x)}{g(x)} \in \R \cup \{\pm \infty\}$ und es gilt:
+$$\lim_{x \searrow a}\frac{f(x)}{g(x)} = \lim_{x \searrow a}\frac{f'(x)}{g'(x)}$$
+Das gilt auch für $\lim_{x \nearrow b}$ und $\lim_{x \to x_0}, x_0 \in (a,b)$, wobei im letzteren Fall unter der Annahme dass $g(x)$,$g'(x)\ne 0$ für $x\ne x_0$
+\end{satz}
+Generell gilt, dass man diesen Satz für jegliche Kombination von Grenzwerten verwenden kann. Es kommt also nicht darauf ab, ob man den Limes von unten, von oben oder beidseitig für Grenzwerte nach $\pm \infty$ oder auch $0$ bildet. Der Beweis aus der Vorlesung entspricht mehr oder weniger dem des Skripts (7.2.5, Seite 367), darum wird hier auf die \TeX-ification davon verzichtet. Wir werden nun einige Beispiele behandeln:
+
+\begin{example} Wir wollen den Grenzwert von folgender Funktion errechnen:
+$$\lim_{x \searrow 0}\frac{\sin x}{\log (x + 1)}$$
+Zuerst prüfen wir die Annahmen, welche erfüllt sind, da $\sin 0 = \log 1 = 0$. Wir haben $f'(x) = \cos x$ und $g'(x)= \frac{1}{x+1}$. Somit erhalten wir:
+$$\lim_{x \searrow 0} \frac{f'(x)}{g'(x)} = \frac{\cos x}{\frac{1}{x+1}} = 1$$
+Wir müssen wir nun ein Intervall wählen, sodass wir uns von oben annähern können, z.B. $a = 0$ und $b = 1$, wodurch wir folgendes erhalten (welches in diesem Fall auch den Limites von unten oder von beiden Seiten entspricht):
+$$\lim_{x \searrow 0}\frac{\sin x}{\log (x+1)} = 1 \quad \Big( = \lim_{x \nearrow 0}\frac{\sin x}{\log (x+1)} = \lim_{x \to 0}\frac{\sin x}{\log (x+1)} \Big)$$
+\end{example}
+\begin{example} In diesem Beispiel ist erst eine Umformung in die Form ''$\frac{\infty}{\infty}$'' nötig:
+$$\lim_{x \searrow 0} x \log x = -\lim_{x \searrow 0}\frac{-\log x}{\frac{1}{x}}$$
+Nun sehen wir, dass die obere Funktion $f(x) = -\log x$ und die untere Funktion $g(x) = \frac{1}{x}$ ist, welche jeweils auch gegen $\infty$ divergieren. Nun können wir die Regel von de L'Hôpital anwenden und erhalten:
+$$\lim_{x \searrow 0} \frac{f'(x)}{g'(x)} = \lim_{x \searrow 0} \frac{-\frac{1}{x}}{-\frac{1}{x^2}}=\lim_{x \searrow 0}x = 0$$
+\end{example}
+
+\section{Parameterdarstellung von Kurven}
+Je nach Anwendung kann es von Nutzen sein, eine (mehrdimensionale) Funktion in Abhängigkeit von einem Parameter darzustellen. So wäre das z.B. der Fall, wenn man die Flugbahn oder den \textbf{Weg} von einem Objekt in Abhängigkeit von der Zeit modellieren will. Um das in eine Funktion fassen zu können, benötigen wir zuerst einen Parameter, der auf einem bestimmten Intervall ''läuft''. Wir werden in unseren Betrachtungen meist die Zeit $t$ mit diesem Parameter ausdrücken. Nun benötigen wir nur noch für jede (Raum)dimension eine Funktion, welche die Projektion des zu parametrisierenden Ortsvektors auf die jeweilige Dimension zu einer bestimmten Zeit $t$ gibt. Wir definieren die Parameterdarstellung folgendermassen:
+
+\begin{definition}{Parameterdarstellung}{}
+Ein \textbf{Weg} in $\R$ ist eine Abbildung auf dem Intervall $I = [a,b], a<b$ der Form:
+$$\gamma: I \to \R^n, t \mapsto (\gamma_1(t), \gamma_2(t),...,\gamma_n(t))$$
+Wir nennen $t\mapsto\gamma(t)$ auch eine Parameterdarstellung der Kurve $\gamma(I)\subseteq\R^n$
+\end{definition}
+(Kann auch $a,b\in \R\cup\pm\infty$ sein?)
+Wir sagen nun, dass $\gamma$ stetig/differenzierbar/stetig differenzierbar ist, falls auch $\gamma_i:[a,b] \to \R$ für jedes $i$ stetig/differenzierbar/stetig differenzierbar ist. Falls $\gamma$ differenzierbar ist, dann lässt sich auch die Ableitung berechnen, indem jedes $\gamma_i$ abgeleitet wird:
+\begin{definition}{Geschwindigkeitsvektor}{}
+Da die zeitliche Ableitung des Ortes physikalisch gesehen der Geschwindigkeit entspricht, nennen wir $\dot{\gamma}(t)$ auch den \textbf{Geschwindigkeitsvektor} zur Zeit $t$, welchen wir definieren als
+$$\dot{\gamma}(t) = (\dot{\gamma}_1(t),...,\dot{\gamma}_n(t)) = \lim_{h \to 0} \frac{\gamma(t+h) - \gamma(t)}{h}$$
+wobei mit $\dot{\gamma}_i(t)$ (Newton-Notation) die Ableitung nach der Zeit $\frac{d}{dt}\gamma_i(t)$ (Leibniz-Notation) gemeint ist und der Limes für Abbildungen der Art $u: I \to \R^n$ allgemeint definiert ist als:
+$$\lim_{h \to 0}(u_1(h),...,u_n(h)) := (\lim_{h \to 0}u_1(h),...,\lim_{h \to 0}u_n(h))$$
+\end{definition}
+\begin{definition}{Geschwindigkeit}{}
+Nimmt man nun die Norm des Geschwindigkeitsvektors
+$$|\dot{\gamma}(t)| = \sqrt{\dot{\gamma}_1(t)^2,...,\dot{\gamma}_n(t)^2} \quad \Big(= \|\dot{\gamma}(t)\| = \|\dot{\gamma}(t)\|_2 \Big)$$
+, erhalten wir die \textbf{Geschwindigkeit} zur Zeit $t$.
+\end{definition}
+\begin{remark}
+Auf Englisch nennt man den Geschwindigkeitsvektor resp. die Geschwindigkeit \textit{velocity} bzw. \textit{speed}.
+\end{remark}
+Wenn wir nun auch schon die Geschwindigkeit haben, können wir sie ganz analog zur bereits im Physikunterricht kennengelernten Bewegungsgleichung integrieren, wodurch wir zurückgelegte Strecke erhalten:
+\begin{definition}{Bogenlänge}{}
+Die \textbf{Bogenlänge} eines stetig differenzierbaren Wegs $\gamma: [a,b] \to \R^2$ ist:
+$$L(\gamma) = \int_a^b |\dot{\gamma}(t)| dt =: \int_\gamma ds$$
+wobei $ds = |\dot{\gamma}(t)| dt$ die in einem infinitesimalen Zeitintervall $[t,t+dt]$ zurückgelegte Distanz ist.
+\end{definition}
+\begin{example}[Kreisbogen] Sei $\gamma: t \mapsto (cos(t), sin(t)$ für $t\in [a,b]$, dann beschreibt $\gamma$ einen Kreisbogen auf dem Einheitskreis vom Winkel $a$ (in Radianten) bis $b$.
+Nun wollen wir die Bogenlänge $L(\gamma)$ berechnen.
+
+Für die Geschwindigkeitsvektor erhalten wir $\dot{\gamma}(t) = (-\sin t, \cos z)$. Daraus folgt für die Geschwindigkeit $|\dot{\gamma}(t)| = \sqrt{\sin^2 t + \cos^2 t}$. Durch Einsetzen in die Formel der Bogenlänge erhalten wir:
+$$L(\gamma) =  \int_a^b \sqrt{\sin^2 t + \cos^2 t} \ dt =\int_a^b 1 \ dt = b-a$$
+Also ist die Bogenlänge für $[0, \theta] = \theta$
+\end{example}
+\begin{example}[Zykloide] Wir wollen den Weg eines Punktes parametrisieren, welcher sich auf dem Radius eines sich abrollendes Rades befindet. Wir finden für die Parametrisierung
+$$\gamma: [0, T]\to \R^2, t\mapsto \begin{pmatrix}
+  t-R\sin \frac{t}{R}\\
+  R-R\cos \frac{t}{R}
+\end{pmatrix}$$
+Wir wollen nun die zurückgelegte Strecke für eine Umdrehung berechnen. Zuerst finden wir Ausdrücke für den Geschwindigkeitsvektor/die Geschwindigkeit:
+\begin{align*}
+    \dot{\gamma}(t) &= \left(1-\cos \frac{t}{R}, \sin \frac{t}{R}\right)
+\end{align*}
+\begin{align*}
+    |\dot{\gamma}(t)| &= \sqrt{\left(1-\cos \frac{t}{R}\right)^2+\left(\sin^2 \frac{t}{R}\right)}&\\
+    &= \sqrt{2- 2\cos \frac{t}{R}}& \bigm\vert 1-\cos \frac{t}{R} &= 1 - \cos^2\frac{t}{2R} + \sin^2\frac{t}{2R}\\
+    &&&= 2 \sin^2\frac{t}{2R}\\
+    &=2 \sin\frac{t}{2R}\\
+\end{align*}
+Nun wollen wir den gefundenen Ausdruck für eine Umdrehung integrieren. Wir finden aus der Parametrisierung, dass $0\leq T \leq 2\pi R$, also der Endpunkt des Integrals bei $T = 2\pi R$ ist:
+$$L(\gamma) = \int_0^{2\pi R}2 \sin\frac{t}{2R} \ dt = \Big[-4R\cos \frac{t}{2R}\Big]^{2\pi R}_0=8R\\$$
+\end{example}
+\subsection{Reparametrisierung}\label{cha_reparametrisierung}
+%\subsection{Bogenlänge-Parameter-Darstellung}
+%\subsection{Wegintegrale von Vektorfeldern}
+%\subsection{Volumen von Rotationskörpern}
+%\subsection{Taylorpolynome}
